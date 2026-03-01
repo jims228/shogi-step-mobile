@@ -1,15 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import type { RootStackParamList } from "../navigation/RootNavigator";
+import { hasNativeLesson } from "../data/lessons";
 import { PawnLessonRemakeScreen } from "./PawnLessonRemakeScreen";
 
 type Props = NativeStackScreenProps<RootStackParamList, "LessonLaunch">;
 
 /**
- * 全レッスンを Duolingo スタイルレイアウト (PawnLessonRemakeScreen) で開く。
- * Web 側の各レッスンページは embed=1 対応済み。
+ * Router: if a native lesson exists for this ID, redirect to NativeLesson.
+ * Otherwise, use the WebView-based PawnLessonRemakeScreen.
  */
 export function LessonLaunchScreen(props: Props) {
+  const { lessonId } = props.route.params;
+  const isNative = hasNativeLesson(lessonId);
+
+  useEffect(() => {
+    if (isNative) {
+      // Replace this screen with NativeLesson so "back" goes to the roadmap
+      props.navigation.replace("NativeLesson", { lessonId });
+    }
+  }, [isNative, lessonId, props.navigation]);
+
+  // While redirecting, or for non-native lessons, show WebView version
+  if (isNative) return null;
   return <PawnLessonRemakeScreen {...props} />;
 }
