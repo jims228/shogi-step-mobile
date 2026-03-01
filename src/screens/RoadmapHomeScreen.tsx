@@ -10,7 +10,6 @@ const ICON_POSITIONS = [
   { col: 0, row: 1 }, // crown    (bottom-left)
   { col: 1, row: 1 }, // heart    (bottom-right)
 ] as const;
-const _ICON_SRC_SIZE = 64;  // each icon is 64x64 in the source PNG
 const ICON_RENDER = 82;     // render size on screen
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
@@ -36,8 +35,6 @@ function shortenTitle(s: string) {
 const LESSON_BROWN = "#6d4c41";
 const LESSON_BROWN_DARK = "#3e2723";
 const BOARD_BG = "#FFEEDB";
-
-
 
 export function RoadmapHomeScreen({ navigation }: Props) {
   const { progress, isLoaded } = useProgress();
@@ -205,23 +202,6 @@ const styles = StyleSheet.create({
   roadmapWrap: { flex: 1, marginTop: theme.spacing.xs },
 
   nodeRow: { alignItems: "center", justifyContent: "center" },
-  bubble: {
-    width: 72,
-    height: 72,
-    borderRadius: 999,
-    alignItems: "center",
-    justifyContent: "center",
-    ...theme.shadow.card,
-  },
-  bubbleDone: {},
-  bubbleNext: {
-    shadowColor: LESSON_BROWN,
-    shadowOpacity: 0.25,
-    shadowRadius: 18,
-    shadowOffset: { width: 0, height: 10 },
-    elevation: 4,
-  },
-  bubbleIcon: { fontSize: 22, fontWeight: "900" },
   nodeTitle: { marginTop: 8, maxWidth: 220, textAlign: "center", fontSize: 13, fontWeight: "900", color: theme.colors.text },
 
   doneBadge: {

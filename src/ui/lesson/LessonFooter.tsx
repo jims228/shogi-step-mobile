@@ -77,9 +77,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: LESSON_SPACING.footerPaddingHorizontal,
     paddingBottom: 4,
   },
-  successIcon: {
-    fontSize: 22,
-  },
   successText: {
     fontSize: 18,
     fontWeight: "900",
