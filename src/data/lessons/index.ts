@@ -1,7 +1,10 @@
 import type { LessonData } from "../../lesson/types";
+import { BASICS_PAWN_LESSON } from "./basics_pawn";
 
 // Lesson data registry. Add new lessons here.
-const NATIVE_LESSONS: Record<string, LessonData> = {};
+const NATIVE_LESSONS: Record<string, LessonData> = {
+  [BASICS_PAWN_LESSON.id]: BASICS_PAWN_LESSON,
+};
 
 /**
  * Get native lesson data by lesson ID.
@@ -19,9 +22,3 @@ export function hasNativeLesson(lessonId: string): boolean {
   return lessonId in NATIVE_LESSONS;
 }
 
-/**
- * Register a lesson in the native lesson registry.
- */
-export function registerNativeLesson(data: LessonData): void {
-  NATIVE_LESSONS[data.id] = data;
-}
