@@ -34,7 +34,6 @@ function shortenTitle(s: string) {
 
 const LESSON_BROWN = "#6d4c41";
 const LESSON_BROWN_DARK = "#3e2723";
-const BOARD_BG = "#FFEEDB";
 
 export function RoadmapHomeScreen({ navigation }: Props) {
   const { progress, isLoaded } = useProgress();
@@ -128,7 +127,7 @@ export function RoadmapHomeScreen({ navigation }: Props) {
   );
 
   return (
-    <Screen style={{ backgroundColor: BOARD_BG }} contentStyle={{ paddingTop: 4 }}>
+    <Screen style={{ backgroundColor: theme.colors.boardBg }} contentStyle={{ paddingTop: 4 }}>
       {/* Roadmap-only: burst on any tap in this screen (bubble or blank space). */}
       <View
         style={{ flex: 1 }}

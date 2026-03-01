@@ -17,6 +17,8 @@ export const LESSON_SPACING = {
   footerButtonMinHeight: 56,
 } as const;
 
+export const MAX_LIVES = 5;
+
 export const LESSON_COLORS = {
   progressBg: "#e5e7eb",
   progressFill: "#DB6010",

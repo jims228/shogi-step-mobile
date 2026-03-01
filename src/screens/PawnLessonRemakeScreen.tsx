@@ -14,10 +14,9 @@ import {
   BoardArea,
   LessonFooter,
   LESSON_FOOTER_HEIGHT,
+  MAX_LIVES,
 } from "../ui/lesson";
 import { theme } from "../ui/theme";
-
-const MAX_LIVES = 5;
 const MASCOT_SIZE = 210;
 /** 画面左にはみ出す量 (正=左にずらす) */
 const MASCOT_PULL_LEFT = 30;
@@ -341,7 +340,7 @@ export function PawnLessonRemakeScreen({ navigation, route }: Props) {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: "#FFEEDB" },
+  root: { flex: 1, backgroundColor: theme.colors.boardBg },
   content: { flex: 1, paddingBottom: LESSON_FOOTER_HEIGHT, overflow: "visible", marginTop: -12 },
   topSection: { overflow: "visible" },
   contentTopSpacer: { height: 0 },

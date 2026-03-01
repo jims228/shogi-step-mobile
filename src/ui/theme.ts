@@ -17,6 +17,7 @@ export const theme = {
     ink: "#0f172a",
     sakuraPetal: "#f7a7c0",
     sakuraPetalDeep: "#e96e9a",
+    boardBg: "#FFEEDB",
   },
   spacing: {
     xs: 6,

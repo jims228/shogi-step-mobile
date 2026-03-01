@@ -2,10 +2,9 @@ import React from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 import { theme } from "../theme";
-import { LESSON_SPACING, LESSON_COLORS } from "./lessonSpacing";
+import { LESSON_SPACING, LESSON_COLORS, MAX_LIVES } from "./lessonSpacing";
 
 const HEART_IMG = require("../../../assets/heart.png");
-const MAX_LIVES = 5;
 
 type Props = {
   progress: number;
