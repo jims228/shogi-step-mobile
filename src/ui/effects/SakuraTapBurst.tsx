@@ -23,6 +23,7 @@ function rand(min: number, max: number) {
   return min + Math.random() * (max - min);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export const SakuraTapBurst = forwardRef<SakuraTapBurstHandle, {}>(function SakuraTapBurst(_props, ref) {
   const [reduceMotion, setReduceMotion] = useState(false);
   const [petals, setPetals] = useState<Petal[]>([]);

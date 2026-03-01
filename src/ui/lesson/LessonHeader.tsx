@@ -21,7 +21,7 @@ export function LessonHeader({ progress, lives = MAX_LIVES, onClose }: Props) {
     }
     // Try expo-router first, then react-navigation
     try {
-      const w = global as any;
+      const w = globalThis as any;
       if (w.router?.back) {
         w.router.back();
         return;
@@ -30,7 +30,7 @@ export function LessonHeader({ progress, lives = MAX_LIVES, onClose }: Props) {
       // ignore
     }
     try {
-      const w = global as any;
+      const w = globalThis as any;
       if (w.__navigation?.goBack) {
         w.__navigation.goBack();
       }

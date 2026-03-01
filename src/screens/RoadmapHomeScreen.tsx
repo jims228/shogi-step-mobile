@@ -10,7 +10,7 @@ const ICON_POSITIONS = [
   { col: 0, row: 1 }, // crown    (bottom-left)
   { col: 1, row: 1 }, // heart    (bottom-right)
 ] as const;
-const ICON_SRC_SIZE = 64;   // each icon is 64x64 in the source PNG
+const _ICON_SRC_SIZE = 64;  // each icon is 64x64 in the source PNG
 const ICON_RENDER = 82;     // render size on screen
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
