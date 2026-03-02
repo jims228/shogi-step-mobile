@@ -62,7 +62,7 @@ type Props = {
 
 // Scale piece up relative to cell so the piece image fills the cell.
 // The sprite tiles have transparent padding around the piece artwork.
-const PIECE_SCALE = 1.4;
+const PIECE_SCALE = 0.9;
 
 export function Piece({ piece, side, promoted, size, offsetX = 0, offsetY = 0 }: Props) {
   const isGote = side === "gote";

@@ -24,7 +24,7 @@ type Props = {
 
 export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }: Props) {
   const cellSize = size / 9;
-  const labelSize = cellSize * 0.45;
+  const labelSize = cellSize * 0.32;
 
   const rows = useMemo(() => {
     const result: React.ReactNode[] = [];
@@ -84,7 +84,6 @@ export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }:
             styles.board,
             {
               width: size,
-              height: size,
               backgroundColor: theme.colors.boardBg,
             },
           ]}
@@ -94,9 +93,9 @@ export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }:
         </View>
 
         {/* Row labels (right) */}
-        <View style={[styles.rowLabels, { height: size }]}>
+        <View style={styles.rowLabels}>
           {ROW_LABELS.map((label, i) => (
-            <Text key={i} style={[styles.label, { height: cellSize, fontSize: labelSize }]}>
+            <Text key={i} style={[styles.rowLabel, { height: cellSize, lineHeight: cellSize, fontSize: labelSize }]}>
               {label}
             </Text>
           ))}
@@ -131,10 +130,14 @@ const styles = StyleSheet.create({
     borderColor: GRID_LINE_COLOR,
   },
   rowLabels: {
-    justifyContent: "space-around",
     marginLeft: 3,
   },
   label: {
+    textAlign: "center",
+    color: theme.colors.textMuted,
+    fontWeight: "700",
+  },
+  rowLabel: {
     textAlign: "center",
     color: theme.colors.textMuted,
     fontWeight: "700",

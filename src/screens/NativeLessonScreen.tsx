@@ -18,8 +18,8 @@ import { ShogiBoard } from "../ui/board";
 import { theme } from "../ui/theme";
 import { LESSON_SPACING } from "../ui/lesson/lessonSpacing";
 
-const MASCOT_SIZE = 210;
-const MASCOT_PULL_LEFT = 30;
+const MASCOT_SIZE = 252;
+const MASCOT_PULL_LEFT = 36;
 const MASCOT_OFFSET_Y = -8;
 
 type Props = NativeStackScreenProps<RootStackParamList, "LessonLaunch" | "NativeLesson"> & {
@@ -108,7 +108,7 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
         characterSlot={characterSlot}
         characterWidth={MASCOT_SIZE - MASCOT_PULL_LEFT}
         style={{ paddingRight: 8, gap: 10, height: MASCOT_SIZE }}
-        bubbleStyle={{ marginBottom: 80, flex: 0, alignSelf: "flex-end", maxWidth: "60%", marginLeft: -48 }}
+        bubbleStyle={{ marginBottom: 60, flex: 0, alignSelf: "flex-end", maxWidth: "55%", marginLeft: -48 }}
       />
     ),
     [dialogueMessage, characterSlot],
@@ -118,8 +118,8 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     <Screen pad={false} edges={["top", "bottom", "left", "right"]}>
       <View style={styles.root}>
         <LessonHeader progress={progress} lives={state.lives} onClose={onClose} />
-        <View style={styles.content}>
-          <View style={styles.topSection}>
+        <View style={styles.content} pointerEvents="box-none">
+          <View style={styles.topSection} pointerEvents="box-none">
             {dialogueRowNode}
           </View>
 
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     minHeight: 0,
     paddingVertical: 0,
     paddingHorizontal: 4,
-    marginTop: -60,
+    marginTop: -70,
   },
   boardSlot: {
     alignItems: "center",
