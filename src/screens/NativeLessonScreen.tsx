@@ -21,7 +21,7 @@ import { LESSON_SPACING } from "../ui/lesson/lessonSpacing";
 // Match PawnLessonRemakeScreen layout constants
 const MASCOT_SIZE = 210;
 const MASCOT_PULL_LEFT = 30;
-const MASCOT_OFFSET_Y = 8;
+const MASCOT_OFFSET_Y = 0;
 // Right-side row labels + margin
 const ROW_LABEL_SPACE = 20;
 
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     flex: 1,
     minHeight: 0,
     paddingVertical: 0,
-    marginTop: -90,
+    marginTop: -70,
   },
   boardSlot: {
     alignItems: "center",
