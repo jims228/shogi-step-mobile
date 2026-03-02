@@ -18,9 +18,12 @@ import { ShogiBoard } from "../ui/board";
 import { theme } from "../ui/theme";
 import { LESSON_SPACING } from "../ui/lesson/lessonSpacing";
 
-const MASCOT_SIZE = 252;
-const MASCOT_PULL_LEFT = 0;
-const MASCOT_OFFSET_Y = -8;
+// Match PawnLessonRemakeScreen layout constants
+const MASCOT_SIZE = 210;
+const MASCOT_PULL_LEFT = 30;
+const MASCOT_OFFSET_Y = 8;
+// Right-side row labels + margin
+const ROW_LABEL_SPACE = 20;
 
 type Props = NativeStackScreenProps<RootStackParamList, "LessonLaunch" | "NativeLesson"> & {
   lessonData: LessonData;
@@ -79,11 +82,20 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     }
   }, [state.failed, onGameOver]);
 
-  // Board size: fill available width with minimal padding
+  // Board size: screen width minus padding (16*2), right labels, and safety margin
   const boardSize = useMemo(() => {
-    const pad = 8 * 2 + 16;
-    return Math.max(240, Math.min(windowWidth - pad, 480));
+    const pad = LESSON_SPACING.headerPaddingHorizontal * 2 + ROW_LABEL_SPACE + 8;
+    return Math.max(240, Math.min(windowWidth - pad, 400));
   }, [windowWidth]);
+
+  // Wrap handleSquarePress with debug log
+  const onSquarePress = useCallback(
+    (row: number, col: number) => {
+      if (__DEV__) console.log("[NativeLesson] squarePress", { row, col, stepType: currentStep?.type, stepIndex: state.currentStepIndex });
+      handleSquarePress(row, col);
+    },
+    [handleSquarePress, currentStep?.type, state.currentStepIndex],
+  );
 
   // Coach dialogue
   const dialogueMessage =
@@ -107,8 +119,8 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
         message={dialogueMessage}
         characterSlot={characterSlot}
         characterWidth={MASCOT_SIZE - MASCOT_PULL_LEFT}
-        style={{ paddingLeft: 0, paddingRight: 8, gap: 6, height: MASCOT_SIZE }}
-        bubbleStyle={{ marginBottom: 60, flex: 0, alignSelf: "flex-end", maxWidth: "50%", marginLeft: -24 }}
+        style={{ paddingRight: 8, gap: 10, height: MASCOT_SIZE }}
+        bubbleStyle={{ marginBottom: 80, flex: 0, alignSelf: "flex-end", maxWidth: "60%", marginLeft: -48 }}
       />
     ),
     [dialogueMessage, characterSlot],
@@ -118,23 +130,25 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     <Screen pad={false} edges={["top", "bottom", "left", "right"]}>
       <View style={styles.root}>
         <LessonHeader progress={progress} lives={state.lives} onClose={onClose} />
-        <View style={styles.content} pointerEvents="box-none">
-          <View style={styles.topSection} pointerEvents="box-none">
+        <View style={styles.content}>
+          {/* Mascot + bubble — matches PawnLessonRemakeScreen layout */}
+          <View style={styles.topSection}>
             {dialogueRowNode}
           </View>
 
+          {/* Board — no overlap with topSection */}
           <BoardArea style={styles.boardArea}>
             <View style={styles.boardSlot}>
               <ShogiBoard
                 boardState={boardState}
                 size={boardSize}
                 highlights={highlights}
-                onSquarePress={handleSquarePress}
+                onSquarePress={onSquarePress}
               />
             </View>
           </BoardArea>
 
-          {/* Wrong feedback text (correct feedback uses the footer) */}
+          {/* Wrong feedback */}
           {state.feedback && state.feedback.type === "wrong" && (
             <View style={[styles.feedbackWrap, styles.feedbackWrong]}>
               <Text style={styles.feedbackText}>{state.feedback.message}</Text>
@@ -169,14 +183,13 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: theme.colors.boardBg },
-  content: { flex: 1, paddingBottom: LESSON_FOOTER_HEIGHT, overflow: "visible", marginTop: -16 },
+  content: { flex: 1, paddingBottom: LESSON_FOOTER_HEIGHT, marginTop: -12 },
   topSection: { overflow: "visible" },
   boardArea: {
     flex: 1,
     minHeight: 0,
     paddingVertical: 0,
-    paddingHorizontal: 4,
-    marginTop: -95,
+    marginTop: -90,
   },
   boardSlot: {
     alignItems: "center",
