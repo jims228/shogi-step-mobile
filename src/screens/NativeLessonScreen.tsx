@@ -18,10 +18,9 @@ import { ShogiBoard } from "../ui/board";
 import { theme } from "../ui/theme";
 import { LESSON_SPACING } from "../ui/lesson/lessonSpacing";
 
-// Match PawnLessonRemakeScreen mascot dimensions
 const MASCOT_SIZE = 210;
 const MASCOT_PULL_LEFT = 30;
-const MASCOT_OFFSET_Y = 8;
+const MASCOT_OFFSET_Y = -8;
 
 type Props = NativeStackScreenProps<RootStackParamList, "LessonLaunch" | "NativeLesson"> & {
   lessonData: LessonData;
@@ -80,10 +79,10 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     }
   }, [state.failed, onGameOver]);
 
-  // Board size: fill available width (match PawnLessonRemake sizing)
+  // Board size: fill available width with minimal padding
   const boardSize = useMemo(() => {
-    const pad = 16 * 2 + 20;
-    return Math.max(240, Math.min(windowWidth - pad, 420));
+    const pad = 8 * 2 + 16;
+    return Math.max(240, Math.min(windowWidth - pad, 480));
   }, [windowWidth]);
 
   // Coach dialogue
@@ -176,7 +175,8 @@ const styles = StyleSheet.create({
     flex: 1,
     minHeight: 0,
     paddingVertical: 0,
-    marginTop: -90,
+    paddingHorizontal: 4,
+    marginTop: -60,
   },
   boardSlot: {
     alignItems: "center",
