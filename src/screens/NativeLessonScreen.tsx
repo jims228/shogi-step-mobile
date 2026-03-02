@@ -19,7 +19,7 @@ import { theme } from "../ui/theme";
 import { LESSON_SPACING } from "../ui/lesson/lessonSpacing";
 
 const MASCOT_SIZE = 252;
-const MASCOT_PULL_LEFT = 36;
+const MASCOT_PULL_LEFT = 0;
 const MASCOT_OFFSET_Y = -8;
 
 type Props = NativeStackScreenProps<RootStackParamList, "LessonLaunch" | "NativeLesson"> & {
@@ -107,8 +107,8 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
         message={dialogueMessage}
         characterSlot={characterSlot}
         characterWidth={MASCOT_SIZE - MASCOT_PULL_LEFT}
-        style={{ paddingRight: 8, gap: 10, height: MASCOT_SIZE }}
-        bubbleStyle={{ marginBottom: 60, flex: 0, alignSelf: "flex-end", maxWidth: "55%", marginLeft: -48 }}
+        style={{ paddingLeft: 0, paddingRight: 8, gap: 6, height: MASCOT_SIZE }}
+        bubbleStyle={{ marginBottom: 60, flex: 0, alignSelf: "flex-end", maxWidth: "50%", marginLeft: -24 }}
       />
     ),
     [dialogueMessage, characterSlot],
@@ -169,14 +169,14 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: theme.colors.boardBg },
-  content: { flex: 1, paddingBottom: LESSON_FOOTER_HEIGHT, overflow: "visible", marginTop: -12 },
+  content: { flex: 1, paddingBottom: LESSON_FOOTER_HEIGHT, overflow: "visible", marginTop: -16 },
   topSection: { overflow: "visible" },
   boardArea: {
     flex: 1,
     minHeight: 0,
     paddingVertical: 0,
     paddingHorizontal: 4,
-    marginTop: -70,
+    marginTop: -95,
   },
   boardSlot: {
     alignItems: "center",
