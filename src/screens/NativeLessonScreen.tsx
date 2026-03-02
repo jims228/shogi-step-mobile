@@ -22,7 +22,7 @@ const MASCOT_SIZE = 160;
 const MASCOT_PULL_LEFT = 20;
 const MASCOT_OFFSET_Y = 4;
 
-type Props = NativeStackScreenProps<RootStackParamList, "NativeLesson"> & {
+type Props = NativeStackScreenProps<RootStackParamList, "LessonLaunch" | "NativeLesson"> & {
   lessonData: LessonData;
 };
 

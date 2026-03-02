@@ -1,28 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useMemo } from "react";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import type { RootStackParamList } from "../navigation/RootNavigator";
-import { hasNativeLesson } from "../data/lessons";
+import { getNativeLessonData } from "../data/lessons";
 import { PawnLessonRemakeScreen } from "./PawnLessonRemakeScreen";
+import { NativeLessonScreen } from "./NativeLessonScreen";
 
 type Props = NativeStackScreenProps<RootStackParamList, "LessonLaunch">;
 
 /**
- * Router: if a native lesson exists for this ID, redirect to NativeLesson.
- * Otherwise, use the WebView-based PawnLessonRemakeScreen.
+ * Router: if native lesson data exists for this ID, render NativeLessonScreen
+ * directly. Otherwise, fall back to the WebView-based PawnLessonRemakeScreen.
  */
 export function LessonLaunchScreen(props: Props) {
   const { lessonId } = props.route.params;
-  const isNative = hasNativeLesson(lessonId);
+  const lessonData = useMemo(() => getNativeLessonData(lessonId), [lessonId]);
 
-  useEffect(() => {
-    if (isNative) {
-      // Replace this screen with NativeLesson so "back" goes to the roadmap
-      props.navigation.replace("NativeLesson", { lessonId });
-    }
-  }, [isNative, lessonId, props.navigation]);
-
-  // While redirecting, or for non-native lessons, show WebView version
-  if (isNative) return null;
+  if (lessonData) {
+    return <NativeLessonScreen {...props} lessonData={lessonData} />;
+  }
   return <PawnLessonRemakeScreen {...props} />;
 }
