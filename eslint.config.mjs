@@ -24,4 +24,14 @@ export default tseslint.config(
       },
     },
   },
+  {
+    files: ["metro.config.js"],
+    languageOptions: {
+      globals: {
+        require: "readonly",
+        module: "writable",
+        __dirname: "readonly",
+      },
+    },
+  },
 );
