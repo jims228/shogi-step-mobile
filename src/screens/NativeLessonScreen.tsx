@@ -18,9 +18,10 @@ import { ShogiBoard } from "../ui/board";
 import { theme } from "../ui/theme";
 import { LESSON_SPACING } from "../ui/lesson/lessonSpacing";
 
-const MASCOT_SIZE = 160;
-const MASCOT_PULL_LEFT = 20;
-const MASCOT_OFFSET_Y = 4;
+// Match PawnLessonRemakeScreen mascot dimensions
+const MASCOT_SIZE = 210;
+const MASCOT_PULL_LEFT = 30;
+const MASCOT_OFFSET_Y = 8;
 
 type Props = NativeStackScreenProps<RootStackParamList, "LessonLaunch" | "NativeLesson"> & {
   lessonData: LessonData;
@@ -61,7 +62,6 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     handleNext();
   }, [state, isLastStep, handleNext, markCompleted, lessonData.id, navigation]);
 
-  // Game over dialog
   const onGameOver = useCallback(() => {
     Alert.alert(
       "ゲームオーバー",
@@ -73,7 +73,6 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     );
   }, [navigation, restart]);
 
-  // Show game over dialog when failed
   React.useEffect(() => {
     if (state.failed) {
       const timer = setTimeout(onGameOver, 300);
@@ -81,10 +80,10 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     }
   }, [state.failed, onGameOver]);
 
-  // Board size: fill available width minus padding
+  // Board size: fill available width (match PawnLessonRemake sizing)
   const boardSize = useMemo(() => {
-    const pad = LESSON_SPACING.headerPaddingHorizontal * 2 + 24;
-    return Math.min(windowWidth - pad, 360);
+    const pad = 16 * 2 + 20;
+    return Math.max(240, Math.min(windowWidth - pad, 420));
   }, [windowWidth]);
 
   // Coach dialogue
@@ -110,7 +109,7 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
         characterSlot={characterSlot}
         characterWidth={MASCOT_SIZE - MASCOT_PULL_LEFT}
         style={{ paddingRight: 8, gap: 10, height: MASCOT_SIZE }}
-        bubbleStyle={{ marginBottom: 60, flex: 0, alignSelf: "flex-end", maxWidth: "65%", marginLeft: -40 }}
+        bubbleStyle={{ marginBottom: 80, flex: 0, alignSelf: "flex-end", maxWidth: "60%", marginLeft: -48 }}
       />
     ),
     [dialogueMessage, characterSlot],
@@ -136,19 +135,9 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
             </View>
           </BoardArea>
 
-          {/* Instruction text below the board */}
-          {currentStep && !state.feedback && (
-            <View style={styles.instructionWrap}>
-              <Text style={styles.instructionText}>{currentStep.instruction}</Text>
-            </View>
-          )}
-
-          {/* Feedback text */}
-          {state.feedback && (
-            <View style={[
-              styles.feedbackWrap,
-              state.feedback.type === "correct" ? styles.feedbackCorrect : styles.feedbackWrong,
-            ]}>
+          {/* Wrong feedback text (correct feedback uses the footer) */}
+          {state.feedback && state.feedback.type === "wrong" && (
+            <View style={[styles.feedbackWrap, styles.feedbackWrong]}>
               <Text style={styles.feedbackText}>{state.feedback.message}</Text>
             </View>
           )}
@@ -181,13 +170,13 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: theme.colors.boardBg },
-  content: { flex: 1, paddingBottom: LESSON_FOOTER_HEIGHT, overflow: "visible" },
+  content: { flex: 1, paddingBottom: LESSON_FOOTER_HEIGHT, overflow: "visible", marginTop: -12 },
   topSection: { overflow: "visible" },
   boardArea: {
-    flex: 0,
+    flex: 1,
     minHeight: 0,
     paddingVertical: 0,
-    marginTop: -70,
+    marginTop: -90,
   },
   boardSlot: {
     alignItems: "center",
@@ -200,25 +189,12 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     flexShrink: 0,
   },
-  instructionWrap: {
-    paddingHorizontal: LESSON_SPACING.headerPaddingHorizontal,
-    paddingVertical: 8,
-    alignItems: "center",
-  },
-  instructionText: {
-    ...theme.typography.body,
-    color: theme.colors.text,
-    textAlign: "center",
-  },
   feedbackWrap: {
     marginHorizontal: LESSON_SPACING.headerPaddingHorizontal,
     paddingVertical: 10,
     paddingHorizontal: 16,
     borderRadius: theme.radius.md,
     alignItems: "center",
-  },
-  feedbackCorrect: {
-    backgroundColor: "rgba(34,197,94,0.15)",
   },
   feedbackWrong: {
     backgroundColor: "rgba(239,68,68,0.15)",

@@ -40,6 +40,10 @@ type Props = {
   size: number;
 };
 
+// Scale piece up relative to cell so the piece image fills more of the cell.
+// The sprite tiles have transparent padding around the piece artwork.
+const PIECE_SCALE = 1.15;
+
 export function Piece({ piece, side, promoted, size }: Props) {
   const isGote = side === "gote";
   const isPromoted = promoted && piece in PROMOTED_COL;
@@ -48,19 +52,21 @@ export function Piece({ piece, side, promoted, size }: Props) {
   // row 0/1 = sente (normal/promoted), row 2/3 = gote (normal/promoted)
   const row = (isGote ? 2 : 0) + (isPromoted ? 1 : 0);
 
-  const scale = size / TILE;
+  const renderSize = size * PIECE_SCALE;
+  const scale = renderSize / TILE;
   const imgW = COLS * TILE * scale;
   const imgH = ROWS * TILE * scale;
+  const offset = (renderSize - size) / 2;
 
   return (
-    <View style={[styles.wrap, { width: size, height: size }]}>
+    <View pointerEvents="none" style={[styles.wrap, { width: size, height: size }]}>
       <Image
         source={PIECES_IMG}
         style={{
           width: imgW,
           height: imgH,
-          marginLeft: -col * TILE * scale,
-          marginTop: -row * TILE * scale,
+          marginLeft: -col * TILE * scale - offset,
+          marginTop: -row * TILE * scale - offset,
         }}
         resizeMode="stretch"
       />
