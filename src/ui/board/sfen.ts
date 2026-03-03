@@ -1,9 +1,5 @@
 import type { BoardPiece, BoardState, PieceType } from "./types";
 
-/** Standard initial position SFEN. */
-export const INITIAL_SFEN =
-  "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1";
-
 const SFEN_TO_PIECE: Record<string, PieceType> = {
   P: "fu",
   L: "ky",

@@ -1,5 +1,4 @@
 export { LessonHeader } from "./LessonHeader";
-export { InstructionTitle } from "./InstructionTitle";
 export { DialogueRow } from "./DialogueRow";
 export { BoardArea } from "./BoardArea";
 export { LessonFooter, LESSON_FOOTER_HEIGHT } from "./LessonFooter";

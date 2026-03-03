@@ -144,9 +144,3 @@ export function selectSquare(
   return { ...state, selectedSquare: position, feedback: null };
 }
 
-/**
- * Clear selection and feedback.
- */
-export function clearSelection(state: LessonState): LessonState {
-  return { ...state, selectedSquare: null, feedback: null };
-}

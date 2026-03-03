@@ -10,7 +10,6 @@ import {
   submitQuiz,
   advanceStep,
   selectSquare,
-  clearSelection,
 } from "./LessonEngine";
 
 export function useLessonEngine(lessonData: LessonData) {
@@ -111,10 +110,6 @@ export function useLessonEngine(lessonData: LessonData) {
     setState(startLesson(lessonData));
   }, [lessonData]);
 
-  const cancelSelection = useCallback(() => {
-    setState(clearSelection(state));
-  }, [state]);
-
   return {
     currentStep,
     state,
@@ -125,6 +120,5 @@ export function useLessonEngine(lessonData: LessonData) {
     handleQuizAnswer,
     handleNext,
     restart,
-    cancelSelection,
   };
 }

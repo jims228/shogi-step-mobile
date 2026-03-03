@@ -15,10 +15,4 @@ export function getNativeLessonData(lessonId: string): LessonData | null {
   return NATIVE_LESSONS[lessonId] ?? null;
 }
 
-/**
- * Check if a native lesson exists for the given ID.
- */
-export function hasNativeLesson(lessonId: string): boolean {
-  return lessonId in NATIVE_LESSONS;
-}
 
