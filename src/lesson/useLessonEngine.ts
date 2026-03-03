@@ -85,7 +85,7 @@ export function useLessonEngine(lessonData: LessonData) {
         return;
       }
 
-      // For explain/quiz types, tapping the board does nothing
+      // explain / quiz: tap fires but no action needed (safe no-op)
     },
     [currentStep, state, lessonData, boardState],
   );

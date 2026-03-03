@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { theme } from "../theme";
+import { LESSON_COLORS } from "../lesson/lessonSpacing";
 import { Piece } from "./Piece";
 import { HighlightOverlay } from "./HighlightOverlay";
 import type { BoardState, HighlightSquare } from "./types";
@@ -25,6 +26,8 @@ type Props = {
 export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }: Props) {
   const cellSize = size / 9;
   const labelSize = cellSize * 0.32;
+  // Extra padding on left to balance right-side row labels, centering the 9x9 grid
+  const rowLabelsWidth = labelSize + 3;
 
   const rows = useMemo(() => {
     const result: React.ReactNode[] = [];
@@ -67,9 +70,9 @@ export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }:
   }, [boardState, cellSize, onSquarePress]);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingLeft: rowLabelsWidth }]}>
       {/* Column labels (top) */}
-      <View style={[styles.colLabels, { width: size, marginLeft: 0 }]}>
+      <View style={[styles.colLabels, { width: size }]}>
         {COL_LABELS.map((label, i) => (
           <Text key={i} style={[styles.label, { width: cellSize, fontSize: labelSize }]}>
             {label}
@@ -84,7 +87,7 @@ export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }:
             styles.board,
             {
               width: size,
-              backgroundColor: theme.colors.boardBg,
+              backgroundColor: LESSON_COLORS.boardSurface,
             },
           ]}
         >

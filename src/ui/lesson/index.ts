@@ -2,4 +2,4 @@ export { LessonHeader } from "./LessonHeader";
 export { DialogueRow } from "./DialogueRow";
 export { BoardArea } from "./BoardArea";
 export { LessonFooter, LESSON_FOOTER_HEIGHT } from "./LessonFooter";
-export { LESSON_SPACING, LESSON_COLORS, MAX_LIVES } from "./lessonSpacing";
+export { LESSON_SPACING, LESSON_LAYOUT, LESSON_COLORS, MAX_LIVES } from "./lessonSpacing";

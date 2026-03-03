@@ -14,14 +14,9 @@ import {
   LessonFooter,
   LESSON_FOOTER_HEIGHT,
 } from "../ui/lesson";
+import { LESSON_LAYOUT } from "../ui/lesson/lessonSpacing";
 import { ShogiBoard } from "../ui/board";
 import { theme } from "../ui/theme";
-
-// ── PawnLessonRemakeScreen と同じレイアウト定数 ──
-const MASCOT_SIZE = 210;
-/** 画面左にはみ出す量 (正=左にずらす) */
-const MASCOT_PULL_LEFT = 30;
-const MASCOT_OFFSET_Y = 8;
 
 type Props = NativeStackScreenProps<RootStackParamList, "LessonLaunch"> & {
   lessonData: LessonData;
@@ -52,14 +47,16 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     state.feedback?.type === "correct" ||
     currentStep?.type === "explain";
 
-  // ── Board size: PawnLessonRemakeScreen と同じロジック ──
+  // ── Board size ──
   const boardSize = useMemo(() => {
     const h = Math.floor(boardSlotSize.h);
-    // 画面幅から BoardArea の水平パディング(16*2)と右端の余白(20)を引いた上限
-    const maxW = Math.floor(windowWidth - 16 * 2 - 20);
-    if (!h || !maxW) return 320;
+    // 画面幅から BoardArea パディング + 座標ラベル分のスラックを引いた上限
+    const maxW = Math.floor(
+      windowWidth - 16 * 2 - LESSON_LAYOUT.boardLabelSlack,
+    );
+    if (!h || !maxW) return 300;
     const s = Math.min(maxW, h);
-    return Math.max(240, s);
+    return Math.max(200, s);
   }, [boardSlotSize.h, windowWidth]);
 
   const onClose = useCallback(() => {
@@ -117,16 +114,15 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
   const bounceAnim = useRef(new Animated.Value(1)).current;
 
   // おじいちゃん: CoachAvatar (ネイティブ Rive)
-  // useMemo で安定化: isCorrect など無関係な state が変わっても再レンダーしない。
   const characterSlot = useMemo(() => (
     <Animated.View
       style={[
         styles.riveWrap,
-        { marginLeft: -MASCOT_PULL_LEFT, marginTop: MASCOT_OFFSET_Y },
+        { marginLeft: -LESSON_LAYOUT.mascotPullLeft },
         { transform: [{ scale: bounceAnim }] },
       ]}
     >
-      <CoachAvatar size={MASCOT_SIZE} />
+      <CoachAvatar size={LESSON_LAYOUT.mascotSize} />
     </Animated.View>
   ), [bounceAnim]);
 
@@ -135,9 +131,12 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     <DialogueRow
       message={dialogueMessage}
       characterSlot={characterSlot}
-      characterWidth={MASCOT_SIZE - MASCOT_PULL_LEFT}
-      style={{ paddingRight: 8, gap: 10, height: MASCOT_SIZE }}
-      bubbleStyle={{ marginBottom: 80, flex: 0, alignSelf: "flex-end", maxWidth: "60%", marginLeft: -48 }}
+      characterWidth={LESSON_LAYOUT.mascotSize - LESSON_LAYOUT.mascotPullLeft}
+      style={{ paddingRight: 8, alignItems: "flex-start" }}
+      bubbleStyle={{
+        marginTop: LESSON_LAYOUT.bubbleOffsetTop,
+        maxWidth: "65%",
+      }}
     />
   ), [dialogueMessage, characterSlot]);
 
@@ -147,7 +146,6 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
         <LessonHeader progress={progress} lives={state.lives} onClose={onClose} />
         <View style={styles.content}>
           <View style={styles.topSection}>
-            <View style={styles.contentTopSpacer} />
             {dialogueRowNode}
           </View>
           <BoardArea style={styles.boardArea}>
@@ -197,17 +195,14 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
   );
 }
 
-// ── PawnLessonRemakeScreen と同じスタイル定義 ──
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: theme.colors.boardBg },
-  content: { flex: 1, paddingBottom: LESSON_FOOTER_HEIGHT, overflow: "visible", marginTop: -12 },
-  topSection: { overflow: "visible" },
-  contentTopSpacer: { height: 0 },
+  content: { flex: 1, paddingBottom: LESSON_FOOTER_HEIGHT },
+  topSection: {},
   boardArea: {
     flex: 1,
     minHeight: 0,
-    paddingVertical: 0,
-    marginTop: -90,
+    paddingVertical: LESSON_LAYOUT.dialogueToBoardGap,
   },
   boardSlot: {
     alignItems: "center",
@@ -216,8 +211,8 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   riveWrap: {
-    width: MASCOT_SIZE,
-    height: MASCOT_SIZE,
+    width: LESSON_LAYOUT.mascotSize,
+    height: LESSON_LAYOUT.mascotSize,
     overflow: "hidden",
     flexShrink: 0,
   },
