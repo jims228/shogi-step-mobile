@@ -70,8 +70,8 @@ export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }:
   }, [boardState, cellSize, onSquarePress]);
 
   return (
-    <View style={[styles.container, { paddingLeft: rowLabelsWidth }]}>
-      {/* Column labels (top) */}
+    <View style={[styles.container, /* { paddingLeft: rowLabelsWidth } */]}>
+      {/* Column labels (top) — commented out
       <View style={[styles.colLabels, { width: size }]}>
         {COL_LABELS.map((label, i) => (
           <Text key={i} style={[styles.label, { width: cellSize, fontSize: labelSize }]}>
@@ -79,6 +79,7 @@ export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }:
           </Text>
         ))}
       </View>
+      */}
 
       <View style={styles.boardRow}>
         {/* Board grid */}
@@ -95,7 +96,7 @@ export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }:
           <HighlightOverlay highlights={highlights} cellSize={cellSize} />
         </View>
 
-        {/* Row labels (right) */}
+        {/* Row labels (right) — commented out
         <View style={styles.rowLabels}>
           {ROW_LABELS.map((label, i) => (
             <Text key={i} style={[styles.rowLabel, { height: cellSize, lineHeight: cellSize, fontSize: labelSize }]}>
@@ -103,6 +104,7 @@ export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }:
             </Text>
           ))}
         </View>
+        */}
       </View>
     </View>
   );
@@ -123,6 +125,7 @@ const styles = StyleSheet.create({
   board: {
     borderWidth: 2,
     borderColor: BOARD_BORDER_COLOR,
+    overflow: "hidden",
   },
   row: {
     flexDirection: "row",

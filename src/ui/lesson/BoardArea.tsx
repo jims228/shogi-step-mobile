@@ -18,9 +18,8 @@ export function BoardArea({ children, style }: Props) {
 
 const styles = StyleSheet.create({
   area: {
-    paddingHorizontal: LESSON_SPACING.headerPaddingHorizontal,
-    paddingVertical: LESSON_SPACING.sectionGap,
-    minHeight: 360,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
     flex: 1,
   },
 });

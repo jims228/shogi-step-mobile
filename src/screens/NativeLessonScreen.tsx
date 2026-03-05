@@ -9,12 +9,11 @@ import { useProgress } from "../state/progress";
 import { Screen, CoachAvatar } from "../ui/components";
 import {
   LessonHeader,
-  DialogueRow,
   BoardArea,
   LessonFooter,
   LESSON_FOOTER_HEIGHT,
 } from "../ui/lesson";
-import { LESSON_LAYOUT } from "../ui/lesson/lessonSpacing";
+import { LESSON_LAYOUT, LESSON_COLORS } from "../ui/lesson/lessonSpacing";
 import { ShogiBoard } from "../ui/board";
 import { theme } from "../ui/theme";
 
@@ -52,7 +51,7 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     const h = Math.floor(boardSlotSize.h);
     // 画面幅から BoardArea パディング + 座標ラベル分のスラックを引いた上限
     const maxW = Math.floor(
-      windowWidth - 16 * 2 - LESSON_LAYOUT.boardLabelSlack,
+      windowWidth - 8 * 2 - LESSON_LAYOUT.boardLabelSlack,
     );
     if (!h || !maxW) return 300;
     const s = Math.min(maxW, h);
@@ -113,41 +112,38 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
   // NOTE: bounceAnim — PawnLessonRemakeScreen と同じ構造を維持
   const bounceAnim = useRef(new Animated.Value(1)).current;
 
-  // おじいちゃん: CoachAvatar (ネイティブ Rive)
-  const characterSlot = useMemo(() => (
+  // おじいちゃん: absolute配置で吹き出し・盤面から独立
+  const mascotNode = useMemo(() => (
     <Animated.View
       style={[
-        styles.riveWrap,
-        { marginLeft: -LESSON_LAYOUT.mascotPullLeft },
+        styles.mascotAbsolute,
         { transform: [{ scale: bounceAnim }] },
       ]}
+      pointerEvents="none"
     >
       <CoachAvatar size={LESSON_LAYOUT.mascotSize} />
     </Animated.View>
   ), [bounceAnim]);
 
-  // dialogueMessage が変わった時だけ DialogueRow を再レンダー。
+  // 吹き出しのみ（おじいちゃんは別レイヤー）
   const dialogueRowNode = useMemo(() => (
-    <DialogueRow
-      message={dialogueMessage}
-      characterSlot={characterSlot}
-      characterWidth={LESSON_LAYOUT.mascotSize - LESSON_LAYOUT.mascotPullLeft}
-      style={{ paddingRight: 8, alignItems: "flex-start" }}
-      bubbleStyle={{
-        marginTop: LESSON_LAYOUT.bubbleOffsetTop,
-        maxWidth: "65%",
-      }}
-    />
-  ), [dialogueMessage, characterSlot]);
+    <View style={styles.bubbleRow}>
+      <View style={styles.bubbleContainer}>
+        <View style={styles.bubble}>
+          <Text style={styles.bubbleText}>{dialogueMessage}</Text>
+        </View>
+        <View style={styles.bubbleTail} />
+      </View>
+    </View>
+  ), [dialogueMessage]);
 
   return (
     <Screen pad={false} edges={["top", "bottom", "left", "right"]}>
       <View style={styles.root}>
         <LessonHeader progress={progress} lives={state.lives} onClose={onClose} />
         <View style={styles.content}>
-          <View style={styles.topSection}>
-            {dialogueRowNode}
-          </View>
+          {mascotNode}
+          {dialogueRowNode}
           <BoardArea style={styles.boardArea}>
             <View
               style={styles.boardSlot}
@@ -198,23 +194,64 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: theme.colors.boardBg },
   content: { flex: 1, paddingBottom: LESSON_FOOTER_HEIGHT },
-  topSection: {},
   boardArea: {
     flex: 1,
     minHeight: 0,
     paddingVertical: LESSON_LAYOUT.dialogueToBoardGap,
+    zIndex: 10,
   },
   boardSlot: {
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "flex-end",
+    paddingBottom: 40,
     width: "100%",
     height: "100%",
   },
-  riveWrap: {
+  mascotAbsolute: {
+    position: "absolute",
+    left: -LESSON_LAYOUT.mascotPullLeft,
+    top: -15,
     width: LESSON_LAYOUT.mascotSize,
     height: LESSON_LAYOUT.mascotSize,
-    overflow: "hidden",
-    flexShrink: 0,
+    zIndex: 0,
+  },
+  bubbleRow: {
+    position: "absolute",
+    top: 15,
+    left: 55,
+    right: 12,
+    zIndex: 5,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+  bubbleContainer: {
+    flex: 1,
+    maxWidth: "75%",
+    marginTop: LESSON_LAYOUT.bubbleOffsetTop,
+  },
+  bubble: {
+    backgroundColor: LESSON_COLORS.dialogueBg,
+    borderWidth: 1,
+    borderColor: LESSON_COLORS.dialogueBorder,
+    borderRadius: 16,
+    padding: 14,
+  },
+  bubbleText: {
+    ...theme.typography.body,
+    color: theme.colors.text,
+    lineHeight: 20,
+  },
+  bubbleTail: {
+    position: "absolute",
+    left: -6,
+    top: 28,
+    width: 12,
+    height: 12,
+    backgroundColor: LESSON_COLORS.dialogueBg,
+    borderLeftWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: LESSON_COLORS.dialogueBorder,
+    transform: [{ rotate: "45deg" }],
   },
   feedbackWrap: {
     marginHorizontal: 16,

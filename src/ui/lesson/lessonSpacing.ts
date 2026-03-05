@@ -20,15 +20,15 @@ export const LESSON_SPACING = {
 /** Mascot & dialogue layout constants */
 export const LESSON_LAYOUT = {
   /** Mascot avatar size (width & height) */
-  mascotSize: 210,
+  mascotSize: 230,
   /** How far the mascot is pulled left beyond the screen edge */
-  mascotPullLeft: 30,
+  mascotPullLeft: 45,
   /** Bubble top margin — aligns bubble with the mascot's face */
-  bubbleOffsetTop: 50,
+  bubbleOffsetTop: 40,
   /** Vertical gap between dialogue row and board area */
-  dialogueToBoardGap: 8,
+  dialogueToBoardGap: 4,
   /** Extra horizontal margin to reserve for board coordinate labels */
-  boardLabelSlack: 30,
+  boardLabelSlack: 8,
 } as const;
 
 export const MAX_LIVES = 5;
