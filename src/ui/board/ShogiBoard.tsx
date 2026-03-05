@@ -24,7 +24,8 @@ type Props = {
 };
 
 export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }: Props) {
-  const cellSize = size / 9;
+  const cellSize = Math.floor(size / 9);
+  const boardSize = cellSize * 9;
   const labelSize = cellSize * 0.32;
   // Extra padding on left to balance right-side row labels, centering the 9x9 grid
   const rowLabelsWidth = labelSize + 3;
@@ -87,7 +88,7 @@ export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }:
           style={[
             styles.board,
             {
-              width: size,
+              width: boardSize + 4,
               backgroundColor: LESSON_COLORS.boardSurface,
             },
           ]}

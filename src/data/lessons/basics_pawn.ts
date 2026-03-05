@@ -9,9 +9,9 @@ export const BASICS_PAWN_LESSON: LessonData = {
     {
       id: "explain_intro",
       type: "explain",
-      board_sfen: "9/9/9/9/9/9/9/9/4P4 b - 1",
-      instruction: "歩は将棋の基本の駒です。前に1マスだけ進めます。",
-      coach_text: "歩兵（ふひょう）は一番数が多い駒じゃ。まずはこの駒から覚えよう！",
+      board_sfen: "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1",
+      instruction: "すべての駒を確認しましょう。",
+      coach_text: "これが将棋の初期配置じゃ。全部の駒を見てみよう！",
     },
     {
       id: "move_pawn_forward",

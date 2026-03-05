@@ -36,17 +36,28 @@ const PROMOTED_COL: Partial<Record<PieceType, number>> = {
 /**
  * Per-piece sprite offset (in 130px tile coordinates).
  * Positive x = shift right, positive y = shift down.
- * Based on Web version PieceSprite.tsx offsets.
+ * Sente (先手) and Gote (後手) can be tuned independently.
  */
-const PIECE_OFFSETS: Record<PieceType, { x: number; y: number }> = {
-  fu: { x: -5, y: 0 },
-  ky: { x: -3, y: 0 },
-  ke: { x: 1, y: 0 },
-  gi: { x: -2, y: 0 },
-  ki: { x: -4, y: 0 },
-  ka: { x: -2, y: 0 },
-  hi: { x: -2, y: 0 },
-  ou: { x: -1, y: 0 },
+const SENTE_OFFSETS: Record<PieceType, { x: number; y: number }> = {
+  fu: { x: -5, y: -6 },
+  ky: { x: -3, y: -4 },
+  ke: { x: 1, y: -4 },
+  gi: { x: -2, y: -4 },
+  ki: { x: -4, y: -4 },
+  ka: { x: -2, y: -6 },
+  hi: { x: -2, y: -6 },
+  ou: { x: -1, y: -7 },
+};
+
+const GOTE_OFFSETS: Record<PieceType, { x: number; y: number }> = {
+  fu: { x: -5, y: -6 },
+  ky: { x: -3, y: -8 },
+  ke: { x: 1, y: -8 },
+  gi: { x: -2, y: -8 },
+  ki: { x: -4, y: -8 },
+  ka: { x: -2, y: -7 },
+  hi: { x: -2, y: -7 },
+  ou: { x: -1, y: -7.4 },
 };
 
 type Props = {
@@ -62,7 +73,7 @@ type Props = {
 
 // Scale piece up relative to cell so the piece image fills the cell.
 // The sprite tiles have transparent padding around the piece artwork.
-const PIECE_SCALE = 1.08;
+const PIECE_SCALE = 1.3;
 
 export function Piece({ piece, side, promoted, size, offsetX = 0, offsetY = 0 }: Props) {
   const isGote = side === "gote";
@@ -73,7 +84,7 @@ export function Piece({ piece, side, promoted, size, offsetX = 0, offsetY = 0 }:
   const row = (isGote ? 2 : 0) + (isPromoted ? 1 : 0);
 
   // Per-piece default offset (in tile coords) + caller override (in cell coords)
-  const defaults = PIECE_OFFSETS[piece];
+  const defaults = isGote ? GOTE_OFFSETS[piece] : SENTE_OFFSETS[piece];
   const renderSize = size * PIECE_SCALE;
   const scale = renderSize / TILE;
   const imgW = COLS * TILE * scale;
