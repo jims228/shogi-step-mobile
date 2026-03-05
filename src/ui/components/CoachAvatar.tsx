@@ -16,11 +16,9 @@ export function CoachAvatar({ size = 210 }: Props) {
   return (
     <View style={[styles.wrap, { width: size, height: size }]}>
       <Rive
-        resourceName={undefined}
-        url={undefined}
         source={RIV_SOURCE}
         style={{ width: size, height: size }}
-        autoplay
+        autoplay={true}
       />
     </View>
   );
