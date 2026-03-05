@@ -50,11 +50,11 @@ const SENTE_OFFSETS: Record<PieceType, { x: number; y: number }> = {
 };
 
 const GOTE_OFFSETS: Record<PieceType, { x: number; y: number }> = {
-  fu: { x: -5, y: -6 },
-  ky: { x: -3, y: -8 },
-  ke: { x: 1, y: -8 },
-  gi: { x: -2, y: -8 },
-  ki: { x: -4, y: -8 },
+  fu: { x: -5, y: -8 },
+  ky: { x: -3, y: -9.3 },
+  ke: { x: 1, y: -9.3 },
+  gi: { x: -2, y: -9.4 },
+  ki: { x: -4, y: -9.4 },
   ka: { x: -2, y: -7 },
   hi: { x: -2, y: -7 },
   ou: { x: -1, y: -7.4 },

@@ -53,7 +53,7 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     const maxW = Math.floor(
       windowWidth - 8 * 2 - LESSON_LAYOUT.boardLabelSlack,
     );
-    if (!h || !maxW) return 300;
+    if (!h || !maxW) return 0;
     const s = Math.min(maxW, h);
     return Math.max(200, s);
   }, [boardSlotSize.h, windowWidth]);
@@ -154,12 +154,14 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
                 setBoardSlotSize((prev) => (prev.w === w && prev.h === h ? prev : { w, h }));
               }}
             >
-              <ShogiBoard
-                boardState={boardState}
-                size={boardSize}
-                highlights={highlights}
-                onSquarePress={onSquarePress}
-              />
+              {boardSize > 0 && (
+                <ShogiBoard
+                  boardState={boardState}
+                  size={boardSize}
+                  highlights={highlights}
+                  onSquarePress={onSquarePress}
+                />
+              )}
             </View>
           </BoardArea>
 
