@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { parseSFEN } from "../ui/board/sfen";
 import type { BoardState, HighlightSquare } from "../ui/board/types";
@@ -12,8 +12,21 @@ import {
   selectSquare,
 } from "./LessonEngine";
 
+/** ms to show correct feedback before auto-advancing (move/tap_square steps) */
+const AUTO_ADVANCE_MS = 600;
+/** ms to show wrong feedback before clearing it (move/tap_square steps) */
+const CLEAR_FEEDBACK_MS = 700;
+
 export function useLessonEngine(lessonData: LessonData) {
   const [state, setState] = useState<LessonState>(() => startLesson(lessonData));
+  const feedbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Clean up any pending timer on unmount
+  useEffect(() => {
+    return () => {
+      if (feedbackTimerRef.current !== null) clearTimeout(feedbackTimerRef.current);
+    };
+  }, []);
 
   const currentStep: LessonStep | null =
     lessonData.steps[state.currentStepIndex] ?? null;
@@ -57,16 +70,37 @@ export function useLessonEngine(lessonData: LessonData) {
     return result;
   }, [currentStep, state.selectedSquare, state.feedback]);
 
+  const clearTimer = () => {
+    if (feedbackTimerRef.current !== null) {
+      clearTimeout(feedbackTimerRef.current);
+      feedbackTimerRef.current = null;
+    }
+  };
+
   const handleSquarePress = useCallback(
     (row: number, col: number) => {
       if (!currentStep || state.completed || state.failed) return;
-      if (state.feedback?.type === "correct") return; // waiting for "next"
+      if (state.feedback?.type === "correct") return; // auto-advance in progress
 
       const pos = { row, col };
 
       if (currentStep.type === "tap_square") {
         const result = submitTap(state, lessonData, pos);
         setState(result.nextState);
+        clearTimer();
+        if (result.correct) {
+          // Auto-advance after showing correct feedback
+          feedbackTimerRef.current = setTimeout(() => {
+            feedbackTimerRef.current = null;
+            setState(prev => advanceStep(prev, lessonData));
+          }, AUTO_ADVANCE_MS);
+        } else {
+          // Auto-clear wrong feedback so user can try again
+          feedbackTimerRef.current = setTimeout(() => {
+            feedbackTimerRef.current = null;
+            setState(prev => ({ ...prev, feedback: null }));
+          }, CLEAR_FEEDBACK_MS);
+        }
         return;
       }
 
@@ -82,6 +116,18 @@ export function useLessonEngine(lessonData: LessonData) {
         // Second tap: attempt the move
         const result = submitMove(state, lessonData, state.selectedSquare, pos);
         setState(result.nextState);
+        clearTimer();
+        if (result.correct) {
+          feedbackTimerRef.current = setTimeout(() => {
+            feedbackTimerRef.current = null;
+            setState(prev => advanceStep(prev, lessonData));
+          }, AUTO_ADVANCE_MS);
+        } else {
+          feedbackTimerRef.current = setTimeout(() => {
+            feedbackTimerRef.current = null;
+            setState(prev => ({ ...prev, feedback: null }));
+          }, CLEAR_FEEDBACK_MS);
+        }
         return;
       }
 
@@ -102,11 +148,13 @@ export function useLessonEngine(lessonData: LessonData) {
   );
 
   const handleNext = useCallback(() => {
+    clearTimer();
     if (state.completed || state.failed) return;
     setState(advanceStep(state, lessonData));
   }, [state, lessonData]);
 
   const restart = useCallback(() => {
+    clearTimer();
     setState(startLesson(lessonData));
   }, [lessonData]);
 

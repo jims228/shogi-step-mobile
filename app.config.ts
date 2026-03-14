@@ -1,5 +1,8 @@
 import type { ExpoConfig } from "expo/config";
 
+// Source of truth for Expo app configuration in this repository.
+// Keep app.json as a minimal placeholder only.
+
 const APP_NAME = "Shogi Roadmap";
 const SLUG = "shogi-roadmap";
 const SCHEME = "shogiroadmap";

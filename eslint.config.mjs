@@ -25,7 +25,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ["metro.config.js"],
+    files: ["metro.config.js", "jest.config.cjs"],
     languageOptions: {
       globals: {
         require: "readonly",

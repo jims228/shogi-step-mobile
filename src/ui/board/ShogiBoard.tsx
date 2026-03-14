@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { theme } from "../theme";
@@ -30,6 +30,10 @@ export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }:
   // Extra padding on left to balance right-side row labels, centering the 9x9 grid
   const rowLabelsWidth = labelSize + 3;
 
+  // Use a ref so Pressables don't remount on every state change (handler change)
+  const onSquarePressRef = useRef(onSquarePress);
+  onSquarePressRef.current = onSquarePress;
+
   const rows = useMemo(() => {
     const result: React.ReactNode[] = [];
     for (let r = 0; r < 9; r++) {
@@ -39,7 +43,7 @@ export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }:
         cells.push(
           <Pressable
             key={c}
-            onPress={() => onSquarePress?.(r, c)}
+            onPress={() => onSquarePressRef.current?.(r, c)}
             style={[
               styles.cell,
               {
@@ -68,7 +72,7 @@ export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }:
       );
     }
     return result;
-  }, [boardState, cellSize, onSquarePress]);
+  }, [boardState, cellSize]); // onSquarePress removed — handled via ref above
 
   return (
     <View style={[styles.container, /* { paddingLeft: rowLabelsWidth } */]}>

@@ -42,9 +42,10 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
 
   const isLastStep = state.currentStepIndex >= lessonData.steps.length - 1;
   const nextLabel = isLastStep ? "レッスン完了！" : "次へ";
+  // move/tap_square steps auto-advance — footer only needed for explain and quiz
   const showFooter =
-    state.feedback?.type === "correct" ||
-    currentStep?.type === "explain";
+    currentStep?.type === "explain" ||
+    (currentStep?.type === "quiz" && state.feedback?.type === "correct");
 
   // ── Board size ──
   const boardSize = useMemo(() => {
@@ -62,17 +63,20 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     navigation.goBack();
   }, [navigation]);
 
-  const onNext = useCallback(() => {
-    if (state.completed || (isLastStep && state.feedback?.type === "correct")) {
-      if (!completedOnceRef.current) {
-        completedOnceRef.current = true;
-        markCompleted(lessonData.id);
-      }
-      navigation.goBack();
-      return;
+  // Handle lesson completion (triggered by auto-advance or manual next on last step)
+  React.useEffect(() => {
+    if (!state.completed) return;
+    if (!completedOnceRef.current) {
+      completedOnceRef.current = true;
+      markCompleted(lessonData.id);
     }
+    const timer = setTimeout(() => navigation.goBack(), 300);
+    return () => clearTimeout(timer);
+  }, [state.completed, markCompleted, lessonData.id, navigation]);
+
+  const onNext = useCallback(() => {
     handleNext();
-  }, [state, isLastStep, handleNext, markCompleted, lessonData.id, navigation]);
+  }, [handleNext]);
 
   // ── Game over ──
   const onGameOver = useCallback(() => {

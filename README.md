@@ -10,6 +10,15 @@
 pnpm install
 ```
 
+## Expo 設定の正本
+
+このリポジトリでは Expo 設定の正本を `app.config.ts` とします。
+
+- `app.config.ts`: 実運用の設定（name/slug/scheme/ios/android など）
+- `app.json`: Expo ツール互換のための最小プレースホルダ
+
+識別子系（`scheme`, `ios.bundleIdentifier`, `android.package`）は既存配布互換のため維持しています。
+
 ## 環境変数
 
 `.env.example` をコピーして `.env` を作成：
