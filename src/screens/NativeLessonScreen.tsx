@@ -65,15 +65,19 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     };
   }, [currentStep, state.boardOverride]);
 
-  // ── Board size ──
+  // ── Board size (locked after first valid calculation) ──
+  const boardSizeRef = useRef(0);
   const boardSize = useMemo(() => {
     const h = Math.floor(boardSlotSize.h);
     const maxW = Math.floor(
       windowWidth - 8 * 2 - LESSON_LAYOUT.boardLabelSlack,
     );
-    if (!h || !maxW) return 0;
+    if (!h || !maxW) return boardSizeRef.current;
+    if (boardSizeRef.current > 0) return boardSizeRef.current;
     const s = Math.min(maxW, h);
-    return Math.max(200, s);
+    const result = Math.max(200, s);
+    boardSizeRef.current = result;
+    return result;
   }, [boardSlotSize.h, windowWidth]);
 
   const cellSize = boardSize > 0 ? Math.floor(boardSize / 9) : 0;
@@ -254,14 +258,28 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
 }
 
 const styles = StyleSheet.create({
+  // ── Screen structure ──
   root: { flex: 1, backgroundColor: theme.colors.boardBg },
+  // content: fills between LessonHeader and LessonFooter
   content: { flex: 1, paddingBottom: LESSON_FOOTER_HEIGHT },
+
+  // ── Board area: flex container that holds boardSlot ──
   boardArea: {
     flex: 1,
     minHeight: 0,
-    paddingVertical: LESSON_LAYOUT.dialogueToBoardGap,
     zIndex: 10,
   },
+
+  // ── boardSlot: sizes the board. Adjust paddingBottom to move board up/down ──
+  boardSlot: {
+    alignItems: "center",
+    justifyContent: "flex-end",
+    paddingBottom: 0,   // ← increase to push board UP from bottom
+    width: "100%",
+    height: "100%",
+  },
+
+  // ── boardFrame: outer border wrapping goteHand + grid + senteHand ──
   boardFrame: {
     borderWidth: 2.5,
     borderColor: "#5D4037",
@@ -269,28 +287,27 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     backgroundColor: "#D2A86A",
   },
+
+  // ── gridLine: separator between hand bars and board ──
   gridLine: {
     height: 2.5,
     backgroundColor: "#5D4037",
   },
-  boardSlot: {
-    alignItems: "center",
-    justifyContent: "flex-end",
-    paddingBottom: 0,
-    width: "100%",
-    height: "100%",
-  },
+
+  // ── Coach character (absolute, top-left) ──
   mascotAbsolute: {
     position: "absolute",
     left: -LESSON_LAYOUT.mascotPullLeft + 15,
-    top: -5,
+    top: -15,
     width: LESSON_LAYOUT.mascotSize,
     height: LESSON_LAYOUT.mascotSize,
     zIndex: 0,
   },
+
+  // ── Speech bubble (absolute, top-right) ──
   bubbleRow: {
     position: "absolute",
-    top: 0,
+    top: -10,
     left: 55,
     right: 12,
     zIndex: 5,
@@ -326,6 +343,8 @@ const styles = StyleSheet.create({
     borderColor: LESSON_COLORS.dialogueBorder,
     transform: [{ rotate: "45deg" }],
   },
+
+  // ── Quiz / Compare options (below board) ──
   quizWrap: {
     paddingHorizontal: 16,
     paddingTop: 8,
