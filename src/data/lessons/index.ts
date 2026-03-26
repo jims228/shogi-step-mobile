@@ -1,4 +1,5 @@
 import type { LessonData } from "../../lesson/types";
+import { U0_DIAGNOSIS } from "./u0_diagnosis";
 import { BASICS_PAWN_LESSON } from "./basics_pawn";
 import { U1_WHAT_IS_SHOGI } from "./u1_what_is_shogi";
 import { U1_GOLD_MOVE } from "./u1_gold_move";
@@ -110,6 +111,7 @@ import { U9_TOTAL_REVIEW } from "./u9_total_review";
 
 // Lesson data registry. Add new lessons here.
 const NATIVE_LESSONS: Record<string, LessonData> = {
+  [U0_DIAGNOSIS.id]: U0_DIAGNOSIS,
   [BASICS_PAWN_LESSON.id]: BASICS_PAWN_LESSON,
   [U1_WHAT_IS_SHOGI.id]: U1_WHAT_IS_SHOGI,
   [U1_GOLD_MOVE.id]: U1_GOLD_MOVE,

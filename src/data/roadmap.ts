@@ -40,7 +40,7 @@ export const UNITS: UnitDef[] = [
 
 export const ROADMAP_NODES: RoadmapNode[] = [
   // ── Unit 0 ──
-  { id: "u0_diagnosis", title: "スタート診断", unitId: "u0", nodeType: "lesson", description: "レベル判定と学習パスの決定", implemented: false },
+  { id: "u0_diagnosis", title: "スタート診断", unitId: "u0", nodeType: "lesson", description: "レベル判定と学習パスの決定", implemented: true },
 
   // ── Unit 1 ──
   { id: "u1_what_is_shogi", title: "将棋ってなに？", unitId: "u1", nodeType: "lesson", description: "盤面の見方、先手後手、勝利条件", implemented: true },
