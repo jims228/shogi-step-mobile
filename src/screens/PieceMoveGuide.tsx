@@ -15,12 +15,12 @@ const PIECES = [
 ];
 
 const PROMOTED_PIECES = [
-  { id: "+pawn", label: "と", image: require("../../assets/piece_move/+pawn.png") },
-  { id: "+lance", label: "成香", image: require("../../assets/piece_move/+lance.png") },
-  { id: "+horse", label: "成桂", image: require("../../assets/piece_move/+horse.png") },
-  { id: "+silver", label: "成銀", image: require("../../assets/piece_move/+silver.png") },
-  { id: "+bishop", label: "馬", image: require("../../assets/piece_move/+bishop.png") },
-  { id: "+rook", label: "龍", image: require("../../assets/piece_move/+rook.png") },
+  { id: "+pawn", label: "と", image: require("../../assets/piece_move/promoted_pawn.png") },
+  { id: "+lance", label: "成香", image: require("../../assets/piece_move/promoted_lance.png") },
+  { id: "+horse", label: "成桂", image: require("../../assets/piece_move/promoted_horse.png") },
+  { id: "+silver", label: "成銀", image: require("../../assets/piece_move/promoted_silver.png") },
+  { id: "+bishop", label: "馬", image: require("../../assets/piece_move/promoted_bishop.png") },
+  { id: "+rook", label: "龍", image: require("../../assets/piece_move/promoted_rook.png") },
 ];
 
 type Props = {

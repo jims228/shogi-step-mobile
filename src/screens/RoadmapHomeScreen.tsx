@@ -121,7 +121,7 @@ export function RoadmapHomeScreen() {
   nodeIndex = 0;
 
   return (
-    <Screen style={{ backgroundColor: theme.colors.boardBg }} contentStyle={{ paddingTop: 4 }}>
+    <Screen style={{ backgroundColor: theme.colors.boardBg }} edges={[]} pad={false} contentStyle={{ paddingHorizontal: theme.spacing.lg }}>
       <View style={{ flex: 1 }}>
         {!isLoaded && <Text style={styles.subtle}>読み込み中...</Text>}
 
@@ -129,7 +129,7 @@ export function RoadmapHomeScreen() {
           <FlatList
             data={items}
             keyExtractor={(item) => item.type === "unit_header" ? `header_${item.unitId}` : item.node.id}
-            contentContainerStyle={{ paddingTop: theme.spacing.sm, paddingBottom: 80 }}
+            contentContainerStyle={{ paddingBottom: 8 }}
             renderItem={renderItem}
             ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
           />
@@ -141,7 +141,7 @@ export function RoadmapHomeScreen() {
 
 const styles = StyleSheet.create({
   subtle: { marginTop: 6, color: theme.colors.textMuted, fontWeight: "700", textAlign: "center" },
-  roadmapWrap: { flex: 1, marginTop: theme.spacing.xs },
+  roadmapWrap: { flex: 1 },
 
   // ── Unit Header ──
   unitHeader: {
