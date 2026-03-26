@@ -43,7 +43,7 @@ export const ROADMAP_NODES: RoadmapNode[] = [
   { id: "u0_diagnosis", title: "スタート診断", unitId: "u0", nodeType: "lesson", description: "レベル判定と学習パスの決定", implemented: false },
 
   // ── Unit 1 ──
-  { id: "u1_what_is_shogi", title: "将棋ってなに？", unitId: "u1", nodeType: "lesson", description: "盤面の見方、先手後手、勝利条件", implemented: false },
+  { id: "u1_what_is_shogi", title: "将棋ってなに？", unitId: "u1", nodeType: "lesson", description: "盤面の見方、先手後手、勝利条件", implemented: true },
   { id: "u1_pawn_move", title: "歩の動き", unitId: "u1", nodeType: "lesson", description: "歩は前に1マス。進む・取る", implemented: true },
   { id: "u1_gold_move", title: "金の動き", unitId: "u1", nodeType: "lesson", description: "金の6方向移動", implemented: false },
   { id: "u1_king_move", title: "王の動き", unitId: "u1", nodeType: "lesson", description: "王は全方向1マス", implemented: false },
@@ -165,6 +165,7 @@ export function getRoadmapList(): RoadmapListItem[] {
 
 /** Map from v3.1 node ID to the legacy lesson ID used in src/data/lessons/ */
 export const NODE_TO_LESSON_ID: Record<string, string> = {
+  "u1_what_is_shogi": "u1_what_is_shogi",
   "u1_pawn_move": "pawn",
   // Add mappings here as lessons are implemented
 };

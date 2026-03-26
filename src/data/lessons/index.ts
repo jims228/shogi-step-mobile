@@ -1,5 +1,6 @@
 import type { LessonData } from "../../lesson/types";
 import { BASICS_PAWN_LESSON } from "./basics_pawn";
+import { U1_WHAT_IS_SHOGI } from "./u1_what_is_shogi";
 import { TESUJI_PAWN_TATAKI_L1 } from "./tesuji_pawn_tataki_l1";
 import { TESUJI_PAWN_RENDA_L1 } from "./tesuji_pawn_renda_l1";
 import { TESUJI_PAWN_HIKAE_L1 } from "./tesuji_pawn_hikae_l1";
@@ -46,6 +47,7 @@ import { OPENING_NAKABISHA_L1 } from "./opening_nakabisha_l1";
 // Lesson data registry. Add new lessons here.
 const NATIVE_LESSONS: Record<string, LessonData> = {
   [BASICS_PAWN_LESSON.id]: BASICS_PAWN_LESSON,
+  [U1_WHAT_IS_SHOGI.id]: U1_WHAT_IS_SHOGI,
   [TESUJI_PAWN_TATAKI_L1.id]: TESUJI_PAWN_TATAKI_L1,
   [TESUJI_PAWN_RENDA_L1.id]: TESUJI_PAWN_RENDA_L1,
   [TESUJI_PAWN_HIKAE_L1.id]: TESUJI_PAWN_HIKAE_L1,
