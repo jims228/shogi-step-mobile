@@ -17,8 +17,8 @@ export type LessonStep = {
   board_sfen: string;
   /** Squares to highlight as hints. */
   highlights?: Position[];
-  /** Arrows to draw on the board. Each arrow: { from: [row,col], to: [row,col] } */
-  arrows?: { from: [number, number]; to: [number, number]; color?: string }[];
+  /** Arrows to draw on the board. from: [row,col] or "hand_XX" (e.g. "hand_ki") */
+  arrows?: { from: [number, number] | string; to: [number, number]; color?: string }[];
   /** Instruction text shown to the user. */
   instruction: string;
   /** Coach (おじいちゃん) dialogue text. */
@@ -53,6 +53,14 @@ export type LessonStep = {
   // ── hand pieces ──
   /** Override hand pieces for this step. If omitted, parsed from board_sfen. */
   hand_pieces?: HandPieces;
+
+  // ── auto response ──
+  /** Opponent's automatic response after correct answer. Shown before footer. */
+  auto_response?: { from: Position; to: Position };
+  /** Board SFEN after auto_response is applied. */
+  after_response_sfen?: string;
+  /** Coach text to show after auto_response. */
+  after_response_text?: string;
 
   // ── common ──
   /** Message shown on correct answer. */

@@ -15,17 +15,22 @@ import {
   selectSquare,
   selectHand,
 } from "./LessonEngine";
+import { canPieceMove } from "./moveValidation";
 
 /** ms to show wrong feedback before clearing it */
 const CLEAR_FEEDBACK_MS = 700;
+/** ms to wait before showing opponent's auto response */
+const AUTO_RESPONSE_MS = 600;
 
 export function useLessonEngine(lessonData: LessonData) {
   const [state, setState] = useState<LessonState>(() => startLesson(lessonData));
   const feedbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const autoResponseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     return () => {
       if (feedbackTimerRef.current !== null) clearTimeout(feedbackTimerRef.current);
+      if (autoResponseTimerRef.current !== null) clearTimeout(autoResponseTimerRef.current);
     };
   }, []);
 
@@ -81,7 +86,29 @@ export function useLessonEngine(lessonData: LessonData) {
       clearTimeout(feedbackTimerRef.current);
       feedbackTimerRef.current = null;
     }
+    if (autoResponseTimerRef.current !== null) {
+      clearTimeout(autoResponseTimerRef.current);
+      autoResponseTimerRef.current = null;
+    }
   };
+
+  /**
+   * After a correct answer, if the step has auto_response,
+   * show the player's move first, then after a delay show opponent's response.
+   */
+  const scheduleAutoResponse = useCallback((step: LessonStep) => {
+    if (!step.auto_response || !step.after_response_sfen) return;
+    autoResponseTimerRef.current = setTimeout(() => {
+      autoResponseTimerRef.current = null;
+      setState(prev => ({
+        ...prev,
+        boardOverride: step.after_response_sfen!,
+        feedback: step.after_response_text
+          ? { type: "correct", message: step.after_response_text }
+          : prev.feedback,
+      }));
+    }, AUTO_RESPONSE_MS);
+  }, []);
 
   const handleSquarePress = useCallback(
     (row: number, col: number) => {
@@ -95,7 +122,9 @@ export function useLessonEngine(lessonData: LessonData) {
         const result = submitTap(state, lessonData, pos);
         setState(result.nextState);
         clearTimer();
-        if (!result.correct) {
+        if (result.correct) {
+          scheduleAutoResponse(currentStep);
+        } else {
           feedbackTimerRef.current = setTimeout(() => {
             feedbackTimerRef.current = null;
             setState(prev => ({ ...prev, feedback: null }));
@@ -107,13 +136,23 @@ export function useLessonEngine(lessonData: LessonData) {
       if (currentStep.type === "move") {
         // Drop from hand
         if (state.selectedHand) {
+          // Can't drop on an occupied square → deselect
+          const targetPiece = boardState[row]?.[col];
+          if (targetPiece) {
+            setState(prev => ({ ...prev, selectedHand: null }));
+            return;
+          }
+
+          // Empty square → submit drop (correct or wrong)
           const result = submitDrop(state, lessonData, state.selectedHand, pos);
           setState(result.nextState);
           clearTimer();
-          if (!result.correct) {
+          if (result.correct) {
+            scheduleAutoResponse(currentStep);
+          } else {
             feedbackTimerRef.current = setTimeout(() => {
               feedbackTimerRef.current = null;
-              setState(prev => ({ ...prev, feedback: null }));
+              setState(prev => ({ ...prev, feedback: null, selectedHand: null }));
             }, CLEAR_FEEDBACK_MS);
           }
           return;
@@ -128,14 +167,36 @@ export function useLessonEngine(lessonData: LessonData) {
           return;
         }
 
-        // Move piece
+        // Already selected: tap same square → deselect
+        if (state.selectedSquare.row === row && state.selectedSquare.col === col) {
+          setState(prev => ({ ...prev, selectedSquare: null }));
+          return;
+        }
+
+        // Tap another sente piece → switch selection
+        const tappedPiece = boardState[row]?.[col];
+        if (tappedPiece && tappedPiece.side === "sente") {
+          setState(selectSquare(state, pos));
+          return;
+        }
+
+        // Check if the selected piece can legally move there
+        if (!canPieceMove(boardState, state.selectedSquare, pos)) {
+          // Can't move there → deselect
+          setState(prev => ({ ...prev, selectedSquare: null }));
+          return;
+        }
+
+        // Legal move → check if correct
         const result = submitMove(state, lessonData, state.selectedSquare, pos);
         setState(result.nextState);
         clearTimer();
-        if (!result.correct) {
+        if (result.correct) {
+          scheduleAutoResponse(currentStep);
+        } else {
           feedbackTimerRef.current = setTimeout(() => {
             feedbackTimerRef.current = null;
-            setState(prev => ({ ...prev, feedback: null }));
+            setState(prev => ({ ...prev, feedback: null, selectedSquare: null }));
           }, CLEAR_FEEDBACK_MS);
         }
         return;
@@ -196,6 +257,13 @@ export function useLessonEngine(lessonData: LessonData) {
     [currentStep, state, lessonData],
   );
 
+  /** Deselect any selected piece/hand (e.g. when tapping outside the board). */
+  const handleDeselect = useCallback(() => {
+    if (state.selectedSquare || state.selectedHand) {
+      setState(prev => ({ ...prev, selectedSquare: null, selectedHand: null }));
+    }
+  }, [state.selectedSquare, state.selectedHand]);
+
   const handleNext = useCallback(() => {
     clearTimer();
     if (state.completed || state.failed) return;
@@ -215,6 +283,7 @@ export function useLessonEngine(lessonData: LessonData) {
     progress,
     handleSquarePress,
     handleHandPress,
+    handleDeselect,
     handlePromotion,
     handleQuizAnswer,
     handleCompareAnswer,
