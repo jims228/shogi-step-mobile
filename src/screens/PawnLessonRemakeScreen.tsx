@@ -47,6 +47,7 @@ export function PawnLessonRemakeScreen({ navigation, route }: Props) {
   const [stepDescription, setStepDescription] = useState("");
   const [isCorrect, setIsCorrect] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [webError, setWebError] = useState(false);
   const [lives, setLives] = useState(MAX_LIVES);
   const [boardSlotSize, setBoardSlotSize] = useState({ w: 0, h: 0 });
   const { width: windowWidth } = useWindowDimensions();
@@ -296,6 +297,13 @@ export function PawnLessonRemakeScreen({ navigation, route }: Props) {
                   <Text style={styles.loadingText}>盤面を読み込み中…</Text>
                 </View>
               )}
+              {webError && (
+                <View style={styles.loadingOverlay}>
+                  <Text style={styles.errorTitle}>読み込みに失敗しました</Text>
+                  <Text style={styles.errorDesc}>サーバーに接続できません</Text>
+                  <PrimaryButton title="再試行" onPress={() => { setWebError(false); setLoading(true); webViewRef.current?.reload(); }} />
+                </View>
+              )}
               <View
                 style={[
                   styles.webViewWrap,
@@ -325,6 +333,8 @@ export function PawnLessonRemakeScreen({ navigation, route }: Props) {
                     : null)}
                   injectedJavaScriptBeforeContentLoaded={(injectedBeforeLoad ?? "") + "\n" + injectedBoardNoScroll}
                   onLoadEnd={() => setLoading(false)}
+                  onError={() => { setLoading(false); setWebError(true); }}
+                  onHttpError={() => { setLoading(false); setWebError(true); }}
                   onMessage={onMessage}
                   scrollEnabled={false}
                   nestedScrollEnabled={false}
