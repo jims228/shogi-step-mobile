@@ -253,25 +253,27 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
                     {/* Quiz options overlaid on board */}
                     {currentStep?.type === "quiz" && currentStep.quiz_options && state.feedback?.type !== "correct" && (
                       <View style={styles.quizOverlay}>
-                        {currentStep.quiz_options.map((option, i) => {
-                          const isWrong = wrongQuizIndices.has(i);
-                          return (
-                            <Pressable
-                              key={i}
-                              style={({ pressed }) => [
-                                styles.quizOption,
-                                pressed && !isWrong && styles.quizOptionPressed,
-                                isWrong && styles.quizOptionWrong,
-                              ]}
-                              onPressIn={() => !isWrong && onQuizAnswer(i)}
-                              disabled={isWrong}
-                            >
-                              <Text style={[styles.quizOptionText, isWrong && styles.quizOptionTextWrong]}>
-                                {option}
-                              </Text>
-                            </Pressable>
-                          );
-                        })}
+                        <View style={styles.quizRow}>
+                          {currentStep.quiz_options.map((option, i) => {
+                            const isWrong = wrongQuizIndices.has(i);
+                            return (
+                              <Pressable
+                                key={i}
+                                style={({ pressed }) => [
+                                  styles.quizOption,
+                                  pressed && !isWrong && styles.quizOptionPressed,
+                                  isWrong && styles.quizOptionWrong,
+                                ]}
+                                onPressIn={() => !isWrong && onQuizAnswer(i)}
+                                disabled={isWrong}
+                              >
+                                <Text style={[styles.quizOptionText, isWrong && styles.quizOptionTextWrong]}>
+                                  {option}
+                                </Text>
+                              </Pressable>
+                            );
+                          })}
+                        </View>
                       </View>
                     )}
                     {/* Compare options overlaid on board */}
@@ -395,17 +397,19 @@ const styles = StyleSheet.create({
   // ── Quiz / Compare options (overlaid on boardFrame) ──
   quizOverlay: {
     ...StyleSheet.absoluteFillObject,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "flex-end",
-    paddingBottom: 115,
+    justifyContent: "flex-end",
+    paddingBottom: 85,
     paddingHorizontal: 16,
     zIndex: 50,
+  },
+  quizRow: {
+    flexDirection: "row",
     gap: 12,
+    alignItems: "stretch",
   },
   quizOption: {
     flex: 1,
-    paddingVertical: 22,
+    paddingVertical: 20,
     paddingHorizontal: 24,
     borderRadius: 20,
     borderTopWidth: 3,
