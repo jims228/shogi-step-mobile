@@ -151,8 +151,7 @@ export function submitMove(
       };
     }
     const result = applyCorrect(state, data);
-    const newSfen = applySfenMove(step.board_sfen, from, to);
-    result.nextState.boardOverride = newSfen;
+    result.nextState.boardOverride = step.result_sfen ?? applySfenMove(step.board_sfen, from, to);
     return result;
   }
   return applyWrong(state, data);

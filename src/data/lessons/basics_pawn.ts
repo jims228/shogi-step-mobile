@@ -44,6 +44,7 @@ export const BASICS_PAWN_LESSON: LessonData = {
         from: { row: 5, col: 4 },
         to: { row: 4, col: 4 },
       },
+      result_sfen: "9/9/9/9/4P4/9/9/9/9 b P 1",
       success_text: "よくできた！歩で相手の駒を取れたな。",
       fail_text: "相手の歩がいるマスに進んでみよう。",
     },
