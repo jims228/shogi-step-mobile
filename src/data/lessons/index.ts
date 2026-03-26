@@ -42,6 +42,15 @@ import { U5_CAPTURE_ATTACKER } from "./u5_capture_attacker";
 import { U5_COMPARE_DEFENSE } from "./u5_compare_defense";
 import { U5_IS_KING_SAFE } from "./u5_is_king_safe";
 import { U5_REVIEW } from "./u5_review";
+import { U6_PIECE_VALUE } from "./u6_piece_value";
+import { U6_COMPARE_TRADE } from "./u6_compare_trade";
+import { U6_FIND_FREE } from "./u6_find_free";
+import { U6_TESUJI_TATAKI } from "./u6_tesuji_tataki";
+import { U6_TESUJI_WARIDACHI } from "./u6_tesuji_waridachi";
+import { U6_TESUJI_FORK } from "./u6_tesuji_fork";
+import { U6_TESUJI_PIN } from "./u6_tesuji_pin";
+import { U6_COMPARE_ATTACK_DEFEND } from "./u6_compare_attack_defend";
+import { U6_REVIEW } from "./u6_review";
 import { TESUJI_PAWN_TATAKI_L1 } from "./tesuji_pawn_tataki_l1";
 import { TESUJI_PAWN_RENDA_L1 } from "./tesuji_pawn_renda_l1";
 import { TESUJI_PAWN_HIKAE_L1 } from "./tesuji_pawn_hikae_l1";
@@ -84,6 +93,20 @@ import { OPENING_SHIKENBISHA_L1 } from "./opening_shikenbisha_l1";
 import { OPENING_SANKENBISHA_L1 } from "./opening_sankenbisha_l1";
 import { OPENING_MUKAI_BISHA_L1 } from "./opening_mukai_bisha_l1";
 import { OPENING_NAKABISHA_L1 } from "./opening_nakabisha_l1";
+import { U7_WHY_CASTLE } from "./u7_why_castle";
+import { U7_YAGURA_BUILD } from "./u7_yagura_build";
+import { U7_MINO_BUILD } from "./u7_mino_build";
+import { U7_COMPARE_CASTLE } from "./u7_compare_castle";
+import { U7_CASTLE_ATTACK } from "./u7_castle_attack";
+import { U7_REVIEW } from "./u7_review";
+import { U8_OPENING_PRINCIPLES } from "./u8_opening_principles";
+import { U8_OPENING_GUIDE } from "./u8_opening_guide";
+import { U8_IBISHA_VS_FURI } from "./u8_ibisha_vs_furi";
+import { U8_FIND_OPENING } from "./u8_find_opening";
+import { U8_COMPARE_OPENING } from "./u8_compare_opening";
+import { U8_MIDDLE_GAME } from "./u8_middle_game";
+import { U8_REVIEW } from "./u8_review";
+import { U9_TOTAL_REVIEW } from "./u9_total_review";
 
 // Lesson data registry. Add new lessons here.
 const NATIVE_LESSONS: Record<string, LessonData> = {
@@ -130,6 +153,15 @@ const NATIVE_LESSONS: Record<string, LessonData> = {
   [U5_COMPARE_DEFENSE.id]: U5_COMPARE_DEFENSE,
   [U5_IS_KING_SAFE.id]: U5_IS_KING_SAFE,
   [U5_REVIEW.id]: U5_REVIEW,
+  [U6_PIECE_VALUE.id]: U6_PIECE_VALUE,
+  [U6_COMPARE_TRADE.id]: U6_COMPARE_TRADE,
+  [U6_FIND_FREE.id]: U6_FIND_FREE,
+  [U6_TESUJI_TATAKI.id]: U6_TESUJI_TATAKI,
+  [U6_TESUJI_WARIDACHI.id]: U6_TESUJI_WARIDACHI,
+  [U6_TESUJI_FORK.id]: U6_TESUJI_FORK,
+  [U6_TESUJI_PIN.id]: U6_TESUJI_PIN,
+  [U6_COMPARE_ATTACK_DEFEND.id]: U6_COMPARE_ATTACK_DEFEND,
+  [U6_REVIEW.id]: U6_REVIEW,
   [TESUJI_PAWN_TATAKI_L1.id]: TESUJI_PAWN_TATAKI_L1,
   [TESUJI_PAWN_RENDA_L1.id]: TESUJI_PAWN_RENDA_L1,
   [TESUJI_PAWN_HIKAE_L1.id]: TESUJI_PAWN_HIKAE_L1,
@@ -172,6 +204,20 @@ const NATIVE_LESSONS: Record<string, LessonData> = {
   [OPENING_SANKENBISHA_L1.id]: OPENING_SANKENBISHA_L1,
   [OPENING_MUKAI_BISHA_L1.id]: OPENING_MUKAI_BISHA_L1,
   [OPENING_NAKABISHA_L1.id]: OPENING_NAKABISHA_L1,
+  [U7_WHY_CASTLE.id]: U7_WHY_CASTLE,
+  [U7_YAGURA_BUILD.id]: U7_YAGURA_BUILD,
+  [U7_MINO_BUILD.id]: U7_MINO_BUILD,
+  [U7_COMPARE_CASTLE.id]: U7_COMPARE_CASTLE,
+  [U7_CASTLE_ATTACK.id]: U7_CASTLE_ATTACK,
+  [U7_REVIEW.id]: U7_REVIEW,
+  [U8_OPENING_PRINCIPLES.id]: U8_OPENING_PRINCIPLES,
+  [U8_OPENING_GUIDE.id]: U8_OPENING_GUIDE,
+  [U8_IBISHA_VS_FURI.id]: U8_IBISHA_VS_FURI,
+  [U8_FIND_OPENING.id]: U8_FIND_OPENING,
+  [U8_COMPARE_OPENING.id]: U8_COMPARE_OPENING,
+  [U8_MIDDLE_GAME.id]: U8_MIDDLE_GAME,
+  [U8_REVIEW.id]: U8_REVIEW,
+  [U9_TOTAL_REVIEW.id]: U9_TOTAL_REVIEW,
 };
 
 /**
