@@ -35,6 +35,13 @@ import { U4_TSUME_DROP } from "./u4_tsume_drop";
 import { U4_COMPARE_CHECK_VS_MATE } from "./u4_compare_check_vs_mate";
 import { U4_TSUME_MIX } from "./u4_tsume_mix";
 import { U4_REVIEW } from "./u4_review";
+import { U5_THREE_DEFENSES } from "./u5_three_defenses";
+import { U5_ESCAPE } from "./u5_escape";
+import { U5_BLOCK } from "./u5_block";
+import { U5_CAPTURE_ATTACKER } from "./u5_capture_attacker";
+import { U5_COMPARE_DEFENSE } from "./u5_compare_defense";
+import { U5_IS_KING_SAFE } from "./u5_is_king_safe";
+import { U5_REVIEW } from "./u5_review";
 import { TESUJI_PAWN_TATAKI_L1 } from "./tesuji_pawn_tataki_l1";
 import { TESUJI_PAWN_RENDA_L1 } from "./tesuji_pawn_renda_l1";
 import { TESUJI_PAWN_HIKAE_L1 } from "./tesuji_pawn_hikae_l1";
@@ -116,6 +123,13 @@ const NATIVE_LESSONS: Record<string, LessonData> = {
   [U4_COMPARE_CHECK_VS_MATE.id]: U4_COMPARE_CHECK_VS_MATE,
   [U4_TSUME_MIX.id]: U4_TSUME_MIX,
   [U4_REVIEW.id]: U4_REVIEW,
+  [U5_THREE_DEFENSES.id]: U5_THREE_DEFENSES,
+  [U5_ESCAPE.id]: U5_ESCAPE,
+  [U5_BLOCK.id]: U5_BLOCK,
+  [U5_CAPTURE_ATTACKER.id]: U5_CAPTURE_ATTACKER,
+  [U5_COMPARE_DEFENSE.id]: U5_COMPARE_DEFENSE,
+  [U5_IS_KING_SAFE.id]: U5_IS_KING_SAFE,
+  [U5_REVIEW.id]: U5_REVIEW,
   [TESUJI_PAWN_TATAKI_L1.id]: TESUJI_PAWN_TATAKI_L1,
   [TESUJI_PAWN_RENDA_L1.id]: TESUJI_PAWN_RENDA_L1,
   [TESUJI_PAWN_HIKAE_L1.id]: TESUJI_PAWN_HIKAE_L1,

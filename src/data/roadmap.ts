@@ -90,13 +90,13 @@ export const ROADMAP_NODES: RoadmapNode[] = [
   { id: "u4_battle", title: "詰ませてみよう", unitId: "u4", nodeType: "battle", description: "詰みチャンスが来る対局", implemented: false },
 
   // ── Unit 5 ──
-  { id: "u5_three_defenses", title: "王手の受け方は3つ", unitId: "u5", nodeType: "lesson", description: "逃げる・合駒・取る", implemented: false },
-  { id: "u5_escape", title: "逃げて受けよう", unitId: "u5", nodeType: "lesson", description: "王を逃がして受ける", implemented: false },
-  { id: "u5_block", title: "合駒で受けよう", unitId: "u5", nodeType: "lesson", description: "間に駒を打つ", implemented: false },
-  { id: "u5_capture_attacker", title: "攻め駒を取って受けよう", unitId: "u5", nodeType: "lesson", description: "王手駒を取る", implemented: false },
-  { id: "u5_compare_defense", title: "どの受けが一番？", unitId: "u5", nodeType: "lesson", description: "3つの受けの比較判断", implemented: false },
-  { id: "u5_is_king_safe", title: "王は安全？", unitId: "u5", nodeType: "lesson", description: "自玉の安全度判断", implemented: false },
-  { id: "u5_review", title: "Unit 5 まとめ", unitId: "u5", nodeType: "review", description: "受けの復習", implemented: false },
+  { id: "u5_three_defenses", title: "王手の受け方は3つ", unitId: "u5", nodeType: "lesson", description: "逃げる・合駒・取る", implemented: true },
+  { id: "u5_escape", title: "逃げて受けよう", unitId: "u5", nodeType: "lesson", description: "王を逃がして受ける", implemented: true },
+  { id: "u5_block", title: "合駒で受けよう", unitId: "u5", nodeType: "lesson", description: "間に駒を打つ", implemented: true },
+  { id: "u5_capture_attacker", title: "攻め駒を取って受けよう", unitId: "u5", nodeType: "lesson", description: "王手駒を取る", implemented: true },
+  { id: "u5_compare_defense", title: "どの受けが一番？", unitId: "u5", nodeType: "lesson", description: "3つの受けの比較判断", implemented: true },
+  { id: "u5_is_king_safe", title: "王は安全？", unitId: "u5", nodeType: "lesson", description: "自玉の安全度判断", implemented: true },
+  { id: "u5_review", title: "Unit 5 まとめ", unitId: "u5", nodeType: "review", description: "受けの復習", implemented: true },
   { id: "u5_battle", title: "守り切ってみよう", unitId: "u5", nodeType: "battle", description: "相手の攻めを受ける対局", implemented: false },
 
   // ── Unit 6 ──
