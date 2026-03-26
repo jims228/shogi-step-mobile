@@ -19,12 +19,6 @@ const ICON_RENDER = 75;
 
 type Props = NativeStackScreenProps<RootStackParamList, "RoadmapHome">;
 
-const NODE_ICONS: Record<string, string> = {
-  lesson: "📖",
-  review: "🎯",
-  battle: "⚔️",
-};
-
 export function RoadmapHomeScreen({ navigation }: Props) {
   const { progress, isLoaded } = useProgress();
   const items = useMemo(() => getRoadmapList(), []);
@@ -202,22 +196,6 @@ const styles = StyleSheet.create({
     color: "#3e2723",
     lineHeight: 18,
   },
-
-  typeBadge: {
-    position: "absolute",
-    left: 2,
-    top: 1,
-    width: 16,
-    height: 16,
-    borderRadius: 8,
-    backgroundColor: "rgba(210,168,106,0.75)",
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 0,
-  },
-  typeBadgeReview: { backgroundColor: "rgba(240,120,40,0.75)" },
-  typeBadgeBattle: { backgroundColor: "rgba(230,90,141,0.75)" },
-  typeBadgeText: { fontSize: 8 },
 
   doneBadge: {
     position: "absolute",
