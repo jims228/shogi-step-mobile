@@ -4,6 +4,19 @@ import { U1_WHAT_IS_SHOGI } from "./u1_what_is_shogi";
 import { U1_GOLD_MOVE } from "./u1_gold_move";
 import { U1_KING_MOVE } from "./u1_king_move";
 import { U1_WHAT_IS_CHECK } from "./u1_what_is_check";
+import { U1_GIVE_CHECK } from "./u1_give_check";
+import { U1_COMPARE_CHECK } from "./u1_compare_check";
+import { U1_REVIEW } from "./u1_review";
+import { U2_SILVER_MOVE } from "./u2_silver_move";
+import { U2_SILVER_USE } from "./u2_silver_use";
+import { U2_COMPARE_GOLD_SILVER } from "./u2_compare_gold_silver";
+import { U2_ROOK_MOVE } from "./u2_rook_move";
+import { U2_BISHOP_MOVE } from "./u2_bishop_move";
+import { U2_BIG_PIECES } from "./u2_big_pieces";
+import { U2_KNIGHT_MOVE } from "./u2_knight_move";
+import { U2_LANCE_MOVE } from "./u2_lance_move";
+import { U2_COMPARE_TAKE } from "./u2_compare_take";
+import { U2_REVIEW } from "./u2_review";
 import { TESUJI_PAWN_TATAKI_L1 } from "./tesuji_pawn_tataki_l1";
 import { TESUJI_PAWN_RENDA_L1 } from "./tesuji_pawn_renda_l1";
 import { TESUJI_PAWN_HIKAE_L1 } from "./tesuji_pawn_hikae_l1";
@@ -54,6 +67,19 @@ const NATIVE_LESSONS: Record<string, LessonData> = {
   [U1_GOLD_MOVE.id]: U1_GOLD_MOVE,
   [U1_KING_MOVE.id]: U1_KING_MOVE,
   [U1_WHAT_IS_CHECK.id]: U1_WHAT_IS_CHECK,
+  [U1_GIVE_CHECK.id]: U1_GIVE_CHECK,
+  [U1_COMPARE_CHECK.id]: U1_COMPARE_CHECK,
+  [U1_REVIEW.id]: U1_REVIEW,
+  [U2_SILVER_MOVE.id]: U2_SILVER_MOVE,
+  [U2_SILVER_USE.id]: U2_SILVER_USE,
+  [U2_COMPARE_GOLD_SILVER.id]: U2_COMPARE_GOLD_SILVER,
+  [U2_ROOK_MOVE.id]: U2_ROOK_MOVE,
+  [U2_BISHOP_MOVE.id]: U2_BISHOP_MOVE,
+  [U2_BIG_PIECES.id]: U2_BIG_PIECES,
+  [U2_KNIGHT_MOVE.id]: U2_KNIGHT_MOVE,
+  [U2_LANCE_MOVE.id]: U2_LANCE_MOVE,
+  [U2_COMPARE_TAKE.id]: U2_COMPARE_TAKE,
+  [U2_REVIEW.id]: U2_REVIEW,
   [TESUJI_PAWN_TATAKI_L1.id]: TESUJI_PAWN_TATAKI_L1,
   [TESUJI_PAWN_RENDA_L1.id]: TESUJI_PAWN_RENDA_L1,
   [TESUJI_PAWN_HIKAE_L1.id]: TESUJI_PAWN_HIKAE_L1,
