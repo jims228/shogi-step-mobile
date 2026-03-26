@@ -2,6 +2,8 @@ import type { LessonData } from "../../lesson/types";
 import { BASICS_PAWN_LESSON } from "./basics_pawn";
 import { U1_WHAT_IS_SHOGI } from "./u1_what_is_shogi";
 import { U1_GOLD_MOVE } from "./u1_gold_move";
+import { U1_KING_MOVE } from "./u1_king_move";
+import { U1_WHAT_IS_CHECK } from "./u1_what_is_check";
 import { TESUJI_PAWN_TATAKI_L1 } from "./tesuji_pawn_tataki_l1";
 import { TESUJI_PAWN_RENDA_L1 } from "./tesuji_pawn_renda_l1";
 import { TESUJI_PAWN_HIKAE_L1 } from "./tesuji_pawn_hikae_l1";
@@ -50,6 +52,8 @@ const NATIVE_LESSONS: Record<string, LessonData> = {
   [BASICS_PAWN_LESSON.id]: BASICS_PAWN_LESSON,
   [U1_WHAT_IS_SHOGI.id]: U1_WHAT_IS_SHOGI,
   [U1_GOLD_MOVE.id]: U1_GOLD_MOVE,
+  [U1_KING_MOVE.id]: U1_KING_MOVE,
+  [U1_WHAT_IS_CHECK.id]: U1_WHAT_IS_CHECK,
   [TESUJI_PAWN_TATAKI_L1.id]: TESUJI_PAWN_TATAKI_L1,
   [TESUJI_PAWN_RENDA_L1.id]: TESUJI_PAWN_RENDA_L1,
   [TESUJI_PAWN_HIKAE_L1.id]: TESUJI_PAWN_HIKAE_L1,

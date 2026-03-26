@@ -135,9 +135,22 @@ export function submitMove(
     return { correct: false, nextState: state };
   }
 
+  // Check primary correct_move
   const correctFrom = step.correct_move.from;
   const isFromCorrect = "row" in correctFrom && posEqual(from, correctFrom);
-  const isCorrect = isFromCorrect && posEqual(to, step.correct_move.to);
+  let isCorrect = isFromCorrect && posEqual(to, step.correct_move.to);
+
+  // Check alternative correct moves
+  if (!isCorrect && step.correct_moves_alt) {
+    for (const alt of step.correct_moves_alt) {
+      const altFrom = alt.from;
+      const altFromOk = "row" in altFrom && posEqual(from, altFrom);
+      if (altFromOk && posEqual(to, alt.to)) {
+        isCorrect = true;
+        break;
+      }
+    }
+  }
 
   if (isCorrect) {
     // Check if promotion prompt is needed

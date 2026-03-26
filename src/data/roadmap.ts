@@ -46,8 +46,8 @@ export const ROADMAP_NODES: RoadmapNode[] = [
   { id: "u1_what_is_shogi", title: "将棋ってなに？", unitId: "u1", nodeType: "lesson", description: "盤面の見方、先手後手、勝利条件", implemented: true },
   { id: "u1_pawn_move", title: "歩の動き", unitId: "u1", nodeType: "lesson", description: "歩は前に1マス。進む・取る", implemented: true },
   { id: "u1_gold_move", title: "金の動き", unitId: "u1", nodeType: "lesson", description: "金の6方向移動", implemented: true },
-  { id: "u1_king_move", title: "王の動き", unitId: "u1", nodeType: "lesson", description: "王は全方向1マス", implemented: false },
-  { id: "u1_what_is_check", title: "王手ってなに？", unitId: "u1", nodeType: "lesson", description: "王手の概念", implemented: false },
+  { id: "u1_king_move", title: "王の動き", unitId: "u1", nodeType: "lesson", description: "王は全方向1マス", implemented: true },
+  { id: "u1_what_is_check", title: "王手ってなに？", unitId: "u1", nodeType: "lesson", description: "王手の概念", implemented: true },
   { id: "u1_give_check", title: "王手をかけてみよう", unitId: "u1", nodeType: "lesson", description: "金で王手をかけるパズル", implemented: false },
   { id: "u1_compare_check", title: "王手？駒を取る？", unitId: "u1", nodeType: "lesson", description: "王手 vs 駒取りの比較判断", implemented: false },
   { id: "u1_review", title: "Unit 1 まとめ", unitId: "u1", nodeType: "review", description: "ミス問題優先の混合復習", implemented: false },
@@ -168,5 +168,7 @@ export const NODE_TO_LESSON_ID: Record<string, string> = {
   "u1_what_is_shogi": "u1_what_is_shogi",
   "u1_pawn_move": "pawn",
   "u1_gold_move": "u1_gold_move",
+  "u1_king_move": "u1_king_move",
+  "u1_what_is_check": "u1_what_is_check",
   // Add mappings here as lessons are implemented
 };

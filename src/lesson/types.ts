@@ -27,6 +27,8 @@ export type LessonStep = {
   // ── move ──
   /** Correct move for "move" type steps. from can be board position or hand piece. */
   correct_move?: { from: MoveFrom; to: Position };
+  /** Additional correct moves (any of these is also accepted). */
+  correct_moves_alt?: { from: MoveFrom; to: Position }[];
   /** Whether promotion is the correct choice (true=promote, false=decline, undefined=no prompt). */
   correct_promotion?: boolean;
 
