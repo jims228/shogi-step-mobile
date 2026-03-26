@@ -1,91 +1,86 @@
 import React, { useCallback, useMemo } from "react";
 import { FlatList, Image, Pressable, StyleSheet, Text, View } from "react-native";
-
-const LESSON_ICONS_IMG = require("../../assets/lesson-icons.png");
-// 2x2 sprite sheet, each icon is 64x64 in a 128x128 image
-// order: [star, round, crown, heart]
-const ICON_POSITIONS = [
-  { col: 0, row: 0 }, // star     (top-left)
-  { col: 1, row: 0 }, // round    (top-right)
-  { col: 0, row: 1 }, // crown    (bottom-left)
-  { col: 1, row: 1 }, // heart    (bottom-right)
-] as const;
-const ICON_RENDER = 82;     // render size on screen
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import { getFlatRoadmapItems, type FlatRoadmapItem } from "../data/roadmap";
+import { getRoadmapList, NODE_TO_LESSON_ID, type RoadmapListItem, type RoadmapNode } from "../data/roadmap";
 import { useProgress } from "../state/progress";
 import type { RootStackParamList } from "../navigation/RootNavigator";
-import { Card, PrimaryButton, Screen } from "../ui/components";
+import { PrimaryButton, Screen } from "../ui/components";
 import { theme } from "../ui/theme";
-import { useSakuraBurst } from "../ui/effects/SakuraBurstProvider";
+
+const LESSON_ICONS_IMG = require("../../assets/lesson-icons.png");
+const ICON_POSITIONS = [
+  { col: 0, row: 0 },
+  { col: 1, row: 0 },
+  { col: 0, row: 1 },
+  { col: 1, row: 1 },
+] as const;
+const ICON_RENDER = 75;
 
 type Props = NativeStackScreenProps<RootStackParamList, "RoadmapHome">;
 
-function shortenTitle(s: string) {
-  const t = (s || "").trim();
-  if (!t) return "レッスン";
-  // drop bracketed suffixes like （Lv1）, （復習）, etc.
-  const noParen = t.replace(/（.*?）/g, "").trim();
-  // shorten common prefix
-  const noPrefix = noParen.replace(/^基本の駒の動き/, "").trim();
-  return noPrefix || noParen || t;
-}
-
-const LESSON_BROWN = "#6d4c41";
-const LESSON_BROWN_DARK = "#3e2723";
+const NODE_ICONS: Record<string, string> = {
+  lesson: "📖",
+  review: "🎯",
+  battle: "⚔️",
+};
 
 export function RoadmapHomeScreen({ navigation }: Props) {
   const { progress, isLoaded } = useProgress();
-  const items = useMemo(() => getFlatRoadmapItems(), []);
+  const items = useMemo(() => getRoadmapList(), []);
   const completedSet = useMemo(() => new Set(progress.completedLessonIds), [progress.completedLessonIds]);
-  const sakura = useSakuraBurst();
 
-  const continueLessonId = useMemo(() => {
-    const last = progress.lastPlayedLessonId;
-    if (last && items.some((l) => l.lessonId === last && !l.locked)) return last;
-    const next = items.find((l) => !l.locked && !completedSet.has(l.lessonId));
-    return next?.lessonId ?? null;
-  }, [completedSet, items, progress.lastPlayedLessonId]);
+  // Find next playable node
+  const nextNodeId = useMemo(() => {
+    for (const item of items) {
+      if (item.type !== "node") continue;
+      if (!item.node.implemented) continue;
+      const lessonId = NODE_TO_LESSON_ID[item.node.id] ?? item.node.id;
+      if (!completedSet.has(lessonId)) return item.node.id;
+    }
+    return null;
+  }, [items, completedSet]);
 
-  const continueLesson = useMemo(() => {
-    if (!continueLessonId) return null;
-    return items.find((l) => l.lessonId === continueLessonId) ?? null;
-  }, [continueLessonId, items]);
-
-  const nextLessonId = useMemo(() => {
-    const next = items.find((l) => !l.locked && !completedSet.has(l.lessonId));
-    return next?.lessonId ?? null;
-  }, [completedSet, items]);
-
-  const offsets = useMemo(() => [-60, -30, 0, 30, 60, 30, 0, -30], []);
+  const offsets = useMemo(() => [-40, -20, 0, 20, 40, 20, 0, -20], []);
+  let nodeIndex = 0;
 
   const renderItem = useCallback(
-    ({ item, index }: { item: FlatRoadmapItem; index: number }) => {
-      const done = completedSet.has(item.lessonId);
-      const isNext = !item.locked && item.lessonId === nextLessonId;
-      const dx = offsets[index % offsets.length] ?? 0;
+    ({ item }: { item: RoadmapListItem }) => {
+      if (item.type === "unit_header") {
+        return (
+          <View style={styles.unitHeader}>
+            <Text style={styles.unitTitle}>{item.title}</Text>
+            <Text style={styles.unitTheme}>{item.theme}</Text>
+          </View>
+        );
+      }
 
-      // Orange coin icon: cycle through 4 types; locked uses muted coin
-      const iconPos = ICON_POSITIONS[index % ICON_POSITIONS.length];
-      // locked: desaturate with low opacity; done: slight dim
-      const coinOpacity = item.locked ? 0.45 : done ? 0.8 : 1;
+      const node = item.node;
+      const lessonId = NODE_TO_LESSON_ID[node.id] ?? node.id;
+      const done = completedSet.has(lessonId);
+      const isNext = node.id === nextNodeId;
+      const locked = !node.implemented && !done;
+
+      // Use a local counter for offset calculation
+      const idx = nodeIndex++;
+      const dx = offsets[idx % offsets.length] ?? 0;
+      const iconPos = ICON_POSITIONS[idx % ICON_POSITIONS.length];
+      const coinOpacity = locked ? 0.4 : done ? 0.75 : 1;
 
       return (
         <View style={[styles.nodeRow, { transform: [{ translateX: dx }] }]}>
-          {isNext ? (
+          {isNext && (
             <View style={styles.startTag}>
               <Text style={styles.startTagText}>START</Text>
             </View>
-          ) : null}
+          )}
 
           <Pressable
-            disabled={item.locked}
-            onPressIn={(e) => {
-              if (item.locked) return;
-              sakura.spawn(e.nativeEvent.pageX, e.nativeEvent.pageY);
+            disabled={locked}
+            onPress={() => {
+              if (locked) return;
+              navigation.navigate("LessonLaunch", { lessonId });
             }}
-            onPress={() => navigation.navigate("LessonLaunch", { lessonId: item.lessonId })}
             hitSlop={10}
             style={({ pressed }) => ({
               width: ICON_RENDER,
@@ -94,10 +89,9 @@ export function RoadmapHomeScreen({ navigation }: Props) {
               alignItems: "center" as const,
               justifyContent: "center" as const,
               opacity: coinOpacity,
-              transform: pressed && !item.locked ? [{ scale: 0.93 }] : [],
+              transform: pressed && !locked ? [{ scale: 0.93 }] : [],
             })}
           >
-            {/* Sprite crop: overflow:hidden clips to one icon */}
             <View style={{ width: ICON_RENDER, height: ICON_RENDER, overflow: "hidden", borderRadius: 999 }}>
               <Image
                 source={LESSON_ICONS_IMG}
@@ -110,62 +104,41 @@ export function RoadmapHomeScreen({ navigation }: Props) {
                 resizeMode="stretch"
               />
             </View>
-            {done && !item.locked ? (
-              <View pointerEvents="none" style={[styles.doneBadge, { bottom: 0 }]}>
+
+            {done && (
+              <View style={styles.doneBadge}>
                 <Text style={styles.doneBadgeText}>✓</Text>
               </View>
-            ) : null}
+            )}
           </Pressable>
 
-          <Text style={[styles.nodeTitle, item.locked && { color: theme.colors.textMuted }]} numberOfLines={2}>
-            {shortenTitle(item.title)}
+          <Text style={[styles.nodeTitle, locked && { color: theme.colors.textMuted }]} numberOfLines={2}>
+            {node.title}
           </Text>
         </View>
       );
     },
-    [completedSet, navigation, nextLessonId, offsets, sakura],
+    [completedSet, navigation, nextNodeId, offsets],
   );
+
+  // Reset nodeIndex before each render
+  nodeIndex = 0;
 
   return (
     <Screen style={{ backgroundColor: theme.colors.boardBg }} contentStyle={{ paddingTop: 4 }}>
-      {/* Roadmap-only: burst on any tap in this screen (bubble or blank space). */}
-      <View
-        style={{ flex: 1 }}
-        onTouchStart={(e) => {
-          // This does not run on other screens (WebView/board).
-          sakura.spawn(e.nativeEvent.pageX, e.nativeEvent.pageY);
-        }}
-      >
-      {!isLoaded ? <Text style={[styles.subtle, { marginTop: 6 }]}>読み込み中...</Text> : null}
-
-      {continueLesson ? (
-        <Card style={styles.continueCard}>
-          <Text style={styles.cardEyebrow}>つづきから</Text>
-          <Text style={styles.cardTitle} numberOfLines={2}>{continueLesson.title}</Text>
-          <Text style={styles.cardSub} numberOfLines={2}>
-            {continueLesson.subtitle || "次のレッスンを始めましょう。"}
-          </Text>
-          <View style={{ marginTop: theme.spacing.md }}>
-            <PrimaryButton
-              title="レッスンを開く"
-              onPress={() => navigation.navigate("LessonLaunch", { lessonId: continueLesson.lessonId })}
-              buttonStyle={styles.continueBtn}
-            />
-          </View>
-        </Card>
-      ) : null}
+      <View style={{ flex: 1 }}>
+        {!isLoaded && <Text style={styles.subtle}>読み込み中...</Text>}
 
         <View style={styles.roadmapWrap}>
           <FlatList
             data={items}
-            keyExtractor={(l) => l.lessonId}
-            contentContainerStyle={{ paddingTop: theme.spacing.lg, paddingBottom: 80 }}
+            keyExtractor={(item) => item.type === "unit_header" ? `header_${item.unitId}` : item.node.id}
+            contentContainerStyle={{ paddingTop: theme.spacing.sm, paddingBottom: 80 }}
             renderItem={renderItem}
-            ItemSeparatorComponent={() => <View style={{ height: 28 }} />}
+            ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
           />
         </View>
 
-        {/* 設定ボタン: 右下に固定 */}
         <Pressable
           onPress={() => navigation.navigate("Settings")}
           style={styles.settingsBtn}
@@ -179,57 +152,96 @@ export function RoadmapHomeScreen({ navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  subtle: { marginTop: 6, color: theme.colors.textMuted, fontWeight: "700" },
-  linkText: { fontWeight: "900", color: "#374151" },
+  subtle: { marginTop: 6, color: theme.colors.textMuted, fontWeight: "700", textAlign: "center" },
   settingsBtn: {
     position: "absolute",
-    bottom: theme.spacing.md,
-    right: 0,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    borderRadius: theme.radius.md,
-    backgroundColor: "rgba(255,255,255,0.75)",
-    minHeight: 44,
+    bottom: 4,
+    right: 2,
+    paddingHorizontal: 8,
+    paddingVertical: 5,
+    borderRadius: 6,
+    backgroundColor: "rgba(255,255,255,0.6)",
+    minHeight: 26,
     justifyContent: "center",
   },
-
-  continueCard: { marginTop: 0 },
-  cardEyebrow: { ...theme.typography.sub, color: theme.colors.textMuted },
-  cardTitle: { marginTop: 6, fontSize: 18, fontWeight: "900", color: theme.colors.text, letterSpacing: 0.2 },
-  cardSub: { marginTop: 8, color: theme.colors.textMuted, fontWeight: "700", lineHeight: 18 },
+  linkText: { fontWeight: "700", color: "#8B7355", fontSize: 11 },
 
   roadmapWrap: { flex: 1, marginTop: theme.spacing.xs },
 
+  // ── Unit Header ──
+  unitHeader: {
+    marginHorizontal: 0,
+    marginTop: 18,
+    marginBottom: 6,
+    paddingVertical: 14,
+    paddingHorizontal: 18,
+    backgroundColor: "#5D4037",
+    borderRadius: theme.radius.md,
+  },
+  unitTitle: {
+    fontSize: 18,
+    fontWeight: "900",
+    color: "#fff",
+    letterSpacing: 0.3,
+  },
+  unitTheme: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: "rgba(255,255,255,0.7)",
+    marginTop: 3,
+  },
+
+  // ── Node ──
   nodeRow: { alignItems: "center", justifyContent: "center" },
-  nodeTitle: { marginTop: 8, maxWidth: 220, textAlign: "center", fontSize: 13, fontWeight: "900", color: theme.colors.text },
+  nodeTitle: {
+    marginTop: 3,
+    maxWidth: 200,
+    textAlign: "center",
+    fontSize: 14,
+    fontWeight: "900",
+    color: "#3e2723",
+    lineHeight: 18,
+  },
+
+  typeBadge: {
+    position: "absolute",
+    left: 2,
+    top: 1,
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: "rgba(210,168,106,0.75)",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 0,
+  },
+  typeBadgeReview: { backgroundColor: "rgba(240,120,40,0.75)" },
+  typeBadgeBattle: { backgroundColor: "rgba(230,90,141,0.75)" },
+  typeBadgeText: { fontSize: 8 },
 
   doneBadge: {
     position: "absolute",
-    right: -2,
-    bottom: -2,
-    width: 24,
-    height: 24,
+    right: -1,
+    bottom: -1,
+    width: 18,
+    height: 18,
     borderRadius: 999,
-    backgroundColor: LESSON_BROWN,
+    backgroundColor: "#6d4c41",
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 2,
-    borderColor: theme.colors.surface,
-    ...theme.shadow.card,
+    borderWidth: 1.5,
+    borderColor: "#fff",
   },
-  doneBadgeText: { color: "#fff", fontWeight: "900", fontSize: 14, lineHeight: 14 },
+  doneBadgeText: { color: "#fff", fontWeight: "900", fontSize: 10 },
 
   startTag: {
-    marginBottom: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    marginBottom: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
     borderRadius: 999,
     backgroundColor: theme.colors.surfaceTint,
     borderWidth: 1,
     borderColor: theme.colors.border,
   },
-  startTagText: { fontSize: 11, fontWeight: "900", color: LESSON_BROWN_DARK, letterSpacing: 0.4 },
-  continueBtn: { backgroundColor: "#DB6010", borderBottomColor: "#a04508" },
+  startTagText: { fontSize: 9, fontWeight: "900", color: "#3e2723", letterSpacing: 0.3 },
 });
-
-
