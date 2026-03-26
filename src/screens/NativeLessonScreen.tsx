@@ -143,6 +143,7 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     state.showPromotion
       ? "成りますか？敵陣に入ると駒が強くなるぞ。"
       : state.feedback?.message ??
+        state.coachOverride ??
         currentStep?.coach_text ??
         currentStep?.instruction ??
         "問題に答えてね。";
@@ -226,7 +227,11 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
                     />
                     {/* Arrow overlay covers entire boardFrame */}
                     <ArrowOverlay
-                      arrows={state.feedback ? [] : (currentStep?.arrows ?? [])}
+                      arrows={state.feedback
+                        ? []
+                        : state.turnIndex === 1
+                          ? (state.coachOverride ? (currentStep?.second_arrows ?? []) : [])
+                          : (state.boardOverride ? [] : (currentStep?.arrows ?? []))}
                       cellSize={cellSize}
                       boardTopOffset={boardTopY}
                       senteHandCenterY={senteHandY}

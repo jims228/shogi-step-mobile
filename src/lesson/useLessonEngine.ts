@@ -14,13 +14,15 @@ import {
   advanceStep,
   selectSquare,
   selectHand,
+  applyWrong,
+  applySfenMove,
 } from "./LessonEngine";
 import { canPieceMove } from "./moveValidation";
 
 /** ms to show wrong feedback before clearing it */
 const CLEAR_FEEDBACK_MS = 700;
 /** ms to wait before showing opponent's auto response */
-const AUTO_RESPONSE_MS = 600;
+const AUTO_RESPONSE_MS = 800;
 
 export function useLessonEngine(lessonData: LessonData) {
   const [state, setState] = useState<LessonState>(() => startLesson(lessonData));
@@ -96,16 +98,43 @@ export function useLessonEngine(lessonData: LessonData) {
    * After a correct answer, if the step has auto_response,
    * show the player's move first, then after a delay show opponent's response.
    */
-  const scheduleAutoResponse = useCallback((step: LessonStep) => {
-    if (!step.auto_response || !step.after_response_sfen) return;
+  const scheduleAutoResponse = useCallback((step: LessonStep, turn: number) => {
+    const isSecondTurn = turn === 1;
+    const autoResp = isSecondTurn ? step.second_auto_response : step.auto_response;
+    const afterSfen = isSecondTurn ? step.second_after_response_sfen : step.after_response_sfen;
+    const afterText = isSecondTurn ? step.second_after_response_text : step.after_response_text;
+
+    if (!autoResp || !afterSfen) return;
+
+    // Block input and hide feedback until auto_response completes
+    setState(prev => ({ ...prev, feedback: null, waitingAutoResponse: true }));
     autoResponseTimerRef.current = setTimeout(() => {
       autoResponseTimerRef.current = null;
+
+      // After first turn's auto_response: if second_move exists, open turn 1
+      if (!isSecondTurn && step.second_move) {
+        setState(prev => ({
+          ...prev,
+          boardOverride: afterSfen!,
+          coachOverride: afterText ?? null,
+          turnIndex: 1,
+          waitingAutoResponse: false,
+          feedback: null,
+          selectedSquare: null,
+          selectedHand: null,
+        }));
+        return;
+      }
+
+      // Final: show feedback (footer slides in)
       setState(prev => ({
         ...prev,
-        boardOverride: step.after_response_sfen!,
-        feedback: step.after_response_text
-          ? { type: "correct", message: step.after_response_text }
-          : prev.feedback,
+        boardOverride: afterSfen!,
+        waitingAutoResponse: false,
+        feedback: {
+          type: "correct",
+          message: afterText ?? step.success_text ?? "正解！",
+        },
       }));
     }, AUTO_RESPONSE_MS);
   }, []);
@@ -115,6 +144,7 @@ export function useLessonEngine(lessonData: LessonData) {
       if (!currentStep || state.completed || state.failed) return;
       if (state.feedback?.type === "correct") return;
       if (state.showPromotion) return;
+      if (state.waitingAutoResponse) return;
 
       const pos = { row, col };
 
@@ -187,17 +217,47 @@ export function useLessonEngine(lessonData: LessonData) {
           return;
         }
 
-        // Legal move → check if correct
-        const result = submitMove(state, lessonData, state.selectedSquare, pos);
-        setState(result.nextState);
-        clearTimer();
-        if (result.correct) {
-          scheduleAutoResponse(currentStep);
+        // Legal move → check if correct (use second_move on turn 1)
+        if (state.turnIndex === 1 && currentStep.second_move) {
+          const cm = currentStep.second_move;
+          const correctFrom = cm.from;
+          const isFromOk = "row" in correctFrom
+            && state.selectedSquare.row === correctFrom.row
+            && state.selectedSquare.col === correctFrom.col;
+          const isCorrect = isFromOk && pos.row === cm.to.row && pos.col === cm.to.col;
+
+          if (isCorrect) {
+            const newSfen = applySfenMove(state.boardOverride ?? currentStep.board_sfen, state.selectedSquare, pos);
+            setState(prev => ({
+              ...prev,
+              boardOverride: newSfen,
+              coachOverride: null,
+              selectedSquare: null,
+              score: prev.score + 1,
+            }));
+            clearTimer();
+            scheduleAutoResponse(currentStep, 1);
+          } else {
+            const result = applyWrong(state, lessonData);
+            setState(result.nextState);
+            clearTimer();
+            feedbackTimerRef.current = setTimeout(() => {
+              feedbackTimerRef.current = null;
+              setState(prev => ({ ...prev, feedback: null, selectedSquare: null }));
+            }, CLEAR_FEEDBACK_MS);
+          }
         } else {
-          feedbackTimerRef.current = setTimeout(() => {
-            feedbackTimerRef.current = null;
-            setState(prev => ({ ...prev, feedback: null, selectedSquare: null }));
-          }, CLEAR_FEEDBACK_MS);
+          const result = submitMove(state, lessonData, state.selectedSquare, pos);
+          setState(result.nextState);
+          clearTimer();
+          if (result.correct) {
+            scheduleAutoResponse(currentStep, 0);
+          } else {
+            feedbackTimerRef.current = setTimeout(() => {
+              feedbackTimerRef.current = null;
+              setState(prev => ({ ...prev, feedback: null, selectedSquare: null }));
+            }, CLEAR_FEEDBACK_MS);
+          }
         }
         return;
       }
@@ -209,6 +269,7 @@ export function useLessonEngine(lessonData: LessonData) {
     (pieceType: PieceType) => {
       if (!currentStep || state.completed || state.failed) return;
       if (state.feedback?.type === "correct") return;
+      if (state.waitingAutoResponse) return;
       if (currentStep.type !== "move") return;
 
       if (state.selectedHand === pieceType) {

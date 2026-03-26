@@ -62,6 +62,18 @@ export type LessonStep = {
   /** Coach text to show after auto_response. */
   after_response_text?: string;
 
+  // ── second move (2nd turn within same step) ──
+  /** Second move the player must make (after auto_response). */
+  second_move?: { from: MoveFrom; to: Position };
+  /** Arrows to show for second move. */
+  second_arrows?: { from: [number, number] | string; to: [number, number]; color?: string }[];
+  /** Opponent's auto response after second move. */
+  second_auto_response?: { from: Position; to: Position };
+  /** Board SFEN after second auto_response. */
+  second_after_response_sfen?: string;
+  /** Coach text after second auto_response. */
+  second_after_response_text?: string;
+
   // ── common ──
   /** Message shown on correct answer. */
   success_text?: string;
@@ -141,6 +153,12 @@ export type LessonState = {
   feedback: FeedbackState;
   /** Board SFEN override after a correct move (shows piece in new position). */
   boardOverride: string | null;
+  /** Temporary coach text override (e.g. after auto_response before second move). */
+  coachOverride: string | null;
+  /** Current turn within a multi-turn step (0 = first move, 1 = second move). */
+  turnIndex: number;
+  /** True while waiting for opponent's auto response (block player input). */
+  waitingAutoResponse: boolean;
   /** Whether promotion dialog is showing. */
   showPromotion: boolean;
   /** Pending move waiting for promotion decision. */

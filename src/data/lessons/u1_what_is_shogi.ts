@@ -25,20 +25,34 @@ export const U1_WHAT_IS_SHOGI: LessonData = {
     {
       id: "first_move",
       type: "move",
-      board_sfen: "lnsgkgsnl/1r5b1/p1ppppppp/9/9/9/PPSPPPPPP/1B5R1/LNSGKGSNL b - 1",
+      board_sfen: "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1",
       instruction: "歩を一つ前に進めよう！",
       coach_text: "これが将棋の初期配置じゃ。先手と後手の二人でプレイするぞ。",
-      arrows: [{ from: [6, 6], to: [5, 6] }],
+      arrows: [{ from: [6, 7], to: [5, 7] }],
       correct_move: {
-        from: { row: 6, col: 6 },
-        to: { row: 5, col: 6 },
+        from: { row: 6, col: 7 },
+        to: { row: 5, col: 7 },
       },
+      // 1st auto response: opponent plays 84歩
       auto_response: {
-        from: { row: 2, col: 6 },
-        to: { row: 3, col: 6 },
+        from: { row: 2, col: 1 },
+        to: { row: 3, col: 1 },
       },
-      after_response_sfen: "lnsgkgsnl/1r5b1/p1pppppp1/6p2/9/6P2/PPSPP1PPP/1B5R1/LNSGKGSNL b - 3",
-      after_response_text: "先手が指したら後手が指す！これが将棋の流れじゃ。",
+      after_response_sfen: "lnsgkgsnl/1r5b1/p1ppppppp/1p7/9/7P1/PPPPPPP1P/1B5R1/LNSGKGSNL b - 3",
+      after_response_text: "先手が指したら後手が指す！もう一手進めよう。",
+      // 2nd turn: player plays 25歩
+      second_move: {
+        from: { row: 5, col: 7 },
+        to: { row: 4, col: 7 },
+      },
+      second_arrows: [{ from: [5, 7], to: [4, 7] }],
+      // 2nd auto response: opponent plays 85歩
+      second_auto_response: {
+        from: { row: 3, col: 1 },
+        to: { row: 4, col: 1 },
+      },
+      second_after_response_sfen: "lnsgkgsnl/1r5b1/p1ppppppp/9/1p5P1/9/PPPPPPP1P/1B5R1/LNSGKGSNL b - 5",
+      second_after_response_text: "交互に指していく。これが将棋じゃ！",
       success_text: "よし！歩を進めたな。",
       fail_text: "矢印の方向に歩を進めてみよう。",
     },

@@ -13,6 +13,9 @@ export function startLesson(_data: LessonData): LessonState {
     selectedHand: null,
     feedback: null,
     boardOverride: null,
+    coachOverride: null,
+    turnIndex: 0,
+    waitingAutoResponse: false,
     showPromotion: false,
     pendingMove: null,
   };
@@ -45,7 +48,7 @@ function applyCorrect(
   };
 }
 
-function applyWrong(
+export function applyWrong(
   state: LessonState,
   data: LessonData,
 ): { correct: false; nextState: LessonState } {
@@ -72,7 +75,7 @@ function applyWrong(
 
 // ── SFEN move helper ──
 
-function applySfenMove(sfen: string, from: Position, to: Position): string {
+export function applySfenMove(sfen: string, from: Position, to: Position): string {
   const boardPart = sfen.split(" ")[0] ?? sfen;
   const rest = sfen.substring(boardPart.length);
   const rows = boardPart.split("/");
@@ -272,7 +275,7 @@ export function advanceStep(
 ): LessonState {
   const nextIndex = state.currentStepIndex + 1;
   if (nextIndex >= data.steps.length) {
-    return { ...state, completed: true, feedback: null, selectedSquare: null, selectedHand: null, boardOverride: null, showPromotion: false, pendingMove: null };
+    return { ...state, completed: true, feedback: null, selectedSquare: null, selectedHand: null, boardOverride: null, coachOverride: null, turnIndex: 0, showPromotion: false, pendingMove: null };
   }
   return {
     ...state,
@@ -281,6 +284,9 @@ export function advanceStep(
     selectedSquare: null,
     selectedHand: null,
     boardOverride: null,
+    coachOverride: null,
+    turnIndex: 0,
+    waitingAutoResponse: false,
     showPromotion: false,
     pendingMove: null,
   };
