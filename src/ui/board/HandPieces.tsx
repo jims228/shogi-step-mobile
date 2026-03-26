@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import type { HandPieces as HandPiecesType, PieceType, Side } from "./types";
 import { Piece } from "./Piece";
 
-const PIECE_ORDER: PieceType[] = ["hi", "ka", "ki", "gi", "ke", "ky", "fu"];
+const PIECE_ORDER: PieceType[] = ["fu", "ky", "ke", "gi", "ki", "ka", "hi"];
 
 type HandBarProps = {
   hand: HandPiecesType;
@@ -21,7 +21,7 @@ function HandBar({ hand, side, cellSize, label, interactive, selectedPiece, onPr
     .filter((p) => (hand[p] ?? 0) > 0)
     .map((p) => ({ piece: p, count: hand[p]! }));
 
-  const slotSize = Math.floor(cellSize * 0.7);
+  const slotSize = Math.floor(cellSize * 0.95);
 
   return (
     <View style={styles.bar}>
@@ -37,7 +37,7 @@ function HandBar({ hand, side, cellSize, label, interactive, selectedPiece, onPr
                 key={piece}
                 onPressIn={interactive && onPress ? () => onPress(piece) : undefined}
                 disabled={!interactive}
-                style={[styles.slot, isSelected && styles.slotSelected]}
+                style={styles.slot}
               >
                 <View style={isSelected ? styles.pieceEmphasized : undefined}>
                   <Piece piece={piece} side={side} promoted={false} size={slotSize} />
@@ -98,7 +98,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingTop: 16,
+    paddingBottom: 8,
     height: 46,
     backgroundColor: "#D2A86A",
   },
@@ -112,6 +113,7 @@ const styles = StyleSheet.create({
   pieces: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     gap: 2,
     flex: 1,
   },

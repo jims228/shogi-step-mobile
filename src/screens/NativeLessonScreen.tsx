@@ -17,6 +17,7 @@ import {
 import { CompareOptions } from "../ui/lesson/CompareOptions";
 import { LESSON_LAYOUT, LESSON_COLORS } from "../ui/lesson/lessonSpacing";
 import { ShogiBoard, SenteHandBar, GoteHandBar, PromotionOverlay } from "../ui/board";
+import { ArrowOverlay } from "../ui/board/ArrowOverlay";
 import { parseSFENFull } from "../ui/board/sfen";
 import { theme } from "../ui/theme";
 
@@ -38,6 +39,7 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     progress,
     handleSquarePress,
     handleHandPress,
+    handleDeselect,
     handlePromotion,
     handleQuizAnswer,
     handleCompareAnswer,
@@ -174,7 +176,7 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     <Screen pad={false} edges={["top", "bottom", "left", "right"]}>
       <View style={styles.root}>
         <LessonHeader progress={progress} lives={state.lives} onClose={onClose} />
-        <View style={styles.content}>
+        <Pressable style={styles.content} onPressIn={handleDeselect}>
           {mascotNode}
           {dialogueRowNode}
           <BoardArea style={styles.boardArea}>
@@ -187,34 +189,52 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
                 setBoardSlotSize((prev) => (prev.w === w && prev.h === h ? prev : { w, h }));
               }}
             >
-              {boardSize > 0 && cellSize > 0 && (
-                <View style={styles.boardFrame}>
-                  <GoteHandBar hand={goteHand} cellSize={cellSize} />
-                  <View style={styles.gridLine} />
-                  <View>
-                    <ShogiBoard
-                      boardState={boardState}
-                      size={boardSize}
-                      highlights={highlights}
-                      arrows={state.feedback ? [] : currentStep?.arrows}
-                      selectedSquare={state.selectedSquare}
-                      onSquarePress={onSquarePress}
+              {boardSize > 0 && cellSize > 0 && (() => {
+                const HAND_BAR_H = 46;
+                const GRID_LINE_H = 2.5;
+                const boardTopY = HAND_BAR_H + GRID_LINE_H;
+                const boardBottomY = boardTopY + boardSize;
+                const senteHandY = boardBottomY + GRID_LINE_H + HAND_BAR_H / 2;
+                // Ordered pieces currently in sente hand
+                const PIECE_ORDER_ARR: import("../ui/board/types").PieceType[] = ["fu", "ky", "ke", "gi", "ki", "ka", "hi"];
+                const senteHandPieces = PIECE_ORDER_ARR.filter(p => (senteHand[p] ?? 0) > 0);
+
+                return (
+                  <View style={styles.boardFrame}>
+                    <GoteHandBar hand={goteHand} cellSize={cellSize} />
+                    <View style={styles.gridLine} />
+                    <View>
+                      <ShogiBoard
+                        boardState={boardState}
+                        size={boardSize}
+                        highlights={highlights}
+                        selectedSquare={state.selectedSquare}
+                        onSquarePress={onSquarePress}
+                      />
+                      <PromotionOverlay
+                        visible={state.showPromotion}
+                        onPromote={() => handlePromotion(true)}
+                        onDecline={() => handlePromotion(false)}
+                      />
+                    </View>
+                    <View style={styles.gridLine} />
+                    <SenteHandBar
+                      hand={senteHand}
+                      cellSize={cellSize}
+                      selectedPiece={state.selectedHand}
+                      onPress={handleHandPress}
                     />
-                    <PromotionOverlay
-                      visible={state.showPromotion}
-                      onPromote={() => handlePromotion(true)}
-                      onDecline={() => handlePromotion(false)}
+                    {/* Arrow overlay covers entire boardFrame */}
+                    <ArrowOverlay
+                      arrows={state.feedback ? [] : (currentStep?.arrows ?? [])}
+                      cellSize={cellSize}
+                      boardTopOffset={boardTopY}
+                      senteHandCenterY={senteHandY}
+                      senteHandPieces={senteHandPieces}
                     />
                   </View>
-                  <View style={styles.gridLine} />
-                  <SenteHandBar
-                    hand={senteHand}
-                    cellSize={cellSize}
-                    selectedPiece={state.selectedHand}
-                    onPress={handleHandPress}
-                  />
-                </View>
-              )}
+                );
+              })()}
             </View>
           </BoardArea>
 
@@ -245,7 +265,7 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
               onSelect={onCompareSelect}
             />
           )}
-        </View>
+        </Pressable>
         <LessonFooter
           nextLabel={nextLabel}
           onNext={onNext}
@@ -307,7 +327,7 @@ const styles = StyleSheet.create({
   // ── Speech bubble (absolute, top-right) ──
   bubbleRow: {
     position: "absolute",
-    top: -10,
+    top: -20,
     left: 55,
     right: 12,
     zIndex: 5,

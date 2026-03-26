@@ -5,7 +5,7 @@ import { theme } from "../theme";
 import { LESSON_COLORS } from "../lesson/lessonSpacing";
 import { Piece } from "./Piece";
 import { HighlightOverlay } from "./HighlightOverlay";
-import { ArrowOverlay, type ArrowDef } from "./ArrowOverlay";
+// ArrowOverlay moved to NativeLessonScreen (needs boardFrame-level coordinates)
 import type { BoardState, HighlightSquare } from "./types";
 
 /** Column labels: 9 (right) to 1 (left), displayed above the board. */
@@ -29,14 +29,12 @@ type Props = {
   /** Total size of the board (excluding labels). The board is always square. */
   size: number;
   highlights?: HighlightSquare[];
-  /** Arrows to draw on the board. */
-  arrows?: ArrowDef[];
   /** Currently selected square (piece will be emphasized). */
   selectedSquare?: { row: number; col: number } | null;
   onSquarePress?: (row: number, col: number) => void;
 };
 
-export function ShogiBoard({ boardState, size, highlights = [], arrows = [], selectedSquare, onSquarePress }: Props) {
+export function ShogiBoard({ boardState, size, highlights = [], selectedSquare, onSquarePress }: Props) {
   const cellSize = Math.floor(size / 9);
   const boardSize = cellSize * 9;
   const labelSize = cellSize * 0.32;
@@ -128,7 +126,6 @@ export function ShogiBoard({ boardState, size, highlights = [], arrows = [], sel
             />
           ))}
           <HighlightOverlay highlights={highlights} cellSize={cellSize} />
-          <ArrowOverlay arrows={arrows} cellSize={cellSize} />
         </View>
 
         {/* Row labels (right) — commented out
@@ -148,6 +145,7 @@ export function ShogiBoard({ boardState, size, highlights = [], arrows = [], sel
 const styles = StyleSheet.create({
   container: {
     alignItems: "flex-start",
+    overflow: "visible",
   },
   colLabels: {
     flexDirection: "row",

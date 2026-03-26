@@ -24,7 +24,7 @@ export const LESSON_LAYOUT = {
   /** How far the mascot is pulled left beyond the screen edge */
   mascotPullLeft: 45,
   /** Bubble top margin — aligns bubble with the mascot's face */
-  bubbleOffsetTop: 40,
+  bubbleOffsetTop: 25,
   /** Vertical gap between dialogue row and board area */
   dialogueToBoardGap: 4,
   /** Extra horizontal margin to reserve for board coordinate labels */
