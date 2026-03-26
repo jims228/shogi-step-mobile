@@ -26,6 +26,15 @@ import { U3_PROMOTE_POWER } from "./u3_promote_power";
 import { U3_NIFU } from "./u3_nifu";
 import { U3_COMPARE_DROP_VS_MOVE } from "./u3_compare_drop_vs_move";
 import { U3_REVIEW } from "./u3_review";
+import { U4_WHAT_IS_MATE } from "./u4_what_is_mate";
+import { U4_HEAD_GOLD } from "./u4_head_gold";
+import { U4_BELLY_GOLD } from "./u4_belly_gold";
+import { U4_TSUME_GOLD_SILVER } from "./u4_tsume_gold_silver";
+import { U4_TSUME_ROOK_BISHOP } from "./u4_tsume_rook_bishop";
+import { U4_TSUME_DROP } from "./u4_tsume_drop";
+import { U4_COMPARE_CHECK_VS_MATE } from "./u4_compare_check_vs_mate";
+import { U4_TSUME_MIX } from "./u4_tsume_mix";
+import { U4_REVIEW } from "./u4_review";
 import { TESUJI_PAWN_TATAKI_L1 } from "./tesuji_pawn_tataki_l1";
 import { TESUJI_PAWN_RENDA_L1 } from "./tesuji_pawn_renda_l1";
 import { TESUJI_PAWN_HIKAE_L1 } from "./tesuji_pawn_hikae_l1";
@@ -98,6 +107,15 @@ const NATIVE_LESSONS: Record<string, LessonData> = {
   [U3_NIFU.id]: U3_NIFU,
   [U3_COMPARE_DROP_VS_MOVE.id]: U3_COMPARE_DROP_VS_MOVE,
   [U3_REVIEW.id]: U3_REVIEW,
+  [U4_WHAT_IS_MATE.id]: U4_WHAT_IS_MATE,
+  [U4_HEAD_GOLD.id]: U4_HEAD_GOLD,
+  [U4_BELLY_GOLD.id]: U4_BELLY_GOLD,
+  [U4_TSUME_GOLD_SILVER.id]: U4_TSUME_GOLD_SILVER,
+  [U4_TSUME_ROOK_BISHOP.id]: U4_TSUME_ROOK_BISHOP,
+  [U4_TSUME_DROP.id]: U4_TSUME_DROP,
+  [U4_COMPARE_CHECK_VS_MATE.id]: U4_COMPARE_CHECK_VS_MATE,
+  [U4_TSUME_MIX.id]: U4_TSUME_MIX,
+  [U4_REVIEW.id]: U4_REVIEW,
   [TESUJI_PAWN_TATAKI_L1.id]: TESUJI_PAWN_TATAKI_L1,
   [TESUJI_PAWN_RENDA_L1.id]: TESUJI_PAWN_RENDA_L1,
   [TESUJI_PAWN_HIKAE_L1.id]: TESUJI_PAWN_HIKAE_L1,

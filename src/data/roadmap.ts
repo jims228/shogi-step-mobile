@@ -78,15 +78,15 @@ export const ROADMAP_NODES: RoadmapNode[] = [
   { id: "u3_battle", title: "持ち駒付き対局", unitId: "u3", nodeType: "battle", description: "持ち駒を使えるガイド対局", implemented: false },
 
   // ── Unit 4 ──
-  { id: "u4_what_is_mate", title: "詰みってなに？", unitId: "u4", nodeType: "lesson", description: "詰みの概念", implemented: false },
-  { id: "u4_head_gold", title: "頭金で詰ます", unitId: "u4", nodeType: "lesson", description: "基本の1手詰め", implemented: false },
-  { id: "u4_belly_gold", title: "腹金で詰ます", unitId: "u4", nodeType: "lesson", description: "横からの金で詰ます", implemented: false },
-  { id: "u4_tsume_gold_silver", title: "1手詰め：金銀編", unitId: "u4", nodeType: "lesson", description: "金・銀の1手詰め", implemented: false },
-  { id: "u4_tsume_rook_bishop", title: "1手詰め：大駒編", unitId: "u4", nodeType: "lesson", description: "飛車・角の1手詰め", implemented: false },
-  { id: "u4_tsume_drop", title: "1手詰め：持ち駒", unitId: "u4", nodeType: "lesson", description: "持ち駒を打って詰ます", implemented: false },
-  { id: "u4_compare_check_vs_mate", title: "王手と詰みの違い", unitId: "u4", nodeType: "lesson", description: "逃げられる vs 逃げられない", implemented: false },
-  { id: "u4_tsume_mix", title: "1手詰めチャレンジ", unitId: "u4", nodeType: "lesson", description: "混合1手詰め", implemented: false },
-  { id: "u4_review", title: "Unit 4 まとめ", unitId: "u4", nodeType: "review", description: "1手詰め復習", implemented: false },
+  { id: "u4_what_is_mate", title: "詰みってなに？", unitId: "u4", nodeType: "lesson", description: "詰みの概念", implemented: true },
+  { id: "u4_head_gold", title: "頭金で詰ます", unitId: "u4", nodeType: "lesson", description: "基本の1手詰め", implemented: true },
+  { id: "u4_belly_gold", title: "腹金で詰ます", unitId: "u4", nodeType: "lesson", description: "横からの金で詰ます", implemented: true },
+  { id: "u4_tsume_gold_silver", title: "1手詰め：金銀編", unitId: "u4", nodeType: "lesson", description: "金・銀の1手詰め", implemented: true },
+  { id: "u4_tsume_rook_bishop", title: "1手詰め：大駒編", unitId: "u4", nodeType: "lesson", description: "飛車・角の1手詰め", implemented: true },
+  { id: "u4_tsume_drop", title: "1手詰め：持ち駒", unitId: "u4", nodeType: "lesson", description: "持ち駒を打って詰ます", implemented: true },
+  { id: "u4_compare_check_vs_mate", title: "王手と詰みの違い", unitId: "u4", nodeType: "lesson", description: "逃げられる vs 逃げられない", implemented: true },
+  { id: "u4_tsume_mix", title: "1手詰めチャレンジ", unitId: "u4", nodeType: "lesson", description: "混合1手詰め", implemented: true },
+  { id: "u4_review", title: "Unit 4 まとめ", unitId: "u4", nodeType: "review", description: "1手詰め復習", implemented: true },
   { id: "u4_battle", title: "詰ませてみよう", unitId: "u4", nodeType: "battle", description: "詰みチャンスが来る対局", implemented: false },
 
   // ── Unit 5 ──
