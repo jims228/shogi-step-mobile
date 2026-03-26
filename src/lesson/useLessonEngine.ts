@@ -1,27 +1,28 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { parseSFEN } from "../ui/board/sfen";
-import type { BoardState, HighlightSquare } from "../ui/board/types";
+import type { BoardState, HighlightSquare, PieceType } from "../ui/board/types";
 import type { LessonData, LessonState, LessonStep } from "./types";
 import {
   startLesson,
   submitMove,
   submitTap,
   submitQuiz,
+  submitCompare,
+  submitDrop,
+  submitPromotion,
   advanceStep,
   selectSquare,
+  selectHand,
 } from "./LessonEngine";
 
-/** ms to show correct feedback before auto-advancing (move/tap_square steps) */
-const AUTO_ADVANCE_MS = 600;
-/** ms to show wrong feedback before clearing it (move/tap_square steps) */
+/** ms to show wrong feedback before clearing it */
 const CLEAR_FEEDBACK_MS = 700;
 
 export function useLessonEngine(lessonData: LessonData) {
   const [state, setState] = useState<LessonState>(() => startLesson(lessonData));
   const feedbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Clean up any pending timer on unmount
   useEffect(() => {
     return () => {
       if (feedbackTimerRef.current !== null) clearTimeout(feedbackTimerRef.current);
@@ -37,34 +38,39 @@ export function useLessonEngine(lessonData: LessonData) {
       : 0;
 
   const boardState: BoardState = useMemo(
-    () => parseSFEN(currentStep?.board_sfen ?? "9/9/9/9/9/9/9/9/9"),
-    [currentStep?.board_sfen],
+    () => parseSFEN(state.boardOverride ?? currentStep?.board_sfen ?? "9/9/9/9/9/9/9/9/9"),
+    [state.boardOverride, currentStep?.board_sfen],
   );
 
   const highlights: HighlightSquare[] = useMemo(() => {
     const result: HighlightSquare[] = [];
 
-    // Show hint highlights from step data
+    if (state.feedback) {
+      const fbType = state.feedback.type === "correct" ? "correct" : "wrong";
+      if (currentStep?.type === "tap_square" && currentStep.correct_square) {
+        const squares = Array.isArray(currentStep.correct_square)
+          ? currentStep.correct_square
+          : [currentStep.correct_square];
+        if (fbType === "correct") {
+          for (const sq of squares) {
+            result.push({ position: sq, type: "correct" });
+          }
+        }
+      }
+      if (currentStep?.type === "move" && currentStep.correct_move && "row" in currentStep.correct_move.to) {
+        result.push({ position: currentStep.correct_move.to, type: fbType });
+      }
+      return result;
+    }
+
     if (currentStep?.highlights) {
       for (const pos of currentStep.highlights) {
         result.push({ position: pos, type: "movable" });
       }
     }
 
-    // Show selected square
     if (state.selectedSquare) {
       result.push({ position: state.selectedSquare, type: "lastMove" });
-    }
-
-    // Show correct/wrong feedback on the relevant square
-    if (state.feedback) {
-      const fbType = state.feedback.type === "correct" ? "correct" : "wrong";
-      if (currentStep?.type === "tap_square" && currentStep.correct_square) {
-        result.push({ position: currentStep.correct_square, type: fbType });
-      }
-      if (currentStep?.type === "move" && currentStep.correct_move) {
-        result.push({ position: currentStep.correct_move.to, type: fbType });
-      }
     }
 
     return result;
@@ -80,7 +86,8 @@ export function useLessonEngine(lessonData: LessonData) {
   const handleSquarePress = useCallback(
     (row: number, col: number) => {
       if (!currentStep || state.completed || state.failed) return;
-      if (state.feedback?.type === "correct") return; // auto-advance in progress
+      if (state.feedback?.type === "correct") return;
+      if (state.showPromotion) return;
 
       const pos = { row, col };
 
@@ -88,14 +95,7 @@ export function useLessonEngine(lessonData: LessonData) {
         const result = submitTap(state, lessonData, pos);
         setState(result.nextState);
         clearTimer();
-        if (result.correct) {
-          // Auto-advance after showing correct feedback
-          feedbackTimerRef.current = setTimeout(() => {
-            feedbackTimerRef.current = null;
-            setState(prev => advanceStep(prev, lessonData));
-          }, AUTO_ADVANCE_MS);
-        } else {
-          // Auto-clear wrong feedback so user can try again
+        if (!result.correct) {
           feedbackTimerRef.current = setTimeout(() => {
             feedbackTimerRef.current = null;
             setState(prev => ({ ...prev, feedback: null }));
@@ -105,24 +105,34 @@ export function useLessonEngine(lessonData: LessonData) {
       }
 
       if (currentStep.type === "move") {
+        // Drop from hand
+        if (state.selectedHand) {
+          const result = submitDrop(state, lessonData, state.selectedHand, pos);
+          setState(result.nextState);
+          clearTimer();
+          if (!result.correct) {
+            feedbackTimerRef.current = setTimeout(() => {
+              feedbackTimerRef.current = null;
+              setState(prev => ({ ...prev, feedback: null }));
+            }, CLEAR_FEEDBACK_MS);
+          }
+          return;
+        }
+
+        // Select piece
         if (!state.selectedSquare) {
-          // First tap: select the piece
           const piece = boardState[row]?.[col];
           if (piece && piece.side === "sente") {
             setState(selectSquare(state, pos));
           }
           return;
         }
-        // Second tap: attempt the move
+
+        // Move piece
         const result = submitMove(state, lessonData, state.selectedSquare, pos);
         setState(result.nextState);
         clearTimer();
-        if (result.correct) {
-          feedbackTimerRef.current = setTimeout(() => {
-            feedbackTimerRef.current = null;
-            setState(prev => advanceStep(prev, lessonData));
-          }, AUTO_ADVANCE_MS);
-        } else {
+        if (!result.correct) {
           feedbackTimerRef.current = setTimeout(() => {
             feedbackTimerRef.current = null;
             setState(prev => ({ ...prev, feedback: null }));
@@ -130,10 +140,31 @@ export function useLessonEngine(lessonData: LessonData) {
         }
         return;
       }
-
-      // explain / quiz: tap fires but no action needed (safe no-op)
     },
     [currentStep, state, lessonData, boardState],
+  );
+
+  const handleHandPress = useCallback(
+    (pieceType: PieceType) => {
+      if (!currentStep || state.completed || state.failed) return;
+      if (state.feedback?.type === "correct") return;
+      if (currentStep.type !== "move") return;
+
+      if (state.selectedHand === pieceType) {
+        setState(prev => ({ ...prev, selectedHand: null }));
+      } else {
+        setState(selectHand(state, pieceType));
+      }
+    },
+    [currentStep, state],
+  );
+
+  const handlePromotion = useCallback(
+    (promote: boolean) => {
+      const result = submitPromotion(state, lessonData, promote);
+      setState(result.nextState);
+    },
+    [state, lessonData],
   );
 
   const handleQuizAnswer = useCallback(
@@ -143,6 +174,24 @@ export function useLessonEngine(lessonData: LessonData) {
 
       const result = submitQuiz(state, lessonData, answerIndex);
       setState(result.nextState);
+    },
+    [currentStep, state, lessonData],
+  );
+
+  const handleCompareAnswer = useCallback(
+    (answerIndex: number) => {
+      if (!currentStep || state.completed || state.failed) return;
+      if (currentStep.type !== "compare") return;
+
+      const result = submitCompare(state, lessonData, answerIndex);
+      setState(result.nextState);
+      clearTimer();
+      if (!result.correct) {
+        feedbackTimerRef.current = setTimeout(() => {
+          feedbackTimerRef.current = null;
+          setState(prev => ({ ...prev, feedback: null }));
+        }, CLEAR_FEEDBACK_MS);
+      }
     },
     [currentStep, state, lessonData],
   );
@@ -165,7 +214,10 @@ export function useLessonEngine(lessonData: LessonData) {
     highlights,
     progress,
     handleSquarePress,
+    handleHandPress,
+    handlePromotion,
     handleQuizAnswer,
+    handleCompareAnswer,
     handleNext,
     restart,
   };

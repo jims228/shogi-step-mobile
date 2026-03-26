@@ -20,9 +20,10 @@ type Props = {
   nextLabel: string;
   onNext: () => void;
   disabled: boolean;
+  successMessage?: string;
 };
 
-export function LessonFooter({ nextLabel, onNext, disabled }: Props) {
+export function LessonFooter({ nextLabel, onNext, disabled, successMessage }: Props) {
   const slideAnim = useRef(new Animated.Value(disabled ? SLIDE_DISTANCE : 0)).current;
 
   useEffect(() => {
@@ -43,7 +44,7 @@ export function LessonFooter({ nextLabel, onNext, disabled }: Props) {
       style={[styles.footer, { transform: [{ translateY: slideAnim }] }]}
     >
       <View style={styles.successRow}>
-        <Text style={styles.successText}>正解！やったね！</Text>
+        <Text style={styles.successText}>正解！次へ進もう！</Text>
       </View>
       <View style={styles.inner}>
         <PrimaryButton

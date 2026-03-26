@@ -22,11 +22,15 @@ type Props = {
 export function HighlightOverlay({ highlights, cellSize }: Props) {
   if (highlights.length === 0) return null;
 
+  // Filter out highlights handled elsewhere (correct=boardOverride, lastMove=piece emphasis)
+  const visibleHighlights = highlights.filter((h) => h.type !== "correct" && h.type !== "lastMove");
+  if (visibleHighlights.length === 0) return null;
+
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="none">
-      {highlights.map((h) => (
+      {visibleHighlights.map((h, i) => (
         <View
-          key={`${h.position.row}-${h.position.col}`}
+          key={`${h.type}-${h.position.row}-${h.position.col}-${i}`}
           style={[
             styles.highlight,
             {

@@ -1,4 +1,4 @@
-import type { BoardPiece, BoardState, PieceType } from "./types";
+import type { BoardPiece, BoardState, HandPieces, PieceType } from "./types";
 
 const SFEN_TO_PIECE: Record<string, PieceType> = {
   P: "fu",
@@ -11,15 +11,61 @@ const SFEN_TO_PIECE: Record<string, PieceType> = {
   K: "ou",
 };
 
+export type ParsedSFEN = {
+  board: BoardState;
+  hand: HandPieces;
+};
+
+/**
+ * Parse a SFEN string into board state and hand pieces.
+ *
+ * SFEN format: "board side hand movecount"
+ * Example: "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b P2g 1"
+ *
+ * Hand pieces: uppercase = sente, lowercase = gote. Number prefix = count.
+ * "-" means no hand pieces.
+ */
+export function parseSFENFull(sfen: string): ParsedSFEN {
+  const parts = sfen.split(" ");
+  const board = parseSFEN(sfen);
+  const handStr = parts[2] ?? "-";
+  const hand = parseHandPieces(handStr);
+  return { board, hand };
+}
+
+/**
+ * Parse hand pieces string from SFEN.
+ * Only parses sente (uppercase) pieces. Gote pieces are ignored for lesson use.
+ * Examples: "P2G" → { fu: 1, ki: 2 }, "-" → {}, "2P" → { fu: 2 }
+ */
+function parseHandPieces(handStr: string): HandPieces {
+  if (handStr === "-") return {};
+
+  const hand: HandPieces = {};
+  let count = 0;
+
+  for (let i = 0; i < handStr.length; i++) {
+    const ch = handStr[i]!;
+    const digit = parseInt(ch, 10);
+    if (!isNaN(digit)) {
+      count = count * 10 + digit;
+      continue;
+    }
+    // Only parse sente (uppercase) pieces
+    if (ch === ch.toUpperCase()) {
+      const pieceType = SFEN_TO_PIECE[ch];
+      if (pieceType) {
+        hand[pieceType] = (hand[pieceType] ?? 0) + (count || 1);
+      }
+    }
+    count = 0;
+  }
+
+  return hand;
+}
+
 /**
  * Parse the board portion of a SFEN string into a 9x9 BoardState.
- * Only the board part (before the first space) is used.
- *
- * SFEN convention:
- * - Uppercase = sente (先手), lowercase = gote (後手)
- * - '+' prefix = promoted piece
- * - Numbers = consecutive empty squares
- * - '/' separates rows (top to bottom)
  */
 export function parseSFEN(sfen: string): BoardState {
   const boardPart = sfen.split(" ")[0] ?? sfen;
@@ -56,12 +102,10 @@ export function parseSFEN(sfen: string): BoardState {
       promoted = false;
     }
 
-    // Pad to 9 columns if needed
     while (row.length < 9) row.push(null);
     board.push(row.slice(0, 9));
   }
 
-  // Pad to 9 rows if needed
   while (board.length < 9) {
     board.push(Array(9).fill(null) as BoardPiece[]);
   }

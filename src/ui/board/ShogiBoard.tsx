@@ -5,6 +5,7 @@ import { theme } from "../theme";
 import { LESSON_COLORS } from "../lesson/lessonSpacing";
 import { Piece } from "./Piece";
 import { HighlightOverlay } from "./HighlightOverlay";
+import { ArrowOverlay, type ArrowDef } from "./ArrowOverlay";
 import type { BoardState, HighlightSquare } from "./types";
 
 /** Column labels: 9 (right) to 1 (left), displayed above the board. */
@@ -20,10 +21,14 @@ type Props = {
   /** Total size of the board (excluding labels). The board is always square. */
   size: number;
   highlights?: HighlightSquare[];
+  /** Arrows to draw on the board. */
+  arrows?: ArrowDef[];
+  /** Currently selected square (piece will be emphasized). */
+  selectedSquare?: { row: number; col: number } | null;
   onSquarePress?: (row: number, col: number) => void;
 };
 
-export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }: Props) {
+export function ShogiBoard({ boardState, size, highlights = [], arrows = [], selectedSquare, onSquarePress }: Props) {
   const cellSize = Math.floor(size / 9);
   const boardSize = cellSize * 9;
   const labelSize = cellSize * 0.32;
@@ -40,10 +45,11 @@ export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }:
       const cells: React.ReactNode[] = [];
       for (let c = 0; c < 9; c++) {
         const bp = boardState[r]?.[c] ?? null;
+        const isSelected = selectedSquare != null && selectedSquare.row === r && selectedSquare.col === c;
         cells.push(
           <Pressable
             key={c}
-            onPress={() => onSquarePressRef.current?.(r, c)}
+            onPressIn={() => onSquarePressRef.current?.(r, c)}
             style={[
               styles.cell,
               {
@@ -60,6 +66,7 @@ export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }:
                 side={bp.side}
                 promoted={bp.promoted}
                 size={cellSize}
+                emphasized={isSelected}
               />
             )}
           </Pressable>,
@@ -72,7 +79,7 @@ export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }:
       );
     }
     return result;
-  }, [boardState, cellSize]); // onSquarePress removed — handled via ref above
+  }, [boardState, cellSize, selectedSquare]); // onSquarePress removed — handled via ref above
 
   return (
     <View style={[styles.container, /* { paddingLeft: rowLabelsWidth } */]}>
@@ -99,6 +106,7 @@ export function ShogiBoard({ boardState, size, highlights = [], onSquarePress }:
         >
           {rows}
           <HighlightOverlay highlights={highlights} cellSize={cellSize} />
+          <ArrowOverlay arrows={arrows} cellSize={cellSize} />
         </View>
 
         {/* Row labels (right) — commented out

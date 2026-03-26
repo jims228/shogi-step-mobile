@@ -13,8 +13,10 @@ import {
   LessonFooter,
   LESSON_FOOTER_HEIGHT,
 } from "../ui/lesson";
+import { CompareOptions } from "../ui/lesson/CompareOptions";
 import { LESSON_LAYOUT, LESSON_COLORS } from "../ui/lesson/lessonSpacing";
-import { ShogiBoard } from "../ui/board";
+import { ShogiBoard, HandPiecesBar, PromotionOverlay } from "../ui/board";
+import { parseSFENFull } from "../ui/board/sfen";
 import { theme } from "../ui/theme";
 
 type Props = NativeStackScreenProps<RootStackParamList, "LessonLaunch"> & {
@@ -33,24 +35,36 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     highlights,
     progress,
     handleSquarePress,
+    handleHandPress,
+    handlePromotion,
     handleQuizAnswer,
+    handleCompareAnswer,
     handleNext,
     restart,
   } = useLessonEngine(lessonData);
+
+  // Track which compare option was selected (for showing ✗ on wrong)
+  const [compareSelected, setCompareSelected] = useState<number | undefined>(undefined);
 
   const [boardSlotSize, setBoardSlotSize] = useState({ w: 0, h: 0 });
 
   const isLastStep = state.currentStepIndex >= lessonData.steps.length - 1;
   const nextLabel = isLastStep ? "レッスン完了！" : "次へ";
-  // move/tap_square steps auto-advance — footer only needed for explain and quiz
-  const showFooter =
-    currentStep?.type === "explain" ||
-    (currentStep?.type === "quiz" && state.feedback?.type === "correct");
+  const showFooter = state.feedback?.type === "correct";
+
+  // ── Hand pieces ──
+  const handPieces = useMemo(() => {
+    if (!currentStep) return {};
+    if (currentStep.hand_pieces) return currentStep.hand_pieces;
+    const sfen = state.boardOverride ?? currentStep.board_sfen;
+    return parseSFENFull(sfen).hand;
+  }, [currentStep, state.boardOverride]);
+
+  const hasHandPieces = Object.values(handPieces).some((v) => (v ?? 0) > 0);
 
   // ── Board size ──
   const boardSize = useMemo(() => {
     const h = Math.floor(boardSlotSize.h);
-    // 画面幅から BoardArea パディング + 座標ラベル分のスラックを引いた上限
     const maxW = Math.floor(
       windowWidth - 8 * 2 - LESSON_LAYOUT.boardLabelSlack,
     );
@@ -59,11 +73,13 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     return Math.max(200, s);
   }, [boardSlotSize.h, windowWidth]);
 
+  const cellSize = boardSize > 0 ? Math.floor(boardSize / 9) : 0;
+
   const onClose = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
-  // Handle lesson completion (triggered by auto-advance or manual next on last step)
+  // Handle lesson completion
   React.useEffect(() => {
     if (!state.completed) return;
     if (!completedOnceRef.current) {
@@ -75,6 +91,7 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
   }, [state.completed, markCompleted, lessonData.id, navigation]);
 
   const onNext = useCallback(() => {
+    setCompareSelected(undefined);
     handleNext();
   }, [handleNext]);
 
@@ -97,26 +114,32 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     }
   }, [state.failed, onGameOver]);
 
-  // ── Wrap handleSquarePress with debug log ──
   const onSquarePress = useCallback(
     (row: number, col: number) => {
-      if (__DEV__) console.log("[NativeLesson] squarePress", { row, col, stepType: currentStep?.type, stepIndex: state.currentStepIndex });
       handleSquarePress(row, col);
     },
-    [handleSquarePress, currentStep?.type, state.currentStepIndex],
+    [handleSquarePress],
+  );
+
+  const onCompareSelect = useCallback(
+    (index: number) => {
+      setCompareSelected(index);
+      handleCompareAnswer(index);
+    },
+    [handleCompareAnswer],
   );
 
   // ── Coach dialogue ──
   const dialogueMessage =
-    state.feedback?.message ??
-    currentStep?.coach_text ??
-    currentStep?.instruction ??
-    "問題に答えてね。";
+    state.showPromotion
+      ? "成りますか？敵陣に入ると駒が強くなるぞ。"
+      : state.feedback?.message ??
+        currentStep?.coach_text ??
+        currentStep?.instruction ??
+        "問題に答えてね。";
 
-  // NOTE: bounceAnim — PawnLessonRemakeScreen と同じ構造を維持
   const bounceAnim = useRef(new Animated.Value(1)).current;
 
-  // おじいちゃん: absolute配置で吹き出し・盤面から独立
   const mascotNode = useMemo(() => (
     <Animated.View
       style={[
@@ -129,7 +152,6 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     </Animated.View>
   ), [bounceAnim]);
 
-  // 吹き出しのみ（おじいちゃんは別レイヤー）
   const dialogueRowNode = useMemo(() => (
     <View style={styles.bubbleRow}>
       <View style={styles.bubbleContainer}>
@@ -159,22 +181,34 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
               }}
             >
               {boardSize > 0 && (
-                <ShogiBoard
-                  boardState={boardState}
-                  size={boardSize}
-                  highlights={highlights}
-                  onSquarePress={onSquarePress}
+                <View>
+                  <ShogiBoard
+                    boardState={boardState}
+                    size={boardSize}
+                    highlights={highlights}
+                    arrows={state.feedback ? [] : currentStep?.arrows}
+                    selectedSquare={state.selectedSquare}
+                    onSquarePress={onSquarePress}
+                  />
+                  <PromotionOverlay
+                    visible={state.showPromotion}
+                    onPromote={() => handlePromotion(true)}
+                    onDecline={() => handlePromotion(false)}
+                  />
+                </View>
+              )}
+              {hasHandPieces && cellSize > 0 && (
+                <HandPiecesBar
+                  hand={handPieces}
+                  cellSize={cellSize}
+                  selectedPiece={state.selectedHand}
+                  onPress={handleHandPress}
                 />
               )}
             </View>
           </BoardArea>
 
-          {/* Wrong feedback text (correct feedback uses the footer) */}
-          {state.feedback && state.feedback.type === "wrong" && (
-            <View style={[styles.feedbackWrap, styles.feedbackWrong]}>
-              <Text style={styles.feedbackText}>{state.feedback.message}</Text>
-            </View>
-          )}
+          {/* Wrong feedback — disabled for now */}
 
           {/* Quiz options */}
           {currentStep?.type === "quiz" && currentStep.quiz_options && !state.feedback && (
@@ -183,15 +217,31 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
                 <Pressable
                   key={i}
                   style={({ pressed }) => [styles.quizOption, pressed && styles.quizOptionPressed]}
-                  onPress={() => handleQuizAnswer(i)}
+                  onPressIn={() => handleQuizAnswer(i)}
                 >
                   <Text style={styles.quizOptionText}>{option}</Text>
                 </Pressable>
               ))}
             </View>
           )}
+
+          {/* Compare options */}
+          {currentStep?.type === "compare" && currentStep.compare_options && (
+            <CompareOptions
+              options={currentStep.compare_options}
+              correctIndex={currentStep.compare_answer ?? 0}
+              answered={state.feedback != null}
+              selectedIndex={compareSelected}
+              onSelect={onCompareSelect}
+            />
+          )}
         </View>
-        <LessonFooter nextLabel={nextLabel} onNext={onNext} disabled={!showFooter} />
+        <LessonFooter
+          nextLabel={nextLabel}
+          onNext={onNext}
+          disabled={!showFooter}
+          successMessage={state.feedback?.type === "correct" ? state.feedback.message : undefined}
+        />
       </View>
     </Screen>
   );
@@ -209,7 +259,7 @@ const styles = StyleSheet.create({
   boardSlot: {
     alignItems: "center",
     justifyContent: "flex-end",
-    paddingBottom: 40,
+    paddingBottom: 20,
     width: "100%",
     height: "100%",
   },
@@ -258,21 +308,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: LESSON_COLORS.dialogueBorder,
     transform: [{ rotate: "45deg" }],
-  },
-  feedbackWrap: {
-    marginHorizontal: 16,
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: theme.radius.md,
-    alignItems: "center",
-  },
-  feedbackWrong: {
-    backgroundColor: "rgba(239,68,68,0.15)",
-  },
-  feedbackText: {
-    ...theme.typography.body,
-    fontWeight: "900",
-    color: theme.colors.text,
   },
   quizWrap: {
     paddingHorizontal: 16,

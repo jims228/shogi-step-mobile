@@ -69,13 +69,17 @@ type Props = {
   offsetX?: number;
   /** Extra vertical offset in cell-relative px (positive = down). */
   offsetY?: number;
+  /** Scale up the piece to emphasize it (e.g. on correct tap). */
+  emphasized?: boolean;
 };
 
 // Scale piece up relative to cell so the piece image fills the cell.
 // The sprite tiles have transparent padding around the piece artwork.
 const PIECE_SCALE = 1.3;
 
-export function Piece({ piece, side, promoted, size, offsetX = 0, offsetY = 0 }: Props) {
+const EMPHASIS_SCALE = 1.15;
+
+export function Piece({ piece, side, promoted, size, offsetX = 0, offsetY = 0, emphasized = false }: Props) {
   const isGote = side === "gote";
   const isPromoted = promoted && piece in PROMOTED_COL;
 
@@ -92,7 +96,7 @@ export function Piece({ piece, side, promoted, size, offsetX = 0, offsetY = 0 }:
   const centerOffset = (renderSize - size) / 2;
 
   return (
-    <View pointerEvents="none" style={[styles.wrap, { width: size, height: size }]}>
+    <View pointerEvents="none" style={[styles.wrap, { width: size, height: size }, emphasized && styles.emphasized]}>
       <Image
         source={PIECES_IMG}
         style={{
@@ -110,5 +114,9 @@ export function Piece({ piece, side, promoted, size, offsetX = 0, offsetY = 0 }:
 const styles = StyleSheet.create({
   wrap: {
     overflow: "hidden",
+  },
+  emphasized: {
+    transform: [{ scale: EMPHASIS_SCALE }],
+    zIndex: 10,
   },
 });
