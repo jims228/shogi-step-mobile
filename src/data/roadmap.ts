@@ -66,15 +66,15 @@ export const ROADMAP_NODES: RoadmapNode[] = [
   { id: "u2_battle", title: "はじめてのミニ対局", unitId: "u2", nodeType: "battle", description: "コーチ付きの短い対局", implemented: false },
 
   // ── Unit 3 ──
-  { id: "u3_capture_hand", title: "取った駒は自分のもの", unitId: "u3", nodeType: "lesson", description: "持ち駒の概念", implemented: false },
-  { id: "u3_drop", title: "駒を打ってみよう", unitId: "u3", nodeType: "lesson", description: "持ち駒から盤上に打つ", implemented: false },
-  { id: "u3_compare_drop_where", title: "どこに打つのが一番？", unitId: "u3", nodeType: "lesson", description: "打つ場所の比較判断", implemented: false },
-  { id: "u3_promotion", title: "成りとは", unitId: "u3", nodeType: "lesson", description: "敵陣で駒が強くなる", implemented: false },
-  { id: "u3_promote_do", title: "成ってみよう", unitId: "u3", nodeType: "lesson", description: "駒を成る操作", implemented: false },
-  { id: "u3_promote_power", title: "成りを活かそう", unitId: "u3", nodeType: "lesson", description: "成り駒のパズル", implemented: false },
-  { id: "u3_nifu", title: "二歩は反則", unitId: "u3", nodeType: "lesson", description: "二歩ルール", implemented: false },
-  { id: "u3_compare_drop_vs_move", title: "打つ vs 動かす", unitId: "u3", nodeType: "lesson", description: "持ち駒 vs 盤上の駒", implemented: false },
-  { id: "u3_review", title: "Unit 3 まとめ", unitId: "u3", nodeType: "review", description: "持ち駒・成り・二歩の復習", implemented: false },
+  { id: "u3_capture_hand", title: "取った駒は自分のもの", unitId: "u3", nodeType: "lesson", description: "持ち駒の概念", implemented: true },
+  { id: "u3_drop", title: "駒を打ってみよう", unitId: "u3", nodeType: "lesson", description: "持ち駒から盤上に打つ", implemented: true },
+  { id: "u3_compare_drop_where", title: "どこに打つのが一番？", unitId: "u3", nodeType: "lesson", description: "打つ場所の比較判断", implemented: true },
+  { id: "u3_promotion", title: "成りとは", unitId: "u3", nodeType: "lesson", description: "敵陣で駒が強くなる", implemented: true },
+  { id: "u3_promote_do", title: "成ってみよう", unitId: "u3", nodeType: "lesson", description: "駒を成る操作", implemented: true },
+  { id: "u3_promote_power", title: "成りを活かそう", unitId: "u3", nodeType: "lesson", description: "成り駒のパズル", implemented: true },
+  { id: "u3_nifu", title: "二歩は反則", unitId: "u3", nodeType: "lesson", description: "二歩ルール", implemented: true },
+  { id: "u3_compare_drop_vs_move", title: "打つ vs 動かす", unitId: "u3", nodeType: "lesson", description: "持ち駒 vs 盤上の駒", implemented: true },
+  { id: "u3_review", title: "Unit 3 まとめ", unitId: "u3", nodeType: "review", description: "持ち駒・成り・二歩の復習", implemented: true },
   { id: "u3_battle", title: "持ち駒付き対局", unitId: "u3", nodeType: "battle", description: "持ち駒を使えるガイド対局", implemented: false },
 
   // ── Unit 4 ──

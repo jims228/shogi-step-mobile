@@ -17,6 +17,15 @@ import { U2_KNIGHT_MOVE } from "./u2_knight_move";
 import { U2_LANCE_MOVE } from "./u2_lance_move";
 import { U2_COMPARE_TAKE } from "./u2_compare_take";
 import { U2_REVIEW } from "./u2_review";
+import { U3_CAPTURE_HAND } from "./u3_capture_hand";
+import { U3_DROP } from "./u3_drop";
+import { U3_COMPARE_DROP_WHERE } from "./u3_compare_drop_where";
+import { U3_PROMOTION } from "./u3_promotion";
+import { U3_PROMOTE_DO } from "./u3_promote_do";
+import { U3_PROMOTE_POWER } from "./u3_promote_power";
+import { U3_NIFU } from "./u3_nifu";
+import { U3_COMPARE_DROP_VS_MOVE } from "./u3_compare_drop_vs_move";
+import { U3_REVIEW } from "./u3_review";
 import { TESUJI_PAWN_TATAKI_L1 } from "./tesuji_pawn_tataki_l1";
 import { TESUJI_PAWN_RENDA_L1 } from "./tesuji_pawn_renda_l1";
 import { TESUJI_PAWN_HIKAE_L1 } from "./tesuji_pawn_hikae_l1";
@@ -80,6 +89,15 @@ const NATIVE_LESSONS: Record<string, LessonData> = {
   [U2_LANCE_MOVE.id]: U2_LANCE_MOVE,
   [U2_COMPARE_TAKE.id]: U2_COMPARE_TAKE,
   [U2_REVIEW.id]: U2_REVIEW,
+  [U3_CAPTURE_HAND.id]: U3_CAPTURE_HAND,
+  [U3_DROP.id]: U3_DROP,
+  [U3_COMPARE_DROP_WHERE.id]: U3_COMPARE_DROP_WHERE,
+  [U3_PROMOTION.id]: U3_PROMOTION,
+  [U3_PROMOTE_DO.id]: U3_PROMOTE_DO,
+  [U3_PROMOTE_POWER.id]: U3_PROMOTE_POWER,
+  [U3_NIFU.id]: U3_NIFU,
+  [U3_COMPARE_DROP_VS_MOVE.id]: U3_COMPARE_DROP_VS_MOVE,
+  [U3_REVIEW.id]: U3_REVIEW,
   [TESUJI_PAWN_TATAKI_L1.id]: TESUJI_PAWN_TATAKI_L1,
   [TESUJI_PAWN_RENDA_L1.id]: TESUJI_PAWN_RENDA_L1,
   [TESUJI_PAWN_HIKAE_L1.id]: TESUJI_PAWN_HIKAE_L1,
