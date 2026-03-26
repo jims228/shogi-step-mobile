@@ -1,11 +1,12 @@
 import React, { useCallback, useMemo } from "react";
 import { FlatList, Image, Pressable, StyleSheet, Text, View } from "react-native";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import { getRoadmapList, NODE_TO_LESSON_ID, type RoadmapListItem, type RoadmapNode } from "../data/roadmap";
+import { getRoadmapList, NODE_TO_LESSON_ID, type RoadmapListItem } from "../data/roadmap";
 import { useProgress } from "../state/progress";
 import type { RootStackParamList } from "../navigation/RootNavigator";
-import { PrimaryButton, Screen } from "../ui/components";
+import { Screen } from "../ui/components";
 import { theme } from "../ui/theme";
 
 const LESSON_ICONS_IMG = require("../../assets/lesson-icons.png");
@@ -17,9 +18,10 @@ const ICON_POSITIONS = [
 ] as const;
 const ICON_RENDER = 75;
 
-type Props = NativeStackScreenProps<RootStackParamList, "RoadmapHome">;
+type Nav = NativeStackNavigationProp<RootStackParamList>;
 
-export function RoadmapHomeScreen({ navigation }: Props) {
+export function RoadmapHomeScreen() {
+  const navigation = useNavigation<Nav>();
   const { progress, isLoaded } = useProgress();
   const items = useMemo(() => getRoadmapList(), []);
   const completedSet = useMemo(() => new Set(progress.completedLessonIds), [progress.completedLessonIds]);
@@ -132,14 +134,6 @@ export function RoadmapHomeScreen({ navigation }: Props) {
             ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
           />
         </View>
-
-        <Pressable
-          onPress={() => navigation.navigate("Settings")}
-          style={styles.settingsBtn}
-          hitSlop={10}
-        >
-          <Text style={styles.linkText}>設定</Text>
-        </Pressable>
       </View>
     </Screen>
   );
@@ -147,19 +141,6 @@ export function RoadmapHomeScreen({ navigation }: Props) {
 
 const styles = StyleSheet.create({
   subtle: { marginTop: 6, color: theme.colors.textMuted, fontWeight: "700", textAlign: "center" },
-  settingsBtn: {
-    position: "absolute",
-    bottom: 4,
-    right: 2,
-    paddingHorizontal: 8,
-    paddingVertical: 5,
-    borderRadius: 6,
-    backgroundColor: "rgba(255,255,255,0.6)",
-    minHeight: 26,
-    justifyContent: "center",
-  },
-  linkText: { fontWeight: "700", color: "#8B7355", fontSize: 11 },
-
   roadmapWrap: { flex: 1, marginTop: theme.spacing.xs },
 
   // ── Unit Header ──
