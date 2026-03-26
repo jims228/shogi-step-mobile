@@ -1,77 +1,130 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import type { HandPieces as HandPiecesType, PieceType } from "./types";
+import type { HandPieces as HandPiecesType, PieceType, Side } from "./types";
 import { Piece } from "./Piece";
-
-const PIECE_LABELS: Record<PieceType, string> = {
-  fu: "歩", ky: "香", ke: "桂", gi: "銀",
-  ki: "金", ka: "角", hi: "飛", ou: "王",
-};
 
 const PIECE_ORDER: PieceType[] = ["hi", "ka", "ki", "gi", "ke", "ky", "fu"];
 
-type Props = {
+type HandBarProps = {
+  hand: HandPiecesType;
+  side: Side;
+  cellSize: number;
+  label: string;
+  interactive?: boolean;
+  selectedPiece?: PieceType | null;
+  onPress?: (pieceType: PieceType) => void;
+};
+
+function HandBar({ hand, side, cellSize, label, interactive, selectedPiece, onPress }: HandBarProps) {
+  const entries = PIECE_ORDER
+    .filter((p) => (hand[p] ?? 0) > 0)
+    .map((p) => ({ piece: p, count: hand[p]! }));
+
+  const slotSize = Math.floor(cellSize * 0.7);
+
+  return (
+    <View style={styles.bar}>
+      <Text style={styles.label}>{label}</Text>
+      <View style={styles.pieces}>
+        {entries.length === 0 ? (
+          <Text style={styles.empty}>なし</Text>
+        ) : (
+          entries.map(({ piece, count }) => {
+            const isSelected = interactive && selectedPiece === piece;
+            return (
+              <Pressable
+                key={piece}
+                onPressIn={interactive && onPress ? () => onPress(piece) : undefined}
+                disabled={!interactive}
+                style={[styles.slot, isSelected && styles.slotSelected]}
+              >
+                <View style={isSelected ? styles.pieceEmphasized : undefined}>
+                  <Piece piece={piece} side={side} promoted={false} size={slotSize} />
+                </View>
+                {count > 1 && (
+                  <View style={styles.countBadge}>
+                    <Text style={styles.countText}>{count}</Text>
+                  </View>
+                )}
+              </Pressable>
+            );
+          })
+        )}
+      </View>
+    </View>
+  );
+}
+
+type SenteHandProps = {
   hand: HandPiecesType;
   cellSize: number;
   selectedPiece: PieceType | null;
   onPress: (pieceType: PieceType) => void;
 };
 
-export function HandPiecesBar({ hand, cellSize, selectedPiece, onPress }: Props) {
-  const entries = PIECE_ORDER
-    .filter((p) => (hand[p] ?? 0) > 0)
-    .map((p) => ({ piece: p, count: hand[p]! }));
-
-  if (entries.length === 0) return null;
-
-  const slotSize = Math.floor(cellSize * 0.9);
-
+export function SenteHandBar({ hand, cellSize, selectedPiece, onPress }: SenteHandProps) {
   return (
-    <View style={styles.wrap}>
-      <Text style={styles.label}>持ち駒:</Text>
-      {entries.map(({ piece, count }) => {
-        const isSelected = selectedPiece === piece;
-        return (
-          <Pressable
-            key={piece}
-            onPressIn={() => onPress(piece)}
-            style={[styles.slot, isSelected && styles.slotSelected]}
-          >
-            <View style={isSelected ? styles.pieceEmphasized : undefined}>
-              <Piece piece={piece} side="sente" promoted={false} size={slotSize} />
-            </View>
-            {count > 1 && (
-              <View style={styles.countBadge}>
-                <Text style={styles.countText}>{count}</Text>
-              </View>
-            )}
-          </Pressable>
-        );
-      })}
-    </View>
+    <HandBar
+      hand={hand}
+      side="sente"
+      cellSize={cellSize}
+      label="☗ 持駒"
+      interactive
+      selectedPiece={selectedPiece}
+      onPress={onPress}
+    />
+  );
+}
+
+type GoteHandProps = {
+  hand: HandPiecesType;
+  cellSize: number;
+};
+
+export function GoteHandBar({ hand, cellSize }: GoteHandProps) {
+  return (
+    <HandBar
+      hand={hand}
+      side="gote"
+      cellSize={cellSize}
+      label="☖ 持駒"
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  wrap: {
+  bar: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    gap: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    minHeight: 40,
+    backgroundColor: "#D2A86A",
   },
   label: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: "700",
     color: "#5D4037",
-    marginRight: 4,
+    marginRight: 6,
+    minWidth: 45,
+  },
+  pieces: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 2,
+    flex: 1,
+  },
+  empty: {
+    fontSize: 11,
+    color: "#8B7355",
+    fontWeight: "600",
   },
   slot: {
     alignItems: "center",
     justifyContent: "center",
-    padding: 2,
-    borderRadius: 6,
+    padding: 1,
+    borderRadius: 4,
   },
   slotSelected: {
     backgroundColor: "rgba(245,158,11,0.25)",
@@ -82,17 +135,17 @@ const styles = StyleSheet.create({
   countBadge: {
     position: "absolute",
     bottom: -2,
-    right: -2,
+    right: -4,
     backgroundColor: "#E65A8D",
-    borderRadius: 8,
-    minWidth: 16,
-    height: 16,
+    borderRadius: 7,
+    minWidth: 14,
+    height: 14,
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 3,
+    paddingHorizontal: 2,
   },
   countText: {
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: "900",
     color: "#fff",
   },

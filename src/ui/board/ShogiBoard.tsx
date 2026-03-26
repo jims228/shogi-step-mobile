@@ -15,6 +15,14 @@ const ROW_LABELS = ["一", "二", "三", "四", "五", "六", "七", "八", "九
 
 const GRID_LINE_COLOR = "#8B7355";
 const BOARD_BORDER_COLOR = "#5D4037";
+const HOSHI_SIZE = 6;
+/** Star dot positions: intersections at 3三, 6三, 3六, 6六 (row, col of upper-left cell) */
+const HOSHI_POSITIONS: [number, number][] = [
+  [2, 2], // 6三: intersection at bottom-right corner of cell [2,2]
+  [2, 5], // 3三: intersection at bottom-right corner of cell [2,5]
+  [5, 2], // 6六: intersection at bottom-right corner of cell [5,2]
+  [5, 5], // 3六: intersection at bottom-right corner of cell [5,5]
+];
 
 type Props = {
   boardState: BoardState;
@@ -99,12 +107,26 @@ export function ShogiBoard({ boardState, size, highlights = [], arrows = [], sel
           style={[
             styles.board,
             {
-              width: boardSize + 4,
+              width: boardSize,
               backgroundColor: LESSON_COLORS.boardSurface,
             },
           ]}
         >
           {rows}
+          {/* 星（hoshi）: 4 dots at grid intersections */}
+          {HOSHI_POSITIONS.map(([r, c]) => (
+            <View
+              key={`hoshi-${r}-${c}`}
+              pointerEvents="none"
+              style={[
+                styles.hoshi,
+                {
+                  left: (c + 1) * cellSize - HOSHI_SIZE / 2,
+                  top: (r + 1) * cellSize - HOSHI_SIZE / 2,
+                },
+              ]}
+            />
+          ))}
           <HighlightOverlay highlights={highlights} cellSize={cellSize} />
           <ArrowOverlay arrows={arrows} cellSize={cellSize} />
         </View>
@@ -136,8 +158,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   board: {
-    borderWidth: 2,
-    borderColor: BOARD_BORDER_COLOR,
     overflow: "hidden",
   },
   row: {
@@ -147,6 +167,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderColor: GRID_LINE_COLOR,
+  },
+  hoshi: {
+    position: "absolute",
+    width: HOSHI_SIZE,
+    height: HOSHI_SIZE,
+    borderRadius: HOSHI_SIZE / 2,
+    backgroundColor: "#5D4037",
+    zIndex: 5,
   },
   rowLabels: {
     marginLeft: 3,

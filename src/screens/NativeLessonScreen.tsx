@@ -6,7 +6,8 @@ import type { RootStackParamList } from "../navigation/RootNavigator";
 import type { LessonData } from "../lesson/types";
 import { useLessonEngine } from "../lesson/useLessonEngine";
 import { useProgress } from "../state/progress";
-import { Screen, CoachAvatar } from "../ui/components";
+import { Screen } from "../ui/components";
+import { CoachAvatar, type CoachAvatarHandle } from "../ui/components/CoachAvatar";
 import {
   LessonHeader,
   BoardArea,
@@ -15,7 +16,7 @@ import {
 } from "../ui/lesson";
 import { CompareOptions } from "../ui/lesson/CompareOptions";
 import { LESSON_LAYOUT, LESSON_COLORS } from "../ui/lesson/lessonSpacing";
-import { ShogiBoard, HandPiecesBar, PromotionOverlay } from "../ui/board";
+import { ShogiBoard, SenteHandBar, GoteHandBar, PromotionOverlay } from "../ui/board";
 import { parseSFENFull } from "../ui/board/sfen";
 import { theme } from "../ui/theme";
 
@@ -26,6 +27,7 @@ type Props = NativeStackScreenProps<RootStackParamList, "LessonLaunch"> & {
 export function NativeLessonScreen({ navigation, lessonData }: Props) {
   const { markCompleted } = useProgress();
   const completedOnceRef = useRef(false);
+  const coachRef = useRef<CoachAvatarHandle>(null);
   const { width: windowWidth } = useWindowDimensions();
 
   const {
@@ -52,15 +54,16 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
   const nextLabel = isLastStep ? "レッスン完了！" : "次へ";
   const showFooter = state.feedback?.type === "correct";
 
-  // ── Hand pieces ──
-  const handPieces = useMemo(() => {
-    if (!currentStep) return {};
-    if (currentStep.hand_pieces) return currentStep.hand_pieces;
+  // ── Hand pieces (always shown) ──
+  const { senteHand, goteHand } = useMemo(() => {
+    if (!currentStep) return { senteHand: {}, goteHand: {} };
     const sfen = state.boardOverride ?? currentStep.board_sfen;
-    return parseSFENFull(sfen).hand;
+    const parsed = parseSFENFull(sfen);
+    return {
+      senteHand: currentStep.hand_pieces ?? parsed.senteHand,
+      goteHand: parsed.goteHand,
+    };
   }, [currentStep, state.boardOverride]);
-
-  const hasHandPieces = Object.values(handPieces).some((v) => (v ?? 0) > 0);
 
   // ── Board size ──
   const boardSize = useMemo(() => {
@@ -140,7 +143,7 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
 
   const bounceAnim = useRef(new Animated.Value(1)).current;
 
-  const mascotNode = useMemo(() => (
+  const mascotNode = (
     <Animated.View
       style={[
         styles.mascotAbsolute,
@@ -148,9 +151,9 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
       ]}
       pointerEvents="none"
     >
-      <CoachAvatar size={LESSON_LAYOUT.mascotSize} />
+      <CoachAvatar ref={coachRef} size={Math.floor(LESSON_LAYOUT.mascotSize * 0.9)} />
     </Animated.View>
-  ), [bounceAnim]);
+  );
 
   const dialogueRowNode = useMemo(() => (
     <View style={styles.bubbleRow}>
@@ -180,30 +183,33 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
                 setBoardSlotSize((prev) => (prev.w === w && prev.h === h ? prev : { w, h }));
               }}
             >
-              {boardSize > 0 && (
-                <View>
-                  <ShogiBoard
-                    boardState={boardState}
-                    size={boardSize}
-                    highlights={highlights}
-                    arrows={state.feedback ? [] : currentStep?.arrows}
-                    selectedSquare={state.selectedSquare}
-                    onSquarePress={onSquarePress}
-                  />
-                  <PromotionOverlay
-                    visible={state.showPromotion}
-                    onPromote={() => handlePromotion(true)}
-                    onDecline={() => handlePromotion(false)}
+              {boardSize > 0 && cellSize > 0 && (
+                <View style={styles.boardFrame}>
+                  <GoteHandBar hand={goteHand} cellSize={cellSize} />
+                  <View style={styles.gridLine} />
+                  <View>
+                    <ShogiBoard
+                      boardState={boardState}
+                      size={boardSize}
+                      highlights={highlights}
+                      arrows={state.feedback ? [] : currentStep?.arrows}
+                      selectedSquare={state.selectedSquare}
+                      onSquarePress={onSquarePress}
+                    />
+                    <PromotionOverlay
+                      visible={state.showPromotion}
+                      onPromote={() => handlePromotion(true)}
+                      onDecline={() => handlePromotion(false)}
+                    />
+                  </View>
+                  <View style={styles.gridLine} />
+                  <SenteHandBar
+                    hand={senteHand}
+                    cellSize={cellSize}
+                    selectedPiece={state.selectedHand}
+                    onPress={handleHandPress}
                   />
                 </View>
-              )}
-              {hasHandPieces && cellSize > 0 && (
-                <HandPiecesBar
-                  hand={handPieces}
-                  cellSize={cellSize}
-                  selectedPiece={state.selectedHand}
-                  onPress={handleHandPress}
-                />
               )}
             </View>
           </BoardArea>
@@ -256,24 +262,35 @@ const styles = StyleSheet.create({
     paddingVertical: LESSON_LAYOUT.dialogueToBoardGap,
     zIndex: 10,
   },
+  boardFrame: {
+    borderWidth: 2.5,
+    borderColor: "#5D4037",
+    borderRadius: 8,
+    overflow: "hidden",
+    backgroundColor: "#D2A86A",
+  },
+  gridLine: {
+    height: 2.5,
+    backgroundColor: "#5D4037",
+  },
   boardSlot: {
     alignItems: "center",
     justifyContent: "flex-end",
-    paddingBottom: 20,
+    paddingBottom: 0,
     width: "100%",
     height: "100%",
   },
   mascotAbsolute: {
     position: "absolute",
-    left: -LESSON_LAYOUT.mascotPullLeft,
-    top: -15,
+    left: -LESSON_LAYOUT.mascotPullLeft + 15,
+    top: -5,
     width: LESSON_LAYOUT.mascotSize,
     height: LESSON_LAYOUT.mascotSize,
     zIndex: 0,
   },
   bubbleRow: {
     position: "absolute",
-    top: 15,
+    top: 0,
     left: 55,
     right: 12,
     zIndex: 5,

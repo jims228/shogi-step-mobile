@@ -13,6 +13,9 @@ const SFEN_TO_PIECE: Record<string, PieceType> = {
 
 export type ParsedSFEN = {
   board: BoardState;
+  senteHand: HandPieces;
+  goteHand: HandPieces;
+  /** @deprecated Use senteHand instead */
   hand: HandPieces;
 };
 
@@ -29,19 +32,20 @@ export function parseSFENFull(sfen: string): ParsedSFEN {
   const parts = sfen.split(" ");
   const board = parseSFEN(sfen);
   const handStr = parts[2] ?? "-";
-  const hand = parseHandPieces(handStr);
-  return { board, hand };
+  const { sente, gote } = parseHandPieces(handStr);
+  return { board, senteHand: sente, goteHand: gote, hand: sente };
 }
 
 /**
  * Parse hand pieces string from SFEN.
- * Only parses sente (uppercase) pieces. Gote pieces are ignored for lesson use.
- * Examples: "P2G" → { fu: 1, ki: 2 }, "-" → {}, "2P" → { fu: 2 }
+ * Uppercase = sente, lowercase = gote. Number prefix = count.
+ * Examples: "P2Gp" → sente: { fu:1, ki:2 }, gote: { fu:1 }
  */
-function parseHandPieces(handStr: string): HandPieces {
-  if (handStr === "-") return {};
+function parseHandPieces(handStr: string): { sente: HandPieces; gote: HandPieces } {
+  if (handStr === "-") return { sente: {}, gote: {} };
 
-  const hand: HandPieces = {};
+  const sente: HandPieces = {};
+  const gote: HandPieces = {};
   let count = 0;
 
   for (let i = 0; i < handStr.length; i++) {
@@ -51,17 +55,16 @@ function parseHandPieces(handStr: string): HandPieces {
       count = count * 10 + digit;
       continue;
     }
-    // Only parse sente (uppercase) pieces
-    if (ch === ch.toUpperCase()) {
-      const pieceType = SFEN_TO_PIECE[ch];
-      if (pieceType) {
-        hand[pieceType] = (hand[pieceType] ?? 0) + (count || 1);
-      }
+    const upper = ch.toUpperCase();
+    const pieceType = SFEN_TO_PIECE[upper];
+    if (pieceType) {
+      const target = ch === upper ? sente : gote;
+      target[pieceType] = (target[pieceType] ?? 0) + (count || 1);
     }
     count = 0;
   }
 
-  return hand;
+  return { sente, gote };
 }
 
 /**
