@@ -49,6 +49,8 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
 
   // Track which compare option was selected (for showing ✗ on wrong)
   const [compareSelected, setCompareSelected] = useState<number | undefined>(undefined);
+  // Track wrong quiz answers (disabled options)
+  const [wrongQuizIndices, setWrongQuizIndices] = useState<Set<number>>(new Set());
 
   const [boardSlotSize, setBoardSlotSize] = useState({ w: 0, h: 0 });
 
@@ -101,6 +103,7 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
 
   const onNext = useCallback(() => {
     setCompareSelected(undefined);
+    setWrongQuizIndices(new Set());
     handleNext();
   }, [handleNext]);
 
@@ -122,6 +125,16 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
       return () => clearTimeout(timer);
     }
   }, [state.failed, onGameOver]);
+
+  const onQuizAnswer = useCallback(
+    (index: number) => {
+      if (currentStep?.quiz_answer !== undefined && index !== currentStep.quiz_answer) {
+        setWrongQuizIndices(prev => new Set(prev).add(index));
+      }
+      handleQuizAnswer(index);
+    },
+    [handleQuizAnswer, currentStep],
+  );
 
   const onSquarePress = useCallback(
     (row: number, col: number) => {
@@ -227,7 +240,7 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
                     />
                     {/* Arrow overlay covers entire boardFrame */}
                     <ArrowOverlay
-                      arrows={state.feedback
+                      arrows={(state.feedback || state.waitingAutoResponse)
                         ? []
                         : state.turnIndex === 1
                           ? (state.coachOverride ? (currentStep?.second_arrows ?? []) : [])
@@ -237,6 +250,42 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
                       senteHandCenterY={senteHandY}
                       senteHandPieces={senteHandPieces}
                     />
+                    {/* Quiz options overlaid on board */}
+                    {currentStep?.type === "quiz" && currentStep.quiz_options && state.feedback?.type !== "correct" && (
+                      <View style={styles.quizOverlay}>
+                        {currentStep.quiz_options.map((option, i) => {
+                          const isWrong = wrongQuizIndices.has(i);
+                          return (
+                            <Pressable
+                              key={i}
+                              style={({ pressed }) => [
+                                styles.quizOption,
+                                pressed && !isWrong && styles.quizOptionPressed,
+                                isWrong && styles.quizOptionWrong,
+                              ]}
+                              onPressIn={() => !isWrong && onQuizAnswer(i)}
+                              disabled={isWrong}
+                            >
+                              <Text style={[styles.quizOptionText, isWrong && styles.quizOptionTextWrong]}>
+                                {option}
+                              </Text>
+                            </Pressable>
+                          );
+                        })}
+                      </View>
+                    )}
+                    {/* Compare options overlaid on board */}
+                    {currentStep?.type === "compare" && currentStep.compare_options && (
+                      <View style={styles.quizOverlay}>
+                        <CompareOptions
+                          options={currentStep.compare_options}
+                          correctIndex={currentStep.compare_answer ?? 0}
+                          answered={state.feedback != null}
+                          selectedIndex={compareSelected}
+                          onSelect={onCompareSelect}
+                        />
+                      </View>
+                    )}
                   </View>
                 );
               })()}
@@ -244,32 +293,6 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
           </BoardArea>
 
           {/* Wrong feedback — disabled for now */}
-
-          {/* Quiz options */}
-          {currentStep?.type === "quiz" && currentStep.quiz_options && !state.feedback && (
-            <View style={styles.quizWrap}>
-              {currentStep.quiz_options.map((option, i) => (
-                <Pressable
-                  key={i}
-                  style={({ pressed }) => [styles.quizOption, pressed && styles.quizOptionPressed]}
-                  onPressIn={() => handleQuizAnswer(i)}
-                >
-                  <Text style={styles.quizOptionText}>{option}</Text>
-                </Pressable>
-              ))}
-            </View>
-          )}
-
-          {/* Compare options */}
-          {currentStep?.type === "compare" && currentStep.compare_options && (
-            <CompareOptions
-              options={currentStep.compare_options}
-              correctIndex={currentStep.compare_answer ?? 0}
-              answered={state.feedback != null}
-              selectedIndex={compareSelected}
-              onSelect={onCompareSelect}
-            />
-          )}
         </Pressable>
         <LessonFooter
           nextLabel={nextLabel}
@@ -369,27 +392,51 @@ const styles = StyleSheet.create({
     transform: [{ rotate: "45deg" }],
   },
 
-  // ── Quiz / Compare options (below board) ──
-  quizWrap: {
+  // ── Quiz / Compare options (overlaid on boardFrame) ──
+  quizOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "flex-end",
+    paddingBottom: 115,
     paddingHorizontal: 16,
-    paddingTop: 8,
-    gap: 10,
+    zIndex: 50,
+    gap: 12,
   },
   quizOption: {
-    paddingVertical: 14,
-    paddingHorizontal: 18,
-    borderRadius: theme.radius.md,
-    borderWidth: 2,
-    borderColor: theme.colors.border,
-    backgroundColor: theme.colors.surface,
+    flex: 1,
+    paddingVertical: 22,
+    paddingHorizontal: 24,
+    borderRadius: 20,
+    borderTopWidth: 3,
+    borderLeftWidth: 3,
+    borderRightWidth: 3,
+    borderBottomWidth: 3,
+    borderTopColor: "#7c2d12",
+    borderLeftColor: "#7c2d12",
+    borderRightColor: "#7c2d12",
+    borderBottomColor: "#7c2d12",
+    backgroundColor: "#fef3c7",
     alignItems: "center",
+    justifyContent: "center",
   },
   quizOptionPressed: {
-    opacity: 0.7,
+    backgroundColor: "#fde68a",
+  },
+  quizOptionWrong: {
+    backgroundColor: "#e5e7eb",
+    borderTopColor: "#9ca3af",
+    borderLeftColor: "#9ca3af",
+    borderRightColor: "#9ca3af",
+    borderBottomColor: "#9ca3af",
+    opacity: 0.6,
   },
   quizOptionText: {
-    ...theme.typography.body,
+    fontSize: 18,
     fontWeight: "900",
-    color: theme.colors.text,
+    color: "#7c2d12",
+  },
+  quizOptionTextWrong: {
+    color: "#9ca3af",
   },
 });

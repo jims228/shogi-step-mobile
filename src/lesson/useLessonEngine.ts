@@ -104,7 +104,25 @@ export function useLessonEngine(lessonData: LessonData) {
     const afterSfen = isSecondTurn ? step.second_after_response_sfen : step.after_response_sfen;
     const afterText = isSecondTurn ? step.second_after_response_text : step.after_response_text;
 
-    if (!autoResp || !afterSfen) return;
+    if (!autoResp) {
+      // No auto response — but if there's an after sfen/text, show it after delay
+      if (afterSfen || afterText) {
+        setState(prev => ({ ...prev, feedback: null, waitingAutoResponse: true }));
+        autoResponseTimerRef.current = setTimeout(() => {
+          autoResponseTimerRef.current = null;
+          setState(prev => ({
+            ...prev,
+            boardOverride: afterSfen ?? prev.boardOverride,
+            waitingAutoResponse: false,
+            feedback: {
+              type: "correct",
+              message: afterText ?? step.success_text ?? "正解！",
+            },
+          }));
+        }, AUTO_RESPONSE_MS);
+      }
+      return;
+    }
 
     // Block input and hide feedback until auto_response completes
     setState(prev => ({ ...prev, feedback: null, waitingAutoResponse: true }));
@@ -231,7 +249,7 @@ export function useLessonEngine(lessonData: LessonData) {
             setState(prev => ({
               ...prev,
               boardOverride: newSfen,
-              coachOverride: null,
+              coachOverride: prev.coachOverride,
               selectedSquare: null,
               score: prev.score + 1,
             }));
