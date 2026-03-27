@@ -85,7 +85,6 @@ export const ROADMAP_NODES: RoadmapNode[] = [
   { id: "u3_nifu", title: "二歩は反則", unitId: "s2", nodeType: "lesson", description: "二歩ルール", implemented: true },
   { id: "u3_compare_drop_vs_move", title: "打つ vs 動かす", unitId: "s2", nodeType: "lesson", description: "持ち駒 vs 盤上の駒", implemented: true },
   { id: "u1_compare_check", title: "王手？駒を取る？", unitId: "s2", nodeType: "lesson", description: "王手 vs 駒取りの比較判断", implemented: true },
-  { id: "u2_compare_take", title: "取って大丈夫？（復習）", unitId: "s2", nodeType: "lesson", description: "ただ vs 守られている駒", implemented: true },
   { id: "tsume1_kin_01", title: "金の1手詰め①", unitId: "s2", nodeType: "lesson", description: "金を使った1手詰め 1-1〜1-4", implemented: true },
   { id: "tsume1_kin_02", title: "金の1手詰め②", unitId: "s2", nodeType: "lesson", description: "金を使った1手詰め 1-5〜1-8", implemented: true },
   { id: "u3_review", title: "セクション2まとめ", unitId: "s2", nodeType: "review", description: "持ち駒・成り・二歩の復習", implemented: true },
