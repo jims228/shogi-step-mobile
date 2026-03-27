@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useRef } from "react";
-import { FlatList, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { FlatList, Image, PanResponder, Pressable, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -157,24 +157,62 @@ export function RoadmapHomeScreen() {
             }}
           />
 
-          {/* Unit jump dots */}
-          <View style={styles.dotNav}>
-            {UNITS.map((unit) => (
-              <Pressable
-                key={unit.id}
-                onPress={() => scrollToUnit(unit.id)}
-                hitSlop={6}
-                style={styles.dotBtn}
-              >
-                <View style={styles.dot} />
-                <Text style={styles.dotLabel}>{unit.id.replace("u", "")}</Text>
-              </Pressable>
-            ))}
-          </View>
+          {/* Unit jump dots — swipe/drag to scroll */}
+          <DotNav units={UNITS} onSelect={scrollToUnit} />
         </View>
         <AdBanner />
       </View>
     </Screen>
+  );
+}
+
+// ── Dot Navigation (swipeable) ──
+
+function DotNav({ units, onSelect }: { units: typeof UNITS; onSelect: (id: string) => void }) {
+  const containerRef = useRef<View>(null);
+  const layoutRef = useRef({ y: 0, height: 0 });
+  const lastIndexRef = useRef(-1);
+
+  const hitUnit = useCallback((pageY: number) => {
+    const { y, height } = layoutRef.current;
+    if (height === 0) return;
+    const relY = pageY - y;
+    const idx = Math.floor((relY / height) * units.length);
+    const clamped = Math.max(0, Math.min(units.length - 1, idx));
+    if (clamped !== lastIndexRef.current) {
+      lastIndexRef.current = clamped;
+      onSelect(units[clamped].id);
+    }
+  }, [units, onSelect]);
+
+  const panResponder = useMemo(() =>
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: (e) => hitUnit(e.nativeEvent.pageY),
+      onPanResponderMove: (e) => hitUnit(e.nativeEvent.pageY),
+      onPanResponderRelease: () => { lastIndexRef.current = -1; },
+    }),
+  [hitUnit]);
+
+  return (
+    <View
+      ref={containerRef}
+      style={styles.dotNav}
+      onLayout={() => {
+        containerRef.current?.measureInWindow((_x, y, _w, h) => {
+          layoutRef.current = { y, height: h };
+        });
+      }}
+      {...panResponder.panHandlers}
+    >
+      {units.map((unit, i) => (
+        <View key={unit.id} style={styles.dotBtn}>
+          <View style={styles.dot} />
+          <Text style={styles.dotLabel}>{i}</Text>
+        </View>
+      ))}
+    </View>
   );
 }
 
@@ -264,12 +302,12 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: "#5D4037",
+    backgroundColor: "#A1887F",
   },
   dotLabel: {
     fontSize: 7,
     fontWeight: "900",
-    color: "#5D4037",
+    color: "#A1887F",
     marginTop: 1,
   },
 });
