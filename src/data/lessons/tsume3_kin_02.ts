@@ -50,6 +50,26 @@ export const TSUME3_KIN_02: LessonData = {
       fail_text: "王手をかけて、逃げ道をなくそう。",
     },
     {
+      id: "tsume3_7",
+      type: "move",
+      board_sfen: "3+Pg4/4k4/3p1pB2/9/4P4/9/9/9/9 b - 1",
+      instruction: "3手で詰ませよう！",
+      coach_text: "次の3手詰めじゃ！",
+      correct_move: {
+        from: { row: 2, col: 6 },
+        to: { row: 0, col: 4 },
+      },
+      auto_response: { from: { row: 1, col: 4 }, to: { row: 2, col: 4 } },
+      after_response_sfen: "3+P+B4/9/3pkp3/9/4P4/9/9/9/9 b G 1",
+      after_response_text: "相手が逃げたぞ。\n次の1手で詰ませよう！",
+      second_move: {
+        from: { hand: "ki" },
+        to: { row: 3, col: 4 },
+      },
+      success_text: "3手詰め成功じゃ！",
+      fail_text: "王手をかけて、逃げ道をなくそう。",
+    },
+    {
       id: "tsume3_8",
       type: "move",
       board_sfen: "6+Rg1/8k/7pp/9/9/9/9/9/9 b 2G 1",

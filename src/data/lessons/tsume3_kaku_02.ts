@@ -35,7 +35,7 @@ export const TSUME3_KAKU_02: LessonData = {
       instruction: "3手で詰ませよう！",
       coach_text: "次の3手詰めじゃ！",
       correct_move: {
-        from: { row: 3, col: 2 },
+        from: { row: 0, col: 1 },
         to: { row: 3, col: 3 },
       },
       auto_response: { from: { row: 2, col: 3 }, to: { row: 3, col: 3 } },

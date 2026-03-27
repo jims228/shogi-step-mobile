@@ -29,6 +29,26 @@ export const TSUME3_OUYOU_05: LessonData = {
       fail_text: "王手をかけて、逃げ道をなくそう。",
     },
     {
+      id: "tsume3_88",
+      type: "move",
+      board_sfen: "7nk/6R1l/6spp/5B3/9/9/9/9/9 b - 1",
+      instruction: "3手で詰ませよう！",
+      coach_text: "次の3手詰めじゃ！",
+      correct_move: {
+        from: { row: 3, col: 5 },
+        to: { row: 2, col: 6 },
+      },
+      auto_response: { from: { row: 0, col: 7 }, to: { row: 2, col: 6 } },
+      after_response_sfen: "8k/6R1l/6npp/9/9/9/9/9/9 b S 1",
+      after_response_text: "相手が逃げたぞ。\n次の1手で詰ませよう！",
+      second_move: {
+        from: { hand: "gi" },
+        to: { row: 1, col: 7 },
+      },
+      success_text: "3手詰め成功じゃ！",
+      fail_text: "王手をかけて、逃げ道をなくそう。",
+    },
+    {
       id: "tsume3_89",
       type: "move",
       board_sfen: "ln7/2R6/kpp6/p1n6/9/PPP6/9/9/9 b BN 1",

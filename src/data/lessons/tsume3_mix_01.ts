@@ -39,6 +39,9 @@ export const TSUME3_MIX_01: LessonData = {
         from: { hand: "ki" },
         to: { row: 0, col: 4 },
       },
+      auto_response: { from: { row: 1, col: 3 }, to: { row: 0, col: 4 } },
+      after_response_sfen: "ln1k+b4/1G3G3/ppppps3/9/9/9/9/9/9 b G 1",
+      after_response_text: "相手が逃げたぞ。\n次の1手で詰ませよう！",
       second_move: {
         from: { hand: "ki" },
         to: { row: 1, col: 2 },

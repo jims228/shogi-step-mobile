@@ -81,9 +81,6 @@ export const TSUME3_KEI_01: LessonData = {
         from: { row: 2, col: 6 },
         to: { row: 0, col: 6 },
       },
-      auto_response: { from: { row: 0, col: 7 }, to: { row: 0, col: 7 } },
-      after_response_sfen: "6+Rpk/8l/9/9/9/9/9/9/9 b N 1",
-      after_response_text: "相手が逃げたぞ。\n次の1手で詰ませよう！",
       second_move: {
         from: { hand: "ke" },
         to: { row: 2, col: 7 },

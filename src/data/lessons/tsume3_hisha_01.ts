@@ -8,6 +8,23 @@ export const TSUME3_HISHA_01: LessonData = {
   reward_xp: 15,
   steps: [
     {
+      id: "tsume3_41",
+      type: "move",
+      board_sfen: "6g1k/8l/6R2/9/9/9/9/9/9 b - 1",
+      instruction: "3手で詰ませよう！",
+      coach_text: "3手詰めじゃ！\nまず1手目の王手を指そう。",
+      correct_move: {
+        from: { row: 2, col: 6 },
+        to: { row: 0, col: 6 },
+      },
+      second_move: {
+        from: { hand: "ki" },
+        to: { row: 1, col: 7 },
+      },
+      success_text: "3手詰め成功じゃ！",
+      fail_text: "王手をかけて、逃げ道をなくそう。",
+    },
+    {
       id: "tsume3_42",
       type: "move",
       board_sfen: "8k/9/6R2/9/9/9/9/9/9 b G 1",
@@ -18,9 +35,6 @@ export const TSUME3_HISHA_01: LessonData = {
         from: { row: 2, col: 6 },
         to: { row: 2, col: 8 },
       },
-      auto_response: { from: { row: 1, col: 8 }, to: { row: 1, col: 8 } },
-      after_response_sfen: "8k/8p/8+R/9/9/9/9/9/9 b G 1",
-      after_response_text: "相手が逃げたぞ。\n次の1手で詰ませよう！",
       second_move: {
         from: { hand: "ki" },
         to: { row: 1, col: 7 },

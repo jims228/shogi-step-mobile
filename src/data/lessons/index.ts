@@ -128,8 +128,11 @@ import { TSUME1_OUYOU_01 } from "./tsume1_ouyou_01";
 import { TSUME1_OUYOU_02 } from "./tsume1_ouyou_02";
 import { TSUME1_OUYOU_03 } from "./tsume1_ouyou_03";
 import { TSUME1_OUYOU_04 } from "./tsume1_ouyou_04";
-import { TSUME1_OUYOU_05 } from "./tsume1_ouyou_05";
-import { TSUME1_OUYOU_06 } from "./tsume1_ouyou_06";
+import { TSUME1_KEI_03 } from "./tsume1_kei_03";
+import { TSUME1_KYOU_03 } from "./tsume1_kyou_03";
+import { TSUME1_HISHA_03 } from "./tsume1_hisha_03";
+import { TSUME1_KAKU_03 } from "./tsume1_kaku_03";
+import { TSUME1_FU_03 } from "./tsume1_fu_03";
 import { TSUME3_KIN_01 } from "./tsume3_kin_01";
 import { TSUME3_KIN_02 } from "./tsume3_kin_02";
 import { TSUME3_GIN_01 } from "./tsume3_gin_01";
@@ -288,8 +291,11 @@ const NATIVE_LESSONS: Record<string, LessonData> = {
   [TSUME1_OUYOU_02.id]: TSUME1_OUYOU_02,
   [TSUME1_OUYOU_03.id]: TSUME1_OUYOU_03,
   [TSUME1_OUYOU_04.id]: TSUME1_OUYOU_04,
-  [TSUME1_OUYOU_05.id]: TSUME1_OUYOU_05,
-  [TSUME1_OUYOU_06.id]: TSUME1_OUYOU_06,
+  [TSUME1_KEI_03.id]: TSUME1_KEI_03,
+  [TSUME1_KYOU_03.id]: TSUME1_KYOU_03,
+  [TSUME1_HISHA_03.id]: TSUME1_HISHA_03,
+  [TSUME1_KAKU_03.id]: TSUME1_KAKU_03,
+  [TSUME1_FU_03.id]: TSUME1_FU_03,
   [TSUME3_KIN_01.id]: TSUME3_KIN_01,
   [TSUME3_KIN_02.id]: TSUME3_KIN_02,
   [TSUME3_GIN_01.id]: TSUME3_GIN_01,

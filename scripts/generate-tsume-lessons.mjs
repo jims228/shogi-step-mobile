@@ -91,14 +91,12 @@ const lessons = [
   { id: 'tsume1_fu_02', title: '歩の1手詰め②', problems: [65,66,67,68], type: '1te', unit: 'u5' },
 
   // U6: 1手詰め応用
-  { id: 'tsume1_ouyou_01', title: '1手詰め応用①', problems: [75,76,77,78], type: '1te', unit: 'u6' },
-  { id: 'tsume1_ouyou_02', title: '1手詰め応用②', problems: [79,80,81,82], type: '1te', unit: 'u6' },
-  { id: 'tsume1_ouyou_03', title: '1手詰め応用③', problems: [83,84,85,86], type: '1te', unit: 'u6' },
-  { id: 'tsume1_ouyou_04', title: '1手詰め応用④', problems: [87,88,89,90], type: '1te', unit: 'u6' },
+  { id: 'tsume1_ouyou_01', title: '1手詰め応用①', problems: [83,84,85,86], type: '1te', unit: 'u6' },
+  { id: 'tsume1_ouyou_02', title: '1手詰め応用②', problems: [87,88,89,90], type: '1te', unit: 'u6' },
 
   // U7: 1手詰め応用
-  { id: 'tsume1_ouyou_05', title: '1手詰め応用⑤', problems: [91,92,93,94], type: '1te', unit: 'u7' },
-  { id: 'tsume1_ouyou_06', title: '1手詰め卒業', problems: [95,96,97,98], type: '1te', unit: 'u7' },
+  { id: 'tsume1_ouyou_03', title: '1手詰め応用③', problems: [91,92,93,94], type: '1te', unit: 'u7' },
+  { id: 'tsume1_ouyou_04', title: '1手詰め卒業', problems: [95,96,97,98], type: '1te', unit: 'u7' },
 
   // U5: 3手詰め
   { id: 'tsume3_kin_01', title: '金の3手詰め①', problems: [1,2,3,4], type: '3te', unit: 'u5' },
@@ -121,10 +119,17 @@ const lessons = [
   { id: 'tsume3_fu_02', title: '歩の3手詰め②', problems: [65,66,67,68], type: '3te', unit: 'u7' },
 
   // U8: 3手詰め mix + ouyou
+  // Remaining 1手詰め: 29,30,39,40,49,50,59,60,69,70,99,100
+  { id: 'tsume1_kei_03', title: '桂の1手詰め③', problems: [29,30], type: '1te', unit: 'u6', extra1te_ouyou: [75,76] },
+  { id: 'tsume1_kyou_03', title: '香の1手詰め③', problems: [39,40], type: '1te', unit: 'u6', extra1te_ouyou: [77,78] },
+  { id: 'tsume1_hisha_03', title: '飛車の1手詰め③', problems: [49,50], type: '1te', unit: 'u7', extra1te_ouyou: [79,80] },
+  { id: 'tsume1_kaku_03', title: '角の1手詰め③', problems: [59,60], type: '1te', unit: 'u7', extra1te_ouyou: [81,82] },
+  { id: 'tsume1_fu_03', title: '歩の1手詰め③', problems: [69,70,99,100], type: '1te', unit: 'u8' },
+
   { id: 'tsume3_mix_01', title: '3手詰め 駒別おさらい①', problems: [9,10,19,20], type: '3te', unit: 'u8' },
   { id: 'tsume3_mix_02', title: '3手詰め 駒別おさらい②', problems: [29,30,39,40], type: '3te', unit: 'u8' },
   { id: 'tsume3_mix_03', title: '3手詰め 駒別おさらい③', problems: [49,50,59,60], type: '3te', unit: 'u8' },
-  { id: 'tsume3_mix_04', title: '3手詰め 駒別おさらい④', problems: [69,70], type: '3te_mixed', unit: 'u8', extra1te: [99,100] },
+  { id: 'tsume3_mix_04', title: '3手詰め 駒別おさらい④', problems: [69,70,71,72], type: '3te', unit: 'u8' },
   { id: 'tsume3_ouyou_01', title: '3手詰め応用①', problems: [71,72,73,74], type: '3te', unit: 'u8' },
   { id: 'tsume3_ouyou_02', title: '3手詰め応用②', problems: [75,76,77,78], type: '3te', unit: 'u8' },
   { id: 'tsume3_ouyou_03', title: '3手詰め応用③', problems: [79,80,81,82], type: '3te', unit: 'u8' },
@@ -161,53 +166,112 @@ function sfenToBoard(sfen) {
   return board;
 }
 
+function isSente(p) {
+  if (!p) return false;
+  const base = p.replace('+', '');
+  return base === base.toUpperCase();
+}
+
+function isGote(p) {
+  if (!p) return false;
+  const base = p.replace('+', '');
+  return base === base.toLowerCase();
+}
+
 function findMove(beforeSfen, afterSfen) {
   const before = sfenToBoard(beforeSfen);
   const after = sfenToBoard(afterSfen);
 
-  let from = null;
-  let to = null;
-  let piece = null;
+  const disappeared = []; // sente pieces that disappeared
+  const appeared = [];    // sente pieces that appeared (or replaced gote)
+  const goteDisappeared = []; // gote pieces that disappeared (for opponent move)
 
   for (let r = 0; r < 9; r++) {
     for (let c = 0; c < 9; c++) {
       const b = before[r]?.[c] || null;
       const a = after[r]?.[c] || null;
-      if (b !== a) {
-        if (b && !a) {
-          // piece disappeared = from
-          from = { row: r, col: c };
-        } else if (a && !b) {
-          // piece appeared = to
-          to = { row: r, col: c };
-          piece = a;
-        } else if (a !== b) {
-          // piece changed (capture or different piece appeared)
-          if (a && a.toUpperCase() === a.replace('+','').toUpperCase()) {
-            // uppercase = sente piece appeared
-            to = { row: r, col: c };
-            piece = a;
-          }
-          if (b && b.toUpperCase() === b.replace('+','').toUpperCase() && !a) {
-            from = { row: r, col: c };
+      if (b === a) continue;
+
+      // A sente piece disappeared from this square
+      if (isSente(b) && !isSente(a)) {
+        disappeared.push({ row: r, col: c, piece: b });
+      }
+      // A sente piece appeared on this square (new or replaced gote)
+      if (isSente(a) && (!b || !isSente(b))) {
+        appeared.push({ row: r, col: c, piece: a });
+      }
+      // A gote piece disappeared (for opponent move detection)
+      if (isGote(b) && !isGote(a)) {
+        goteDisappeared.push({ row: r, col: c, piece: b });
+      }
+      // A gote piece appeared
+      if (isGote(a) && (!b || !isGote(b))) {
+        // gote move: treat as from=goteDisappeared, to=here
+      }
+    }
+  }
+
+  const pieceMap = { 'P': 'fu', 'L': 'ky', 'N': 'ke', 'S': 'gi', 'G': 'ki', 'B': 'ka', 'R': 'hi', 'K': 'ou' };
+
+  // Sente move
+  if (disappeared.length === 1 && appeared.length === 1) {
+    return { type: 'move', from: { row: disappeared[0].row, col: disappeared[0].col }, to: { row: appeared[0].row, col: appeared[0].col } };
+  }
+
+  // Sente drop (no piece disappeared, one appeared)
+  if (disappeared.length === 0 && appeared.length === 1) {
+    const pieceLetter = appeared[0].piece.replace('+', '').toUpperCase();
+    const handPiece = pieceMap[pieceLetter];
+    if (handPiece) {
+      return { type: 'drop', hand: handPiece, to: { row: appeared[0].row, col: appeared[0].col } };
+    }
+  }
+
+  // Gote move (for auto_response)
+  if (goteDisappeared.length >= 1) {
+    // Find where gote piece went
+    for (let r = 0; r < 9; r++) {
+      for (let c = 0; c < 9; c++) {
+        const b = before[r]?.[c] || null;
+        const a = after[r]?.[c] || null;
+        if (isGote(a) && a !== b) {
+          return { type: 'move', from: { row: goteDisappeared[0].row, col: goteDisappeared[0].col }, to: { row: r, col: c } };
+        }
+      }
+    }
+    // Gote piece just moved to empty square
+    if (goteDisappeared.length === 1) {
+      for (let r = 0; r < 9; r++) {
+        for (let c = 0; c < 9; c++) {
+          if (r === goteDisappeared[0].row && c === goteDisappeared[0].col) continue;
+          const b = before[r]?.[c] || null;
+          const a = after[r]?.[c] || null;
+          if (isGote(a) && !isGote(b)) {
+            return { type: 'move', from: { row: goteDisappeared[0].row, col: goteDisappeared[0].col }, to: { row: r, col: c } };
           }
         }
       }
     }
   }
 
-  // If no 'from' found, it's a drop from hand
-  if (!from && to && piece) {
-    const pieceMap = { 'P': 'fu', 'L': 'ky', 'N': 'ke', 'S': 'gi', 'G': 'ki', 'B': 'ka', 'R': 'hi', 'K': 'ou' };
-    const pieceLetter = piece.replace('+', '').toUpperCase();
-    const handPiece = pieceMap[pieceLetter];
-    if (handPiece) {
-      return { type: 'drop', hand: handPiece, to };
+  // Sente promoted move (piece changed from X to +X on different square)
+  if (disappeared.length === 0 && appeared.length === 0) {
+    // Check for promotion in place or complex capture
+    for (let r = 0; r < 9; r++) {
+      for (let c = 0; c < 9; c++) {
+        const b = before[r]?.[c] || null;
+        const a = after[r]?.[c] || null;
+        if (b !== a && isSente(b) && !a) {
+          disappeared.push({ row: r, col: c, piece: b });
+        }
+        if (b !== a && isSente(a) && !isSente(b)) {
+          appeared.push({ row: r, col: c, piece: a });
+        }
+      }
     }
-  }
-
-  if (from && to) {
-    return { type: 'move', from, to };
+    if (disappeared.length === 1 && appeared.length === 1) {
+      return { type: 'move', from: { row: disappeared[0].row, col: disappeared[0].col }, to: { row: appeared[0].row, col: appeared[0].col } };
+    }
   }
 
   return null;
@@ -355,6 +419,16 @@ function generateLessonFile(lesson) {
   // Handle extra 1te problems in mixed lessons
   if (lesson.extra1te) {
     for (const num of lesson.extra1te) {
+      const data = tsume1[num];
+      if (!data) { console.warn(`  Missing 1手詰め problem ${num}`); continue; }
+      const step = gen1teStep(num, data, steps.length);
+      if (step) steps.push(step);
+    }
+  }
+
+  // Handle extra1te_ouyou: pad a 2-problem lesson with ouyou problems
+  if (lesson.extra1te_ouyou) {
+    for (const num of lesson.extra1te_ouyou) {
       const data = tsume1[num];
       if (!data) { console.warn(`  Missing 1手詰め problem ${num}`); continue; }
       const step = gen1teStep(num, data, steps.length);

@@ -81,7 +81,7 @@ export const TSUME3_HISHA_02: LessonData = {
         to: { row: 3, col: 0 },
       },
       second_move: {
-        from: { row: 2, col: 0 },
+        from: { row: 3, col: 0 },
         to: { row: 4, col: 0 },
       },
       success_text: "3手詰め成功じゃ！",

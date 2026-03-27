@@ -39,9 +39,6 @@ export const TSUME3_KYOU_02: LessonData = {
         from: { hand: "ky" },
         to: { row: 4, col: 8 },
       },
-      auto_response: { from: { row: 3, col: 8 }, to: { row: 3, col: 8 } },
-      after_response_sfen: "8+R/8l/7pk/7np/8L/9/9/9/9 b S 1",
-      after_response_text: "相手が逃げたぞ。\n次の1手で詰ませよう！",
       second_move: {
         from: { hand: "gi" },
         to: { row: 1, col: 7 },
@@ -60,9 +57,6 @@ export const TSUME3_KYOU_02: LessonData = {
         from: { hand: "ky" },
         to: { row: 2, col: 8 },
       },
-      auto_response: { from: { row: 1, col: 8 }, to: { row: 1, col: 8 } },
-      after_response_sfen: "6+Rgk/6p1l/8L/8p/9/9/9/9/9 b S 1",
-      after_response_text: "相手が逃げたぞ。\n次の1手で詰ませよう！",
       second_move: {
         from: { hand: "gi" },
         to: { row: 1, col: 7 },
