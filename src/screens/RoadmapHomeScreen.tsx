@@ -206,10 +206,9 @@ function DotNav({ units, onSelect }: { units: typeof UNITS; onSelect: (id: strin
       }}
       {...panResponder.panHandlers}
     >
-      {units.map((unit, i) => (
+      {units.map((unit) => (
         <View key={unit.id} style={styles.dotBtn}>
           <View style={styles.dot} />
-          <Text style={styles.dotLabel}>{i}</Text>
         </View>
       ))}
     </View>
@@ -290,24 +289,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: 16,
-    gap: 6,
+    gap: 2,
   },
   dotBtn: {
     alignItems: "center",
     justifyContent: "center",
-    width: 24,
-    height: 24,
+    width: 16,
+    height: 12,
   },
   dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
     backgroundColor: "#A1887F",
-  },
-  dotLabel: {
-    fontSize: 7,
-    fontWeight: "900",
-    color: "#A1887F",
-    marginTop: 1,
   },
 });
