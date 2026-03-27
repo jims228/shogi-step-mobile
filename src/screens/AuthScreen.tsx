@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Alert, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import * as AppleAuthentication from "expo-apple-authentication";
-import * as Crypto from "expo-crypto";
+// Apple auth & crypto loaded only on iOS to avoid native module errors on Android
+const AppleAuthentication = Platform.OS === "ios" ? require("expo-apple-authentication") : null;
+const Crypto = Platform.OS === "ios" ? require("expo-crypto") : null;
 
 import { Screen } from "../ui/components";
 import { theme } from "../ui/theme";
