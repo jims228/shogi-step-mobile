@@ -70,8 +70,8 @@ function MainTabs() {
           name="RoadmapHome"
           component={RoadmapHomeScreen}
           options={{
-            title: "ロードマップ",
-            tabBarLabel: "ロードマップ",
+            title: "将棋ステップ",
+            tabBarLabel: "ホーム",
             tabBarIcon: ({ color }) => <Text style={{ fontSize: 20, color }}>🗺️</Text>,
             headerRight: () => <HelpButton onPress={() => setGuideVisible(true)} />,
           }}

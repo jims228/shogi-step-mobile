@@ -170,18 +170,24 @@ export function RoadmapHomeScreen() {
 
 function DotNav({ units, onSelect }: { units: typeof UNITS; onSelect: (id: string) => void }) {
   const containerRef = useRef<View>(null);
-  const layoutRef = useRef({ y: 0, height: 0 });
+  const containerY = useRef(0);
+  const dotCenters = useRef<number[]>([]);
   const lastIndexRef = useRef(-1);
 
   const hitUnit = useCallback((pageY: number) => {
-    const { y, height } = layoutRef.current;
-    if (height === 0) return;
-    const relY = pageY - y;
-    const idx = Math.floor((relY / height) * units.length);
-    const clamped = Math.max(0, Math.min(units.length - 1, idx));
-    if (clamped !== lastIndexRef.current) {
-      lastIndexRef.current = clamped;
-      onSelect(units[clamped].id);
+    const centers = dotCenters.current;
+    if (centers.length === 0) return;
+    const relY = pageY - containerY.current;
+    // Find closest dot
+    let bestIdx = 0;
+    let bestDist = Infinity;
+    for (let i = 0; i < centers.length; i++) {
+      const d = Math.abs(relY - centers[i]);
+      if (d < bestDist) { bestDist = d; bestIdx = i; }
+    }
+    if (bestIdx !== lastIndexRef.current) {
+      lastIndexRef.current = bestIdx;
+      onSelect(units[bestIdx].id);
     }
   }, [units, onSelect]);
 
@@ -200,14 +206,21 @@ function DotNav({ units, onSelect }: { units: typeof UNITS; onSelect: (id: strin
       ref={containerRef}
       style={styles.dotNav}
       onLayout={() => {
-        containerRef.current?.measureInWindow((_x, y, _w, h) => {
-          layoutRef.current = { y, height: h };
+        containerRef.current?.measureInWindow((_x, y) => {
+          containerY.current = y;
         });
       }}
       {...panResponder.panHandlers}
     >
-      {units.map((unit) => (
-        <View key={unit.id} style={styles.dotBtn}>
+      {units.map((unit, i) => (
+        <View
+          key={unit.id}
+          style={styles.dotBtn}
+          onLayout={(e) => {
+            const { y, height } = e.nativeEvent.layout;
+            dotCenters.current[i] = y + height / 2;
+          }}
+        >
           <View style={styles.dot} />
         </View>
       ))}

@@ -3,15 +3,12 @@ import type { ExpoConfig } from "expo/config";
 // Source of truth for Expo app configuration in this repository.
 // Keep app.json as a minimal placeholder only.
 
-const APP_NAME = "Shogi Roadmap";
-const SLUG = "shogi-roadmap";
-const SCHEME = "shogiroadmap";
+const APP_NAME = "将棋ステップ";
+const SLUG = "shogi-step";
+const SCHEME = "shogistep";
 
-// NOTE:
-// - Update these before real production distribution.
-// - They must be globally unique on iOS.
-const IOS_BUNDLE_ID = "com.jims228.shogiroadmap";
-const ANDROID_PACKAGE = "com.jims228.shogiroadmap";
+const IOS_BUNDLE_ID = "com.jims228.shogistep";
+const ANDROID_PACKAGE = "com.jims228.shogistep";
 
 const config: ExpoConfig = {
   name: APP_NAME,
