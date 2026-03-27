@@ -28,6 +28,27 @@ export const TSUME3_MIX_03: LessonData = {
       fail_text: "王手をかけて、逃げ道をなくそう。",
     },
     {
+      id: "tsume3_50",
+      type: "move",
+      board_sfen: "1n1g5/k1s6/1ppp5/p1N6/9/9/9/9/9 b RG 1",
+      instruction: "3手で詰ませよう！",
+      coach_text: "次の3手詰めじゃ！",
+      hand_pieces: { hi: 1, ki: 1 },
+      correct_move: {
+        from: { hand: "hi" },
+        to: { row: 0, col: 0 },
+      },
+      auto_response: { from: { row: 1, col: 0 }, to: { row: 0, col: 0 } },
+      after_response_sfen: "kn1g5/2s6/1ppp5/p1N6/9/9/9/9/9 b G 1",
+      after_response_text: "相手が逃げたぞ。\n次の1手で詰ませよう！",
+      second_move: {
+        from: { hand: "ki" },
+        to: { row: 1, col: 1 },
+      },
+      success_text: "3手詰め成功じゃ！",
+      fail_text: "王手をかけて、逃げ道をなくそう。",
+    },
+    {
       id: "tsume3_59",
       type: "move",
       board_sfen: "k8/l1r6/p1Np5/1P7/9/9/9/9/9 b BN 1",
