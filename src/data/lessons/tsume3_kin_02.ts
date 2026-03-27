@@ -1,0 +1,74 @@
+import type { LessonData } from "../../lesson/types";
+
+export const TSUME3_KIN_02: LessonData = {
+  id: "tsume3_kin_02",
+  title: "金の3手詰め②",
+  unit: "u5",
+  type: "learn",
+  reward_xp: 15,
+  steps: [
+    {
+      id: "tsume3_5",
+      type: "move",
+      board_sfen: "3bk1g2/7+R1/5s3/7p1/9/9/9/9/9 b 2G 1",
+      instruction: "3手で詰ませよう！",
+      coach_text: "3手詰めじゃ！\nまず1手目の王手を指そう。",
+      hand_pieces: { ki: 2 },
+      correct_move: {
+        from: { hand: "ki" },
+        to: { row: 1, col: 3 },
+      },
+      auto_response: { from: { row: 0, col: 4 }, to: { row: 0, col: 5 } },
+      after_response_sfen: "3b1kg2/3G3+R1/5s3/7p1/9/9/9/9/9 b G 1",
+      after_response_text: "相手が逃げたぞ。\n次の1手で詰ませよう！",
+      second_move: {
+        from: { hand: "ki" },
+        to: { row: 0, col: 4 },
+      },
+      success_text: "3手詰め成功じゃ！",
+      fail_text: "王手をかけて、逃げ道をなくそう。",
+    },
+    {
+      id: "tsume3_6",
+      type: "move",
+      board_sfen: "6+R2/7gk/8p/7p1/8P/9/9/9/9 b 2G 1",
+      instruction: "3手で詰ませよう！",
+      coach_text: "次の3手詰めじゃ！",
+      hand_pieces: { ki: 2 },
+      correct_move: {
+        from: { hand: "ki" },
+        to: { row: 0, col: 8 },
+      },
+      auto_response: { from: { row: 1, col: 8 }, to: { row: 2, col: 7 } },
+      after_response_sfen: "6+R1G/7g1/7kp/7p1/8P/9/9/9/9 b G 1",
+      after_response_text: "相手が逃げたぞ。\n次の1手で詰ませよう！",
+      second_move: {
+        from: { hand: "ki" },
+        to: { row: 3, col: 6 },
+      },
+      success_text: "3手詰め成功じゃ！",
+      fail_text: "王手をかけて、逃げ道をなくそう。",
+    },
+    {
+      id: "tsume3_8",
+      type: "move",
+      board_sfen: "6+Rg1/8k/7pp/9/9/9/9/9/9 b 2G 1",
+      instruction: "3手で詰ませよう！",
+      coach_text: "次の3手詰めじゃ！",
+      hand_pieces: { ki: 2 },
+      correct_move: {
+        from: { hand: "ki" },
+        to: { row: 1, col: 7 },
+      },
+      auto_response: { from: { row: 0, col: 7 }, to: { row: 1, col: 7 } },
+      after_response_sfen: "6+R2/7gk/7pp/9/9/9/9/9/9 b G 1",
+      after_response_text: "相手が逃げたぞ。\n次の1手で詰ませよう！",
+      second_move: {
+        from: { hand: "ki" },
+        to: { row: 0, col: 8 },
+      },
+      success_text: "3手詰め成功じゃ！",
+      fail_text: "王手をかけて、逃げ道をなくそう。",
+    },
+  ],
+};

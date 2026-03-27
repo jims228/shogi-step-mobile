@@ -1,0 +1,71 @@
+import type { LessonData } from "../../lesson/types";
+
+export const TSUME1_KAKU_02: LessonData = {
+  id: "tsume1_kaku_02",
+  title: "角の1手詰め②",
+  unit: "u5",
+  type: "learn",
+  reward_xp: 15,
+  steps: [
+    {
+      id: "tsume1_55",
+      type: "move",
+      board_sfen: "9/lks6/1NNp5/pPP6/9/9/9/9/9 b B 1",
+      instruction: "1手で詰ませよう！",
+      coach_text: "詰将棋じゃ！\n1手で王様を詰ませよう。",
+      hand_pieces: { ka: 1 },
+      correct_move: {
+        from: { hand: "ka" },
+        to: { row: 0, col: 2 },
+      },
+      result_sfen: "2B6/lks6/1NNp5/pPP6/9/9/9/9/9 b - 1",
+      success_text: "詰みじゃ！",
+      fail_text: "王様が逃げられない手を探そう。",
+    },
+    {
+      id: "tsume1_56",
+      type: "move",
+      board_sfen: "9/lks6/1NNp5/pP7/9/9/9/9/9 b B 1",
+      instruction: "1手で詰ませよう！",
+      coach_text: "次の問題じゃ！",
+      hand_pieces: { ka: 1 },
+      correct_move: {
+        from: { hand: "ka" },
+        to: { row: 0, col: 0 },
+      },
+      result_sfen: "B8/lks6/1NNp5/pP7/9/9/9/9/9 b - 1",
+      success_text: "詰みじゃ！",
+      fail_text: "王様が逃げられない手を探そう。",
+    },
+    {
+      id: "tsume1_57",
+      type: "move",
+      board_sfen: "lS1p5/1s7/pkn6/1pp6/9/9/9/9/9 b B 1",
+      instruction: "1手で詰ませよう！",
+      coach_text: "次の問題じゃ！",
+      hand_pieces: { ka: 1 },
+      correct_move: {
+        from: { hand: "ka" },
+        to: { row: 1, col: 2 },
+      },
+      result_sfen: "lS1p5/1sB6/pkn6/1pp6/9/9/9/9/9 b - 1",
+      success_text: "詰みじゃ！",
+      fail_text: "王様が逃げられない手を探そう。",
+    },
+    {
+      id: "tsume1_58",
+      type: "move",
+      board_sfen: "l1+B6/9/1kn6/pp7/2P6/9/9/9/9 b B 1",
+      instruction: "1手で詰ませよう！",
+      coach_text: "次の問題じゃ！",
+      hand_pieces: { ka: 1 },
+      correct_move: {
+        from: { hand: "ka" },
+        to: { row: 3, col: 2 },
+      },
+      result_sfen: "l1+B6/9/1kn6/ppB6/2P6/9/9/9/9 b - 1",
+      success_text: "詰みじゃ！",
+      fail_text: "王様が逃げられない手を探そう。",
+    },
+  ],
+};

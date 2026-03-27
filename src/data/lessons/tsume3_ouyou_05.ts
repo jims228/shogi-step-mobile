@@ -1,0 +1,74 @@
+import type { LessonData } from "../../lesson/types";
+
+export const TSUME3_OUYOU_05: LessonData = {
+  id: "tsume3_ouyou_05",
+  title: "3手詰め応用⑤",
+  unit: "u8",
+  type: "learn",
+  reward_xp: 15,
+  steps: [
+    {
+      id: "tsume3_87",
+      type: "move",
+      board_sfen: "6gk1/7s1/6+b+R1/9/9/9/9/9/9 b RN 1",
+      instruction: "3手で詰ませよう！",
+      coach_text: "3手詰めじゃ！\nまず1手目の王手を指そう。",
+      hand_pieces: { hi: 1, ke: 1 },
+      correct_move: {
+        from: { hand: "ke" },
+        to: { row: 2, col: 8 },
+      },
+      auto_response: { from: { row: 0, col: 7 }, to: { row: 0, col: 8 } },
+      after_response_sfen: "6g1k/7s1/6+b+RN/9/9/9/9/9/9 b R 1",
+      after_response_text: "相手が逃げたぞ。\n次の1手で詰ませよう！",
+      second_move: {
+        from: { hand: "hi" },
+        to: { row: 1, col: 8 },
+      },
+      success_text: "3手詰め成功じゃ！",
+      fail_text: "王手をかけて、逃げ道をなくそう。",
+    },
+    {
+      id: "tsume3_89",
+      type: "move",
+      board_sfen: "ln7/2R6/kpp6/p1n6/9/PPP6/9/9/9 b BN 1",
+      instruction: "3手で詰ませよう！",
+      coach_text: "次の3手詰めじゃ！",
+      hand_pieces: { ka: 1, ke: 1 },
+      correct_move: {
+        from: { hand: "ke" },
+        to: { row: 4, col: 1 },
+      },
+      auto_response: { from: { row: 2, col: 0 }, to: { row: 3, col: 1 } },
+      after_response_sfen: "ln7/2R6/1pp6/pkn6/1N7/PPP6/9/9/9 b B 1",
+      after_response_text: "相手が逃げたぞ。\n次の1手で詰ませよう！",
+      second_move: {
+        from: { hand: "ka" },
+        to: { row: 4, col: 2 },
+      },
+      success_text: "3手詰め成功じゃ！",
+      fail_text: "王手をかけて、逃げ道をなくそう。",
+    },
+    {
+      id: "tsume3_90",
+      type: "move",
+      board_sfen: "ln7/1G7/kpp6/p1N6/9/PPP6/9/9/9 b BN 1",
+      instruction: "3手で詰ませよう！",
+      coach_text: "次の3手詰めじゃ！",
+      hand_pieces: { ka: 1, ke: 1 },
+      correct_move: {
+        from: { hand: "ka" },
+        to: { row: 4, col: 2 },
+      },
+      auto_response: { from: { row: 2, col: 1 }, to: { row: 3, col: 1 } },
+      after_response_sfen: "ln7/1G7/k1p6/ppN6/2B6/PPP6/9/9/9 b N 1",
+      after_response_text: "相手が逃げたぞ。\n次の1手で詰ませよう！",
+      second_move: {
+        from: { hand: "ke" },
+        to: { row: 4, col: 1 },
+      },
+      success_text: "3手詰め成功じゃ！",
+      fail_text: "王手をかけて、逃げ道をなくそう。",
+    },
+  ],
+};

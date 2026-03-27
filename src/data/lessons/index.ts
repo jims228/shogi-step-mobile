@@ -108,6 +108,54 @@ import { U8_COMPARE_OPENING } from "./u8_compare_opening";
 import { U8_MIDDLE_GAME } from "./u8_middle_game";
 import { U8_REVIEW } from "./u8_review";
 import { U9_TOTAL_REVIEW } from "./u9_total_review";
+import { TSUME1_KIN_01 } from "./tsume1_kin_01";
+import { TSUME1_KIN_02 } from "./tsume1_kin_02";
+import { TSUME1_GIN_01 } from "./tsume1_gin_01";
+import { TSUME1_GIN_02 } from "./tsume1_gin_02";
+import { TSUME1_HISHA_01 } from "./tsume1_hisha_01";
+import { TSUME1_KAKU_01 } from "./tsume1_kaku_01";
+import { TSUME1_KEI_01 } from "./tsume1_kei_01";
+import { TSUME1_KYOU_01 } from "./tsume1_kyou_01";
+import { TSUME1_FU_01 } from "./tsume1_fu_01";
+import { TSUME1_KIN_03 } from "./tsume1_kin_03";
+import { TSUME1_GIN_03 } from "./tsume1_gin_03";
+import { TSUME1_KEI_02 } from "./tsume1_kei_02";
+import { TSUME1_HISHA_02 } from "./tsume1_hisha_02";
+import { TSUME1_KAKU_02 } from "./tsume1_kaku_02";
+import { TSUME1_KYOU_02 } from "./tsume1_kyou_02";
+import { TSUME1_FU_02 } from "./tsume1_fu_02";
+import { TSUME1_OUYOU_01 } from "./tsume1_ouyou_01";
+import { TSUME1_OUYOU_02 } from "./tsume1_ouyou_02";
+import { TSUME1_OUYOU_03 } from "./tsume1_ouyou_03";
+import { TSUME1_OUYOU_04 } from "./tsume1_ouyou_04";
+import { TSUME1_OUYOU_05 } from "./tsume1_ouyou_05";
+import { TSUME1_OUYOU_06 } from "./tsume1_ouyou_06";
+import { TSUME3_KIN_01 } from "./tsume3_kin_01";
+import { TSUME3_KIN_02 } from "./tsume3_kin_02";
+import { TSUME3_GIN_01 } from "./tsume3_gin_01";
+import { TSUME3_GIN_02 } from "./tsume3_gin_02";
+import { TSUME3_KEI_01 } from "./tsume3_kei_01";
+import { TSUME3_KEI_02 } from "./tsume3_kei_02";
+import { TSUME3_KYOU_01 } from "./tsume3_kyou_01";
+import { TSUME3_KYOU_02 } from "./tsume3_kyou_02";
+import { TSUME3_HISHA_01 } from "./tsume3_hisha_01";
+import { TSUME3_HISHA_02 } from "./tsume3_hisha_02";
+import { TSUME3_KAKU_01 } from "./tsume3_kaku_01";
+import { TSUME3_KAKU_02 } from "./tsume3_kaku_02";
+import { TSUME3_FU_01 } from "./tsume3_fu_01";
+import { TSUME3_FU_02 } from "./tsume3_fu_02";
+import { TSUME3_MIX_01 } from "./tsume3_mix_01";
+import { TSUME3_MIX_02 } from "./tsume3_mix_02";
+import { TSUME3_MIX_03 } from "./tsume3_mix_03";
+import { TSUME3_MIX_04 } from "./tsume3_mix_04";
+import { TSUME3_OUYOU_01 } from "./tsume3_ouyou_01";
+import { TSUME3_OUYOU_02 } from "./tsume3_ouyou_02";
+import { TSUME3_OUYOU_03 } from "./tsume3_ouyou_03";
+import { TSUME3_OUYOU_04 } from "./tsume3_ouyou_04";
+import { TSUME3_OUYOU_05 } from "./tsume3_ouyou_05";
+import { TSUME3_OUYOU_06 } from "./tsume3_ouyou_06";
+import { TSUME3_OUYOU_07 } from "./tsume3_ouyou_07";
+import { TSUME3_SOTSUGYO } from "./tsume3_sotsugyo";
 
 // Lesson data registry. Add new lessons here.
 const NATIVE_LESSONS: Record<string, LessonData> = {
@@ -220,6 +268,54 @@ const NATIVE_LESSONS: Record<string, LessonData> = {
   [U8_MIDDLE_GAME.id]: U8_MIDDLE_GAME,
   [U8_REVIEW.id]: U8_REVIEW,
   [U9_TOTAL_REVIEW.id]: U9_TOTAL_REVIEW,
+  [TSUME1_KIN_01.id]: TSUME1_KIN_01,
+  [TSUME1_KIN_02.id]: TSUME1_KIN_02,
+  [TSUME1_GIN_01.id]: TSUME1_GIN_01,
+  [TSUME1_GIN_02.id]: TSUME1_GIN_02,
+  [TSUME1_HISHA_01.id]: TSUME1_HISHA_01,
+  [TSUME1_KAKU_01.id]: TSUME1_KAKU_01,
+  [TSUME1_KEI_01.id]: TSUME1_KEI_01,
+  [TSUME1_KYOU_01.id]: TSUME1_KYOU_01,
+  [TSUME1_FU_01.id]: TSUME1_FU_01,
+  [TSUME1_KIN_03.id]: TSUME1_KIN_03,
+  [TSUME1_GIN_03.id]: TSUME1_GIN_03,
+  [TSUME1_KEI_02.id]: TSUME1_KEI_02,
+  [TSUME1_HISHA_02.id]: TSUME1_HISHA_02,
+  [TSUME1_KAKU_02.id]: TSUME1_KAKU_02,
+  [TSUME1_KYOU_02.id]: TSUME1_KYOU_02,
+  [TSUME1_FU_02.id]: TSUME1_FU_02,
+  [TSUME1_OUYOU_01.id]: TSUME1_OUYOU_01,
+  [TSUME1_OUYOU_02.id]: TSUME1_OUYOU_02,
+  [TSUME1_OUYOU_03.id]: TSUME1_OUYOU_03,
+  [TSUME1_OUYOU_04.id]: TSUME1_OUYOU_04,
+  [TSUME1_OUYOU_05.id]: TSUME1_OUYOU_05,
+  [TSUME1_OUYOU_06.id]: TSUME1_OUYOU_06,
+  [TSUME3_KIN_01.id]: TSUME3_KIN_01,
+  [TSUME3_KIN_02.id]: TSUME3_KIN_02,
+  [TSUME3_GIN_01.id]: TSUME3_GIN_01,
+  [TSUME3_GIN_02.id]: TSUME3_GIN_02,
+  [TSUME3_KEI_01.id]: TSUME3_KEI_01,
+  [TSUME3_KEI_02.id]: TSUME3_KEI_02,
+  [TSUME3_KYOU_01.id]: TSUME3_KYOU_01,
+  [TSUME3_KYOU_02.id]: TSUME3_KYOU_02,
+  [TSUME3_HISHA_01.id]: TSUME3_HISHA_01,
+  [TSUME3_HISHA_02.id]: TSUME3_HISHA_02,
+  [TSUME3_KAKU_01.id]: TSUME3_KAKU_01,
+  [TSUME3_KAKU_02.id]: TSUME3_KAKU_02,
+  [TSUME3_FU_01.id]: TSUME3_FU_01,
+  [TSUME3_FU_02.id]: TSUME3_FU_02,
+  [TSUME3_MIX_01.id]: TSUME3_MIX_01,
+  [TSUME3_MIX_02.id]: TSUME3_MIX_02,
+  [TSUME3_MIX_03.id]: TSUME3_MIX_03,
+  [TSUME3_MIX_04.id]: TSUME3_MIX_04,
+  [TSUME3_OUYOU_01.id]: TSUME3_OUYOU_01,
+  [TSUME3_OUYOU_02.id]: TSUME3_OUYOU_02,
+  [TSUME3_OUYOU_03.id]: TSUME3_OUYOU_03,
+  [TSUME3_OUYOU_04.id]: TSUME3_OUYOU_04,
+  [TSUME3_OUYOU_05.id]: TSUME3_OUYOU_05,
+  [TSUME3_OUYOU_06.id]: TSUME3_OUYOU_06,
+  [TSUME3_OUYOU_07.id]: TSUME3_OUYOU_07,
+  [TSUME3_SOTSUGYO.id]: TSUME3_SOTSUGYO,
 };
 
 /**

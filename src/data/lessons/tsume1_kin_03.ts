@@ -1,0 +1,71 @@
+import type { LessonData } from "../../lesson/types";
+
+export const TSUME1_KIN_03: LessonData = {
+  id: "tsume1_kin_03",
+  title: "金の1手詰め③",
+  unit: "u4",
+  type: "learn",
+  reward_xp: 15,
+  steps: [
+    {
+      id: "tsume1_9",
+      type: "move",
+      board_sfen: "9/8k/8p/5B3/9/9/9/9/9 b G 1",
+      instruction: "1手で詰ませよう！",
+      coach_text: "詰将棋じゃ！\n1手で王様を詰ませよう。",
+      hand_pieces: { ki: 1 },
+      correct_move: {
+        from: { hand: "ki" },
+        to: { row: 1, col: 7 },
+      },
+      result_sfen: "9/7Gk/8p/5B3/9/9/9/9/9 b G 1",
+      success_text: "詰みじゃ！",
+      fail_text: "王様が逃げられない手を探そう。",
+    },
+    {
+      id: "tsume1_10",
+      type: "move",
+      board_sfen: "7G1/8k/8p/7P1/9/9/9/9/9 b G 1",
+      instruction: "1手で詰ませよう！",
+      coach_text: "次の問題じゃ！",
+      hand_pieces: { ki: 1 },
+      correct_move: {
+        from: { hand: "ki" },
+        to: { row: 1, col: 7 },
+      },
+      result_sfen: "7G1/7Gk/8p/7P1/9/9/9/9/9 b - 1",
+      success_text: "詰みじゃ！",
+      fail_text: "王様が逃げられない手を探そう。",
+    },
+    {
+      id: "tsume1_71",
+      type: "move",
+      board_sfen: "3gk4/6+R2/9/9/9/9/9/9/9 b G 1",
+      instruction: "1手で詰ませよう！",
+      coach_text: "次の問題じゃ！",
+      hand_pieces: { ki: 1 },
+      correct_move: {
+        from: { hand: "ki" },
+        to: { row: 0, col: 5 },
+      },
+      result_sfen: "3gkG3/6+R2/9/9/9/9/9/9/9 b - 1",
+      success_text: "詰みじゃ！",
+      fail_text: "王様が逃げられない手を探そう。",
+    },
+    {
+      id: "tsume1_72",
+      type: "move",
+      board_sfen: "3gk4/6+R2/3p5/9/9/9/9/9/9 b N 1",
+      instruction: "1手で詰ませよう！",
+      coach_text: "次の問題じゃ！",
+      hand_pieces: { ke: 1 },
+      correct_move: {
+        from: { hand: "ke" },
+        to: { row: 2, col: 5 },
+      },
+      result_sfen: "3gk4/6+R2/3p1N3/9/9/9/9/9/9 b - 1",
+      success_text: "詰みじゃ！",
+      fail_text: "王様が逃げられない手を探そう。",
+    },
+  ],
+};

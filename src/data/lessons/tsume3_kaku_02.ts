@@ -1,0 +1,93 @@
+import type { LessonData } from "../../lesson/types";
+
+export const TSUME3_KAKU_02: LessonData = {
+  id: "tsume3_kaku_02",
+  title: "角の3手詰め②",
+  unit: "u7",
+  type: "learn",
+  reward_xp: 15,
+  steps: [
+    {
+      id: "tsume3_55",
+      type: "move",
+      board_sfen: "l8/ks7/p2B5/1pp6/9/9/9/9/9 b B 1",
+      instruction: "3手で詰ませよう！",
+      coach_text: "3手詰めじゃ！\nまず1手目の王手を指そう。",
+      hand_pieces: { ka: 1 },
+      correct_move: {
+        from: { hand: "ka" },
+        to: { row: 0, col: 1 },
+      },
+      auto_response: { from: { row: 1, col: 0 }, to: { row: 2, col: 1 } },
+      after_response_sfen: "lB7/1s7/pk1B5/1pp6/9/9/9/9/9 b - 1",
+      after_response_text: "相手が逃げたぞ。\n次の1手で詰ませよう！",
+      second_move: {
+        from: { row: 2, col: 3 },
+        to: { row: 1, col: 2 },
+      },
+      success_text: "3手詰め成功じゃ！",
+      fail_text: "王手をかけて、逃げ道をなくそう。",
+    },
+    {
+      id: "tsume3_56",
+      type: "move",
+      board_sfen: "lB7/1s+B6/pk7/1pp6/9/9/9/9/9 b - 1",
+      instruction: "3手で詰ませよう！",
+      coach_text: "次の3手詰めじゃ！",
+      correct_move: {
+        from: { row: 3, col: 2 },
+        to: { row: 3, col: 3 },
+      },
+      auto_response: { from: { row: 2, col: 3 }, to: { row: 3, col: 3 } },
+      after_response_sfen: "kn7/l1+P6/p8/3p5/9/9/9/9/9 b B 1",
+      after_response_text: "相手が逃げたぞ。\n次の1手で詰ませよう！",
+      second_move: {
+        from: { hand: "ka" },
+        to: { row: 1, col: 1 },
+      },
+      success_text: "3手詰め成功じゃ！",
+      fail_text: "王手をかけて、逃げ道をなくそう。",
+    },
+    {
+      id: "tsume3_57",
+      type: "move",
+      board_sfen: "l8/1kSB5/1pp6/p8/9/9/9/9/9 b - 1",
+      instruction: "3手で詰ませよう！",
+      coach_text: "次の3手詰めじゃ！",
+      correct_move: {
+        from: { row: 1, col: 3 },
+        to: { row: 0, col: 2 },
+      },
+      auto_response: { from: { row: 1, col: 1 }, to: { row: 1, col: 0 } },
+      after_response_sfen: "l1+B6/k1S6/1pp6/p8/9/9/9/9/9 b - 1",
+      after_response_text: "相手が逃げたぞ。\n次の1手で詰ませよう！",
+      second_move: {
+        from: { row: 1, col: 2 },
+        to: { row: 0, col: 1 },
+      },
+      success_text: "3手詰め成功じゃ！",
+      fail_text: "王手をかけて、逃げ道をなくそう。",
+    },
+    {
+      id: "tsume3_58",
+      type: "move",
+      board_sfen: "ln1S5/3k5/pppp5/4p4/9/9/9/9/9 b BG 1",
+      instruction: "3手で詰ませよう！",
+      coach_text: "次の3手詰めじゃ！",
+      hand_pieces: { ka: 1, ki: 1 },
+      correct_move: {
+        from: { hand: "ka" },
+        to: { row: 0, col: 2 },
+      },
+      auto_response: { from: { row: 1, col: 3 }, to: { row: 0, col: 2 } },
+      after_response_sfen: "lnkS5/9/pppp5/4p4/9/9/9/9/9 b G 1",
+      after_response_text: "相手が逃げたぞ。\n次の1手で詰ませよう！",
+      second_move: {
+        from: { hand: "ki" },
+        to: { row: 1, col: 2 },
+      },
+      success_text: "3手詰め成功じゃ！",
+      fail_text: "王手をかけて、逃げ道をなくそう。",
+    },
+  ],
+};
