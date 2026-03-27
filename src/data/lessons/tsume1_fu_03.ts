@@ -3,7 +3,7 @@ import type { LessonData } from "../../lesson/types";
 export const TSUME1_FU_03: LessonData = {
   id: "tsume1_fu_03",
   title: "歩の1手詰め③",
-  unit: "u8",
+  unit: "u7",
   type: "learn",
   reward_xp: 15,
   steps: [

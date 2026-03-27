@@ -124,12 +124,13 @@ const lessons = [
   { id: 'tsume1_kyou_03', title: '香の1手詰め③', problems: [39,40], type: '1te', unit: 'u6', extra1te_ouyou: [77,78] },
   { id: 'tsume1_hisha_03', title: '飛車の1手詰め③', problems: [49,50], type: '1te', unit: 'u7', extra1te_ouyou: [79,80] },
   { id: 'tsume1_kaku_03', title: '角の1手詰め③', problems: [59,60], type: '1te', unit: 'u7', extra1te_ouyou: [81,82] },
-  { id: 'tsume1_fu_03', title: '歩の1手詰め③', problems: [69,70,99,100], type: '1te', unit: 'u8' },
+  { id: 'tsume1_fu_03', title: '歩の1手詰め③', problems: [69,70,99,100], type: '1te', unit: 'u7' },
 
   { id: 'tsume3_mix_01', title: '3手詰め 駒別おさらい①', problems: [9,10,19,20], type: '3te', unit: 'u8' },
   { id: 'tsume3_mix_02', title: '3手詰め 駒別おさらい②', problems: [29,30,39,40], type: '3te', unit: 'u8' },
   { id: 'tsume3_mix_03', title: '3手詰め 駒別おさらい③', problems: [49,50,59,60], type: '3te', unit: 'u8' },
-  { id: 'tsume3_mix_04', title: '3手詰め 駒別おさらい④', problems: [69,70,71,72], type: '3te', unit: 'u8' },
+  // 3-69,3-70 only (2 problems). 3-71+ are in ouyou series.
+  { id: 'tsume3_mix_04', title: '3手詰め 駒別おさらい④', problems: [69,70], type: '3te', unit: 'u8' },
   { id: 'tsume3_ouyou_01', title: '3手詰め応用①', problems: [71,72,73,74], type: '3te', unit: 'u8' },
   { id: 'tsume3_ouyou_02', title: '3手詰め応用②', problems: [75,76,77,78], type: '3te', unit: 'u8' },
   { id: 'tsume3_ouyou_03', title: '3手詰め応用③', problems: [79,80,81,82], type: '3te', unit: 'u8' },
@@ -139,7 +140,7 @@ const lessons = [
   // U9: 3手詰め
   { id: 'tsume3_ouyou_06', title: '3手詰め応用⑥', problems: [91,92,93,94], type: '3te', unit: 'u9' },
   { id: 'tsume3_ouyou_07', title: '3手詰め応用⑦', problems: [95,96,97,98], type: '3te', unit: 'u9' },
-  { id: 'tsume3_sotsugyo', title: '3手詰め卒業テスト', problems: [99,100], type: '3te_final', unit: 'u9' },
+  { id: 'tsume3_sotsugyo', title: '3手詰め卒業テスト', problems: [99,100], type: '3te', unit: 'u9' },
 ];
 
 // ── SFEN diff to move ──
