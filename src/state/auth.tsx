@@ -45,9 +45,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session: s } }) => {
-      setSession(s);
+    // Get initial session, auto-create anonymous session if none exists
+    supabase.auth.getSession().then(async ({ data: { session: s } }) => {
+      if (s) {
+        setSession(s);
+      } else {
+        // Duolingo-style: start as anonymous guest automatically
+        const { data } = await supabase.auth.signInAnonymously();
+        setSession(data.session);
+      }
       setIsLoading(false);
     });
 
