@@ -4,6 +4,10 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useS
 export type MobileProgress = {
   completedLessonIds: string[];
   lastPlayedLessonId?: string;
+  /** Dates (YYYY-MM-DD) on which the user completed at least one lesson. */
+  activeDates: string[];
+  /** Current streak count. */
+  streakCount: number;
 };
 
 const STORAGE_KEY = "mobileProgress:v1";
@@ -19,7 +23,7 @@ type ProgressContextValue = {
 const ProgressContext = createContext<ProgressContextValue | null>(null);
 
 export function ProgressProvider({ children }: { children: React.ReactNode }) {
-  const [progress, setProgress] = useState<MobileProgress>({ completedLessonIds: [] });
+  const [progress, setProgress] = useState<MobileProgress>({ completedLessonIds: [], activeDates: [], streakCount: 0 });
   const [isLoaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -35,6 +39,8 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
             setProgress({
               completedLessonIds: ids,
               lastPlayedLessonId: typeof parsed.lastPlayedLessonId === "string" ? parsed.lastPlayedLessonId : undefined,
+              activeDates: Array.isArray(parsed.activeDates) ? parsed.activeDates : [],
+              streakCount: typeof parsed.streakCount === "number" ? parsed.streakCount : 0,
             });
             if (typeof __DEV__ !== "undefined" && __DEV__) {
 
@@ -65,7 +71,27 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
     (lessonId: string) => {
       setProgress((prev) => {
         if (prev.completedLessonIds.includes(lessonId)) return prev;
-        const next = { ...prev, completedLessonIds: [...prev.completedLessonIds, lessonId] };
+
+        // Streak tracking
+        const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+        const activeDates = prev.activeDates.includes(today)
+          ? prev.activeDates
+          : [...prev.activeDates, today];
+
+        // Calculate streak: check if yesterday was active
+        const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+        const wasActiveYesterday = prev.activeDates.includes(yesterday);
+        const isNewDay = !prev.activeDates.includes(today);
+        const streakCount = isNewDay
+          ? (wasActiveYesterday ? prev.streakCount + 1 : 1)
+          : prev.streakCount;
+
+        const next = {
+          ...prev,
+          completedLessonIds: [...prev.completedLessonIds, lessonId],
+          activeDates,
+          streakCount,
+        };
         void persist(next);
         if (typeof __DEV__ !== "undefined" && __DEV__) {
           console.log("[progress] markCompleted", { lessonId, completed: next.completedLessonIds.length });
@@ -91,7 +117,7 @@ export function ProgressProvider({ children }: { children: React.ReactNode }) {
   );
 
   const reset = useCallback(() => {
-    const next: MobileProgress = { completedLessonIds: [] };
+    const next: MobileProgress = { completedLessonIds: [], activeDates: [], streakCount: 0 };
     setProgress(next);
     void persist(next);
   }, [persist]);
