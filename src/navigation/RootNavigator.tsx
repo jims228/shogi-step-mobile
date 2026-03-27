@@ -9,12 +9,14 @@ import { SettingsScreen } from "../screens/SettingsScreen";
 import { StreakScreen } from "../screens/StreakScreen";
 import { ProfileScreen } from "../screens/ProfileScreen";
 import { PieceMoveGuide } from "../screens/PieceMoveGuide";
+import { AuthScreen } from "../screens/AuthScreen";
 
 // ── Types ──
 
 export type RootStackParamList = {
   MainTabs: undefined;
   LessonLaunch: { lessonId: string };
+  Auth: undefined;
 };
 
 export type TabParamList = {
@@ -121,6 +123,11 @@ export function RootNavigator() {
         name="LessonLaunch"
         component={LessonLaunchScreen}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Auth"
+        component={AuthScreen}
+        options={{ headerShown: false, presentation: "modal" }}
       />
     </Stack.Navigator>
   );

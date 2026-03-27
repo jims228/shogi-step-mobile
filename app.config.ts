@@ -49,6 +49,10 @@ const config: ExpoConfig = {
     // MVP: allow loading http://... in WebView
     usesCleartextTraffic: true,
   } as any,
+  plugins: [
+    "expo-secure-store",
+    "expo-apple-authentication",
+  ],
   extra: {
     eas: {
       projectId: "cb6b8273-2b65-4371-9a5b-6abc11f24c9f",

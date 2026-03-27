@@ -6,21 +6,24 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { RootNavigator } from "./src/navigation/RootNavigator";
 import { ProgressProvider } from "./src/state/progress";
 import { SettingsProvider } from "./src/state/settings";
+import { AuthProvider } from "./src/state/auth";
 import { SakuraBurstProvider } from "./src/ui/effects/SakuraBurstProvider";
 
 export default function App() {
   return (
     <SafeAreaProvider>
-      <SettingsProvider>
-        <ProgressProvider>
+      <AuthProvider>
+        <SettingsProvider>
+          <ProgressProvider>
           <SakuraBurstProvider>
             <NavigationContainer>
               <RootNavigator />
             </NavigationContainer>
           </SakuraBurstProvider>
           <StatusBar style="dark" />
-        </ProgressProvider>
-      </SettingsProvider>
+          </ProgressProvider>
+        </SettingsProvider>
+      </AuthProvider>
     </SafeAreaProvider>
   );
 }
