@@ -52,6 +52,13 @@ const config: ExpoConfig = {
   plugins: [
     "expo-secure-store",
     "expo-apple-authentication",
+    [
+      "react-native-google-mobile-ads",
+      {
+        androidAppId: "ca-app-pub-xxxxxxxxxxxxxxxx~yyyyyyyyyy",
+        iosAppId: "ca-app-pub-xxxxxxxxxxxxxxxx~yyyyyyyyyy",
+      },
+    ],
   ],
   extra: {
     eas: {

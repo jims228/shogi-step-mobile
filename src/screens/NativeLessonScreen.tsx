@@ -6,6 +6,8 @@ import type { RootStackParamList } from "../navigation/RootNavigator";
 import type { LessonData } from "../lesson/types";
 import { useLessonEngine } from "../lesson/useLessonEngine";
 import { useProgress } from "../state/progress";
+import { useSubscription } from "../state/subscription";
+import { onLessonCompleted } from "../ui/components/InterstitialAdManager";
 import { Screen } from "../ui/components";
 import { CoachAvatar, type CoachAvatarHandle } from "../ui/components/CoachAvatar";
 import {
@@ -90,12 +92,15 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
     navigation.goBack();
   }, [navigation]);
 
+  const { isPremium } = useSubscription();
+
   // Handle lesson completion
   React.useEffect(() => {
     if (!state.completed) return;
     if (!completedOnceRef.current) {
       completedOnceRef.current = true;
       markCompleted(lessonData.id);
+      onLessonCompleted(isPremium);
     }
     const timer = setTimeout(() => navigation.goBack(), 300);
     return () => clearTimeout(timer);

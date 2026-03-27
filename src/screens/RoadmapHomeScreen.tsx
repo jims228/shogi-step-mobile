@@ -1,12 +1,13 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import { FlatList, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import { getRoadmapList, NODE_TO_LESSON_ID, type RoadmapListItem } from "../data/roadmap";
+import { getRoadmapList, NODE_TO_LESSON_ID, UNITS, type RoadmapListItem } from "../data/roadmap";
 import { useProgress } from "../state/progress";
 import type { RootStackParamList } from "../navigation/RootNavigator";
 import { Screen } from "../ui/components";
+import { AdBanner } from "../ui/components/AdBanner";
 import { theme } from "../ui/theme";
 
 const LESSON_ICONS_IMG = require("../../assets/lesson-icons.png");
@@ -36,6 +37,24 @@ export function RoadmapHomeScreen() {
     }
     return null;
   }, [items, completedSet]);
+
+  const flatListRef = useRef<FlatList>(null);
+
+  // Build unit header index map for quick scroll
+  const unitHeaderIndices = useMemo(() => {
+    const map: Record<string, number> = {};
+    items.forEach((item, i) => {
+      if (item.type === "unit_header") map[item.unitId] = i;
+    });
+    return map;
+  }, [items]);
+
+  const scrollToUnit = useCallback((unitId: string) => {
+    const index = unitHeaderIndices[unitId];
+    if (index !== undefined) {
+      flatListRef.current?.scrollToIndex({ index, animated: true, viewOffset: 0 });
+    }
+  }, [unitHeaderIndices]);
 
   const offsets = useMemo(() => [-40, -20, 0, 20, 40, 20, 0, -20], []);
   let nodeIndex = 0;
@@ -127,13 +146,33 @@ export function RoadmapHomeScreen() {
 
         <View style={styles.roadmapWrap}>
           <FlatList
+            ref={flatListRef}
             data={items}
             keyExtractor={(item) => item.type === "unit_header" ? `header_${item.unitId}` : item.node.id}
             contentContainerStyle={{ paddingBottom: 8 }}
             renderItem={renderItem}
             ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+            onScrollToIndexFailed={(info) => {
+              flatListRef.current?.scrollToOffset({ offset: info.averageItemLength * info.index, animated: true });
+            }}
           />
+
+          {/* Unit jump dots */}
+          <View style={styles.dotNav}>
+            {UNITS.map((unit) => (
+              <Pressable
+                key={unit.id}
+                onPress={() => scrollToUnit(unit.id)}
+                hitSlop={6}
+                style={styles.dotBtn}
+              >
+                <View style={styles.dot} />
+                <Text style={styles.dotLabel}>{unit.id.replace("u", "")}</Text>
+              </Pressable>
+            ))}
+          </View>
         </View>
+        <AdBanner />
       </View>
     </Screen>
   );
@@ -203,4 +242,34 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.border,
   },
   startTagText: { fontSize: 9, fontWeight: "900", color: "#3e2723", letterSpacing: 0.3 },
+
+  // ── Dot Navigation ──
+  dotNav: {
+    position: "absolute",
+    right: -4,
+    top: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 16,
+    gap: 6,
+  },
+  dotBtn: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 24,
+    height: 24,
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "#5D4037",
+  },
+  dotLabel: {
+    fontSize: 7,
+    fontWeight: "900",
+    color: "#5D4037",
+    marginTop: 1,
+  },
 });
