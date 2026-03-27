@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import { Alert, Linking, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { Screen } from "../ui/components";
 import { theme } from "../ui/theme";
 import { useProgress } from "../state/progress";
 import { useSubscription } from "../state/subscription";
+import type { RootStackParamList } from "../navigation/RootNavigator";
+
+type Nav = NativeStackNavigationProp<RootStackParamList>;
 
 const APP_VERSION = "1.0.0";
 const PRIVACY_POLICY_URL = "https://github.com/jims228/shogi-step-mobile/blob/main/docs/privacy-policy.md";
 
 export function SettingsScreen() {
   const { progress, reset } = useProgress();
+  const navigation = useNavigation<Nav>();
   const { isPremium } = useSubscription();
   const [devTapCount, setDevTapCount] = useState(0);
   const showDevTools = devTapCount >= 7;
@@ -27,7 +33,7 @@ export function SettingsScreen() {
               {isPremium ? "プレミアム会員" : "無料プラン（広告あり）"}
             </Text>
             {!isPremium && (
-              <Pressable style={styles.upgradeBtn}>
+              <Pressable style={styles.upgradeBtn} onPress={() => navigation.navigate("Paywall")}>
                 <Text style={styles.upgradeBtnText}>プレミアムにアップグレード（月額290円）</Text>
               </Pressable>
             )}

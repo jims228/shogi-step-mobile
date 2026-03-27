@@ -10,6 +10,7 @@ import { StreakScreen } from "../screens/StreakScreen";
 import { ProfileScreen } from "../screens/ProfileScreen";
 import { PieceMoveGuide } from "../screens/PieceMoveGuide";
 import { AuthScreen } from "../screens/AuthScreen";
+import { PaywallScreen } from "../screens/PaywallScreen";
 
 // ── Types ──
 
@@ -17,6 +18,7 @@ export type RootStackParamList = {
   MainTabs: undefined;
   LessonLaunch: { lessonId: string };
   Auth: undefined;
+  Paywall: undefined;
 };
 
 export type TabParamList = {
@@ -127,6 +129,11 @@ export function RootNavigator() {
       <Stack.Screen
         name="Auth"
         component={AuthScreen}
+        options={{ headerShown: false, presentation: "modal" }}
+      />
+      <Stack.Screen
+        name="Paywall"
+        component={PaywallScreen}
         options={{ headerShown: false, presentation: "modal" }}
       />
     </Stack.Navigator>
