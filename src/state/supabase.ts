@@ -1,27 +1,13 @@
 import { createClient } from "@supabase/supabase-js";
-import * as SecureStore from "expo-secure-store";
-import { Platform } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// ── Secure storage adapter for Supabase ──
-const ExpoSecureStoreAdapter = {
-  getItem: async (key: string) => {
-    if (Platform.OS === "web") return localStorage.getItem(key);
-    return SecureStore.getItemAsync(key);
-  },
-  setItem: async (key: string, value: string) => {
-    if (Platform.OS === "web") {
-      localStorage.setItem(key, value);
-      return;
-    }
-    await SecureStore.setItemAsync(key, value);
-  },
-  removeItem: async (key: string) => {
-    if (Platform.OS === "web") {
-      localStorage.removeItem(key);
-      return;
-    }
-    await SecureStore.deleteItemAsync(key);
-  },
+// ── AsyncStorage adapter for Supabase ──
+// Uses AsyncStorage which is already installed and doesn't require a dev build rebuild.
+// For production, consider migrating to expo-secure-store after rebuilding the dev client.
+const StorageAdapter = {
+  getItem: async (key: string) => AsyncStorage.getItem(key),
+  setItem: async (key: string, value: string) => AsyncStorage.setItem(key, value),
+  removeItem: async (key: string) => AsyncStorage.removeItem(key),
 };
 
 // ── Supabase client ──
@@ -32,7 +18,7 @@ const SUPABASE_ANON_KEY = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
-    storage: ExpoSecureStoreAdapter as any,
+    storage: StorageAdapter as any,
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: false,
