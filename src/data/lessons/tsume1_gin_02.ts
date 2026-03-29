@@ -27,7 +27,7 @@ export const TSUME1_GIN_02: LessonData = {
       type: "move",
       board_sfen: "5+B3/9/4skg2/9/5G3/9/9/9/9 b S 1",
       instruction: "1手で詰ませよう！",
-      coach_text: "次の問題じゃ！",
+      coach_text: "さあ次じゃ！落ち着いて考えよう。",
       hand_pieces: { gi: 1 },
       correct_move: {
         from: { hand: "gi" },
@@ -42,7 +42,7 @@ export const TSUME1_GIN_02: LessonData = {
       type: "move",
       board_sfen: "9/R8/4sks2/9/5S3/9/9/9/9 b S 1",
       instruction: "1手で詰ませよう！",
-      coach_text: "次の問題じゃ！",
+      coach_text: "いい調子じゃ！この問題も解けるかな？",
       hand_pieces: { gi: 1 },
       correct_move: {
         from: { hand: "gi" },
@@ -57,7 +57,7 @@ export const TSUME1_GIN_02: LessonData = {
       type: "move",
       board_sfen: "9/7R1/3sk4/4s4/4S4/9/9/9/9 b S 1",
       instruction: "1手で詰ませよう！",
-      coach_text: "次の問題じゃ！",
+      coach_text: "ラストじゃ！集中して解こう。",
       hand_pieces: { gi: 1 },
       correct_move: {
         from: { hand: "gi" },

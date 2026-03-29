@@ -27,7 +27,7 @@ export const TSUME1_KEI_03: LessonData = {
       type: "move",
       board_sfen: "8l/6Sbk/8p/9/6N2/9/9/9/9 b - 1",
       instruction: "1手で詰ませよう！",
-      coach_text: "次の問題じゃ！",
+      coach_text: "さあ次じゃ！落ち着いて考えよう。",
       correct_move: {
         from: { row: 4, col: 6 },
         to: { row: 2, col: 7 },
@@ -41,7 +41,7 @@ export const TSUME1_KEI_03: LessonData = {
       type: "move",
       board_sfen: "9/7R1/2B1ks3/4s4/3P5/9/9/9/9 b - 1",
       instruction: "1手で詰ませよう！",
-      coach_text: "次の問題じゃ！",
+      coach_text: "いい調子じゃ！この問題も解けるかな？",
       correct_move: {
         from: { row: 2, col: 2 },
         to: { row: 1, col: 3 },
@@ -55,7 +55,7 @@ export const TSUME1_KEI_03: LessonData = {
       type: "move",
       board_sfen: "9/7R1/2G1ks3/4s4/5P3/9/9/9/9 b - 1",
       instruction: "1手で詰ませよう！",
-      coach_text: "次の問題じゃ！",
+      coach_text: "ラストじゃ！集中して解こう。",
       correct_move: {
         from: { row: 1, col: 7 },
         to: { row: 1, col: 3 },

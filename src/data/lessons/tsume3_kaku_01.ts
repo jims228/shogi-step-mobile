@@ -33,7 +33,7 @@ export const TSUME3_KAKU_01: LessonData = {
       type: "move",
       board_sfen: "7k1/6PB1/7P1/9/9/9/9/9/9 b - 1",
       instruction: "3手で詰ませよう！",
-      coach_text: "次の3手詰めじゃ！",
+      coach_text: "次じゃ！1手目の王手を考えよう。",
       correct_move: {
         from: { row: 1, col: 7 },
         to: { row: 0, col: 6 },
@@ -53,7 +53,7 @@ export const TSUME3_KAKU_01: LessonData = {
       type: "move",
       board_sfen: "7bk/9/7P1/5p3/9/9/9/9/9 b B 1",
       instruction: "3手で詰ませよう！",
-      coach_text: "次の3手詰めじゃ！",
+      coach_text: "いい感じじゃ！3手先を読もう。",
       hand_pieces: { ka: 1 },
       correct_move: {
         from: { hand: "ka" },
@@ -74,7 +74,7 @@ export const TSUME3_KAKU_01: LessonData = {
       type: "move",
       board_sfen: "8k/9/6P2/5B3/9/9/9/9/9 b - 1",
       instruction: "3手で詰ませよう！",
-      coach_text: "次の3手詰めじゃ！",
+      coach_text: "最後の問題じゃ！じっくり読もう。",
       correct_move: {
         from: { row: 2, col: 6 },
         to: { row: 1, col: 6 },

@@ -19,6 +19,7 @@ export const U1_REVIEW: LessonData = {
         from: { row: 6, col: 4 },
         to: { row: 5, col: 4 },
       },
+      result_sfen: "9/9/9/9/9/4P4/9/9/9 b - 1",
       success_text: "歩は前に1マスじゃな！",
       fail_text: "歩は前に1マス進めるぞ。",
     },
@@ -36,6 +37,7 @@ export const U1_REVIEW: LessonData = {
       correct_moves_alt: [
         { from: { row: 2, col: 4 }, to: { row: 1, col: 4 } },
       ],
+      result_sfen: "3k5/3G5/9/9/9/9/9/9/9 b - 1",
       success_text: "金で王手じゃ！ばっちりじゃな。",
       fail_text: "王様を取れる場所に金を動かそう。",
     },
@@ -65,6 +67,7 @@ export const U1_REVIEW: LessonData = {
       correct_moves_alt: [
         { from: { row: 0, col: 4 }, to: { row: 1, col: 5 } },
       ],
+      result_sfen: "5K3/3g5/9/9/9/9/9/9/9 b - 1",
       success_text: "王が逃げられたぞ！\n王手されたら必ず対応じゃ。",
       fail_text: "王を安全なマスに動かそう。\n相手の金が届かない場所じゃ。",
     },
@@ -94,6 +97,7 @@ export const U1_REVIEW: LessonData = {
       correct_moves_alt: [
         { from: { row: 3, col: 5 }, to: { row: 2, col: 5 } },
       ],
+      result_sfen: "9/6k2/6G2/9/9/9/9/9/9 b - 1",
       success_text: "すばらしい！\nUnit 1をクリアしたぞ！\n歩・金・王・王手の基本は\nもうバッチリじゃ！",
       fail_text: "王様を取れる場所に金を動かそう。",
     },

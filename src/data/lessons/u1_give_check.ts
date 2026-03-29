@@ -68,6 +68,7 @@ export const U1_GIVE_CHECK: LessonData = {
       correct_moves_alt: [
         { from: { row: 2, col: 4 }, to: { row: 1, col: 4 } },
       ],
+      result_sfen: "3k5/3G5/9/9/9/9/9/9/9 b - 1",
       success_text: "正解！\n金は前からも斜めからも\n王手がかけられるんじゃ。",
       fail_text: "金を動かして、王様を取れる場所を探そう。",
     },
@@ -97,6 +98,7 @@ export const U1_GIVE_CHECK: LessonData = {
       correct_moves_alt: [
         { from: { row: 3, col: 5 }, to: { row: 2, col: 5 } },
       ],
+      result_sfen: "9/6k2/6G2/9/9/9/9/9/9 b - 1",
       success_text: "すばらしい！\n王手をかける力がついてきたな！",
       fail_text: "王様を取れる場所に金を動かそう。",
     },
