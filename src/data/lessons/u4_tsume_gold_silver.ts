@@ -96,6 +96,7 @@ export const U4_TSUME_GOLD_SILVER: LessonData = {
       correct_moves_alt: [
         { from: { hand: "ki" }, to: { row: 1, col: 1 } },
       ],
+      result_sfen: "kG7/p8/9/9/9/9/9/9/9 b - 1",
       success_text: "すばらしい！\n金銀の1手詰めをマスターしたな！",
       fail_text: "金を打って逃げ場のない\n王手をかけよう。",
     },

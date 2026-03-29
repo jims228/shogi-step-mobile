@@ -35,6 +35,7 @@ export const U3_PROMOTE_POWER: LessonData = {
         from: { row: 4, col: 4 },
         to: { row: 3, col: 5 },
       },
+      result_sfen: "9/9/9/5+R3/9/9/9/9/9 b - 1",
       success_text: "龍は斜めにも動けるんじゃ！\n飛車＋斜め1マスで最強じゃよ。",
       fail_text: "龍を斜めに動かしてみよう。",
     },
@@ -50,6 +51,7 @@ export const U3_PROMOTE_POWER: LessonData = {
         from: { row: 4, col: 4 },
         to: { row: 3, col: 4 },
       },
+      result_sfen: "9/9/9/4+B4/9/9/9/9/9 b - 1",
       success_text: "馬は縦横にも動けるんじゃ！\n角の弱点（縦横）を克服した\n強力な駒じゃよ。",
       fail_text: "馬を前に動かしてみよう。",
     },
@@ -64,6 +66,7 @@ export const U3_PROMOTE_POWER: LessonData = {
         from: { row: 4, col: 3 },
         to: { row: 0, col: 3 },
       },
+      result_sfen: "3+R5/9/9/9/9/9/9/9/9 b - 1",
       correct_moves_alt: [
         { from: { row: 4, col: 3 }, to: { row: 1, col: 3 } },
       ],
@@ -93,6 +96,7 @@ export const U3_PROMOTE_POWER: LessonData = {
         from: { row: 6, col: 2 },
         to: { row: 2, col: 6 },
       },
+      result_sfen: "9/4k4/6+B2/9/9/9/9/9/9 b - 1",
       correct_moves_alt: [
         { from: { row: 6, col: 2 }, to: { row: 1, col: 3 } },
         { from: { row: 6, col: 2 }, to: { row: 2, col: 4 } },

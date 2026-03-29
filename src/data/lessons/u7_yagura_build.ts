@@ -34,6 +34,7 @@ export const U7_YAGURA_BUILD: LessonData = {
       correct_moves_alt: [
         { from: { row: 8, col: 4 }, to: { row: 7, col: 3 } },
       ],
+      result_sfen: "9/9/9/9/9/9/9/9/3K5 b - 1",
       success_text: "よし！王を囲いの場所へ\n動かす第一歩じゃ。",
       fail_text: "王を左方向に動かそう。",
     },

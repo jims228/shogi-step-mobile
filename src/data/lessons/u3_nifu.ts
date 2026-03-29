@@ -72,6 +72,7 @@ export const U3_NIFU: LessonData = {
         from: { hand: "fu" },
         to: { row: 4, col: 3 },
       },
+      result_sfen: "9/9/9/9/2PPP4/9/9/9/9 b - 1",
       correct_moves_alt: [
         { from: { hand: "fu" }, to: { row: 3, col: 3 } },
         { from: { hand: "fu" }, to: { row: 5, col: 3 } },

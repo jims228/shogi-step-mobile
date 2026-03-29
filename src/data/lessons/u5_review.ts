@@ -23,6 +23,7 @@ export const U5_REVIEW: LessonData = {
         { from: { row: 0, col: 4 }, to: { row: 1, col: 3 } },
         { from: { row: 0, col: 4 }, to: { row: 1, col: 5 } },
       ],
+      result_sfen: "3K5/9/4r4/9/9/9/9/9/9 b - 1",
       success_text: "逃げて助かったぞ！",
       fail_text: "飛車の効きがない場所に逃げよう。",
     },

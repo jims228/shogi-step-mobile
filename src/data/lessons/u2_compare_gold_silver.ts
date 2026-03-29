@@ -59,6 +59,7 @@ export const U2_COMPARE_GOLD_SILVER: LessonData = {
         from: { row: 4, col: 4 },
         to: { row: 5, col: 5 },
       },
+      result_sfen: "9/9/9/9/9/5S3/9/9/9 b - 1",
       success_text: "銀は斜め後ろに下がれるんじゃ！\n攻めた後に引けるのが銀の強みじゃよ。",
       fail_text: "矢印の方向に銀を動かしてみよう。",
     },

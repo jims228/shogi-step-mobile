@@ -93,6 +93,7 @@ export const U2_SILVER_USE: LessonData = {
         from: { row: 3, col: 5 },
         to: { row: 2, col: 6 },
       },
+      result_sfen: "9/6k2/6S2/9/9/9/9/9/9 b - 1",
       correct_moves_alt: [
         { from: { row: 3, col: 5 }, to: { row: 2, col: 5 } },
       ],

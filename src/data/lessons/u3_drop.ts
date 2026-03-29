@@ -101,6 +101,7 @@ export const U3_DROP: LessonData = {
         from: { hand: "hi" },
         to: { row: 0, col: 4 },
       },
+      result_sfen: "3kR4/9/9/9/9/9/9/9/9 b - 1",
       correct_moves_alt: [
         { from: { hand: "hi" }, to: { row: 1, col: 3 } },
         { from: { hand: "hi" }, to: { row: 2, col: 3 } },
