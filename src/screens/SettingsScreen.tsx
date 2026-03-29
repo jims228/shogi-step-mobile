@@ -59,10 +59,39 @@ export function SettingsScreen() {
           </View>
         </View>
 
-        {/* Legal */}
+        {/* Notifications (placeholder) */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>設定</Text>
+          <View style={styles.card}>
+            <Pressable
+              style={styles.linkRow}
+              onPress={() => Alert.alert("通知設定", "準備中です")}
+            >
+              <Text style={styles.linkText}>通知設定</Text>
+              <Text style={styles.arrow}>›</Text>
+            </Pressable>
+          </View>
+        </View>
+
+        {/* Legal & info */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>その他</Text>
           <View style={styles.card}>
+            <Pressable
+              style={styles.linkRow}
+              onPress={() =>
+                Alert.alert(
+                  "将棋ステップについて",
+                  "将棋ステップは、初心者から中級者まで楽しく将棋を学べるアプリです。駒の動かし方から実戦的な手筋まで、ステップごとに上達できます。",
+                )
+              }
+            >
+              <Text style={styles.linkText}>アプリについて</Text>
+              <Text style={styles.arrow}>›</Text>
+            </Pressable>
+
+            <View style={styles.divider} />
+
             <Pressable
               style={styles.linkRow}
               onPress={() => Linking.openURL(PRIVACY_POLICY_URL)}
@@ -93,23 +122,53 @@ export function SettingsScreen() {
           </View>
         </View>
 
-        {/* Danger zone */}
+        {/* Credits */}
         <View style={styles.section}>
-          <Pressable
-            style={styles.dangerBtn}
-            onPress={() => {
-              Alert.alert(
-                "進捗をリセットしますか？",
-                "全てのレッスン進捗・継続日数がリセットされます。この操作は取り消せません。",
-                [
-                  { text: "キャンセル", style: "cancel" },
-                  { text: "リセット", style: "destructive", onPress: reset },
-                ],
-              );
-            }}
-          >
-            <Text style={styles.dangerText}>進捗をリセット</Text>
-          </Pressable>
+          <Text style={styles.sectionTitle}>出典</Text>
+          <View style={styles.card}>
+            <Pressable
+              style={styles.linkRow}
+              onPress={() => Linking.openURL("https://shogi-kotonara.com/")}
+            >
+              <Text style={styles.linkText}>詰将棋問題: 将棋のコトナラ</Text>
+              <Text style={styles.arrow}>›</Text>
+            </Pressable>
+
+            <View style={styles.divider} />
+
+            <View style={styles.row}>
+              <Text style={styles.label}>音声合成: AivisSpeech</Text>
+            </View>
+
+            <View style={styles.divider} />
+
+            <View style={styles.row}>
+              <Text style={styles.label}>開発: jims228</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Data management */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>データ管理</Text>
+          <View style={styles.card}>
+            <Pressable
+              style={styles.dangerRow}
+              onPress={() => {
+                Alert.alert(
+                  "進捗をリセットしますか？",
+                  "全てのレッスン進捗・継続日数がリセットされます。この操作は取り消せません。",
+                  [
+                    { text: "キャンセル", style: "cancel" },
+                    { text: "リセット", style: "destructive", onPress: reset },
+                  ],
+                );
+              }}
+            >
+              <Text style={styles.dangerText}>進捗をリセット</Text>
+              <Text style={styles.arrow}>›</Text>
+            </Pressable>
+          </View>
         </View>
 
         {/* Dev tools (hidden, 7 taps on version to reveal) */}
@@ -205,11 +264,11 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.06)",
     marginVertical: 6,
   },
-  dangerBtn: {
-    paddingVertical: 14,
-    borderRadius: 12,
-    backgroundColor: "rgba(220,38,38,0.08)",
+  dangerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
+    paddingVertical: 6,
   },
   dangerText: {
     fontWeight: "900",

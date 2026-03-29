@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { Pressable, Text, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { ActivityIndicator, Pressable, Text, View, StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { RoadmapHomeScreen } from "../screens/RoadmapHomeScreen";
 import { LessonLaunchScreen } from "../screens/LessonLaunchScreen";
@@ -11,6 +12,7 @@ import { ProfileScreen } from "../screens/ProfileScreen";
 import { PieceMoveGuide } from "../screens/PieceMoveGuide";
 import { AuthScreen } from "../screens/AuthScreen";
 import { PaywallScreen } from "../screens/PaywallScreen";
+import { OnboardingScreen } from "../screens/OnboardingScreen";
 
 // ── Types ──
 
@@ -114,6 +116,27 @@ function MainTabs() {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export function RootNavigator() {
+  const [hasSeenOnboarding, setHasSeenOnboarding] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    AsyncStorage.getItem("hasSeenOnboarding").then((value) => {
+      setHasSeenOnboarding(value === "true");
+    });
+  }, []);
+
+  // Show nothing while checking AsyncStorage
+  if (hasSeenOnboarding === null) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#fff" }}>
+        <ActivityIndicator size="large" color="#E65A8D" />
+      </View>
+    );
+  }
+
+  if (!hasSeenOnboarding) {
+    return <OnboardingScreen onFinish={() => setHasSeenOnboarding(true)} />;
+  }
+
   return (
     <Stack.Navigator>
       <Stack.Screen

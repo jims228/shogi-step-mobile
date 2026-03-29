@@ -94,6 +94,11 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
 
   const { isPremium } = useSubscription();
 
+  // ── Celebration animation refs ──
+  const [showCelebration, setShowCelebration] = useState(false);
+  const celebrationScale = useRef(new Animated.Value(0)).current;
+  const celebrationOpacity = useRef(new Animated.Value(0)).current;
+
   // Handle lesson completion
   React.useEffect(() => {
     if (!state.completed) return;
@@ -102,7 +107,24 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
       markCompleted(lessonData.id);
       onLessonCompleted(isPremium);
     }
-    const timer = setTimeout(() => navigation.goBack(), 300);
+    // Show celebration overlay
+    setShowCelebration(true);
+    celebrationScale.setValue(0);
+    celebrationOpacity.setValue(0);
+    Animated.parallel([
+      Animated.spring(celebrationScale, {
+        toValue: 1,
+        friction: 4,
+        tension: 60,
+        useNativeDriver: true,
+      }),
+      Animated.timing(celebrationOpacity, {
+        toValue: 1,
+        duration: 400,
+        useNativeDriver: true,
+      }),
+    ]).start();
+    const timer = setTimeout(() => navigation.goBack(), 1500);
     return () => clearTimeout(timer);
   }, [state.completed, markCompleted, lessonData.id, navigation]);
 
@@ -308,6 +330,17 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
           successMessage={state.feedback?.type === "correct" ? state.feedback.message : undefined}
         />
       </View>
+      {showCelebration && (
+        <View style={styles.celebrationOverlay}>
+          <Animated.View style={{ transform: [{ scale: celebrationScale }] }}>
+            <Text style={styles.celebrationEmoji}>🎉</Text>
+          </Animated.View>
+          <Animated.View style={{ opacity: celebrationOpacity }}>
+            <Text style={styles.celebrationTitle}>クリア！</Text>
+            <Text style={styles.celebrationXP}>+10 XP</Text>
+          </Animated.View>
+        </View>
+      )}
     </Screen>
   );
 }
@@ -447,5 +480,32 @@ const styles = StyleSheet.create({
   },
   quizOptionTextWrong: {
     color: "#9ca3af",
+  },
+
+  // ── Celebration overlay ──
+  celebrationOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.55)",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 100,
+  },
+  celebrationEmoji: {
+    fontSize: 72,
+    textAlign: "center",
+  },
+  celebrationTitle: {
+    fontSize: 36,
+    fontWeight: "900",
+    color: "#fff",
+    textAlign: "center",
+    marginTop: 12,
+  },
+  celebrationXP: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#fbbf24",
+    textAlign: "center",
+    marginTop: 8,
   },
 });
