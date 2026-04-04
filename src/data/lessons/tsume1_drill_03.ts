@@ -30,7 +30,6 @@ export const TSUME1_DRILL_03: LessonData = {
         { from: { hand: "hi" }, to: { row: 0, col: 2 } },
         { from: { hand: "hi" }, to: { row: 0, col: 1 } },
       ],
-      result_sfen: "k7R/pp7/9/9/9/9/9/9/9 b - 1",
       success_text: "飛車の横効きで詰みじゃ！\n逃げ場が全部塞がっているな。",
       fail_text: "飛車を1段目に打って\n横から王手をかけよう。",
     },

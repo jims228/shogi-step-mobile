@@ -12,6 +12,11 @@ export const BASICS_PAWN_LESSON: LessonData = {
       board_sfen: "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1",
       instruction: "これが将棋の初期配置じゃ。先手の「歩」を1枚タップしてみよう。",
       coach_text: "下から3段目に並んでおるぞ。どれでもいいからタップじゃ！",
+      highlights: [
+        { row: 6, col: 0 }, { row: 6, col: 1 }, { row: 6, col: 2 },
+        { row: 6, col: 3 }, { row: 6, col: 4 }, { row: 6, col: 5 },
+        { row: 6, col: 6 }, { row: 6, col: 7 }, { row: 6, col: 8 },
+      ],
       correct_square: [
         { row: 6, col: 0 }, { row: 6, col: 1 }, { row: 6, col: 2 },
         { row: 6, col: 3 }, { row: 6, col: 4 }, { row: 6, col: 5 },

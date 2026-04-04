@@ -61,7 +61,7 @@ export const U2_LANCE_MOVE: LessonData = {
       board_sfen: "9/9/9/9/4L4/9/9/9/9 b - 1",
       instruction: "香車はどう動ける？",
       coach_text: "香車の動きを確認じゃ。\nどんな動き方をするかな？",
-      quiz_options: ["前にまっすぐだけ", "前と後ろ", "斜めにも動ける"],
+      quiz_options: ["前にまっすぐだけ", "前と後ろ"],
       quiz_answer: 0,
       success_text: "正解！香車は前にまっすぐ\n進むことしかできないんじゃ。\n後ろにも横にも動けないぞ。",
       fail_text: "香車は前にしか進めないぞ。",
@@ -70,7 +70,7 @@ export const U2_LANCE_MOVE: LessonData = {
     {
       id: "lance_blocked_quiz",
       type: "quiz",
-      board_sfen: "9/9/9/4p4/9/4P4/9/4L4/9 b - 1",
+      board_sfen: "9/9/9/9/9/4p4/9/4P4/4L4 b - 1",
       instruction: "香車は味方の歩を飛び越えられる？",
       coach_text: "香車の前に味方の歩があるぞ。\n飛び越えて相手の歩を取れるかな？",
       quiz_options: ["飛び越えられない", "飛び越えられる"],

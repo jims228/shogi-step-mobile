@@ -113,7 +113,6 @@ export const U3_COMPARE_DROP_WHERE: LessonData = {
         from: { hand: "ki" },
         to: { row: 1, col: 7 },
       },
-      result_sfen: "7k1/7G1/9/9/9/9/9/9/9 b - 1",
       correct_moves_alt: [
         { from: { hand: "ki" }, to: { row: 0, col: 7 } },
         { from: { hand: "ki" }, to: { row: 1, col: 6 } },

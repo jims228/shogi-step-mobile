@@ -51,7 +51,6 @@ export const U1_KING_MOVE: LessonData = {
         from: { row: 4, col: 4 },
         to: { row: 3, col: 4 },
       },
-      result_sfen: "9/9/9/4K4/9/9/9/9/9 b P 1",
       success_text: "王様でも駒を取れるんじゃ！",
       fail_text: "相手の歩がいるマスに王様を進めてみよう。",
     },
@@ -79,11 +78,10 @@ export const U1_KING_MOVE: LessonData = {
         from: { row: 4, col: 4 },
         to: { row: 4, col: 3 },
       },
-      result_sfen: "4r4/9/9/9/3K5/9/9/9/9 b - 1",
       success_text: "よし！安全な場所に逃げられたな。\n王様を守るのが大事じゃ！",
       fail_text: "飛車の利きから逃げよう。\n横に動いてみよう！",
     },
-    // step6: 自力で逃げる（矢印なし）
+    // step6: 自力で逃げる（矢印なし、6か所どこでも正解）
     {
       id: "king_escape_self",
       type: "move",
@@ -94,9 +92,15 @@ export const U1_KING_MOVE: LessonData = {
         from: { row: 4, col: 4 },
         to: { row: 4, col: 5 },
       },
-      result_sfen: "9/4r4/9/9/5K3/9/9/9/9 b - 1",
+      correct_moves_alt: [
+        { from: { row: 4, col: 4 }, to: { row: 3, col: 3 } },
+        { from: { row: 4, col: 4 }, to: { row: 3, col: 5 } },
+        { from: { row: 4, col: 4 }, to: { row: 4, col: 3 } },
+        { from: { row: 4, col: 4 }, to: { row: 5, col: 3 } },
+        { from: { row: 4, col: 4 }, to: { row: 5, col: 5 } },
+      ],
       success_text: "すばらしい！\n王様を守る動きをマスターしたな！",
-      fail_text: "飛車と同じ列にいると危ないぞ。\n横に逃げてみよう！",
+      fail_text: "飛車と同じ列にいると危ないぞ。\n横や斜めに逃げてみよう！",
     },
   ],
 };

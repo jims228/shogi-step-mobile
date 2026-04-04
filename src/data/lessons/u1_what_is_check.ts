@@ -89,7 +89,6 @@ export const U1_WHAT_IS_CHECK: LessonData = {
       correct_moves_alt: [
         { from: { row: 2, col: 4 }, to: { row: 1, col: 4 } },
       ],
-      result_sfen: "3k5/3G5/9/9/9/9/9/9/9 b - 1",
       success_text: "すばらしい！\n王手の意味をマスターしたな！",
       fail_text: "王様を取れる場所に金を動かそう。",
     },

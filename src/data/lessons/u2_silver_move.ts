@@ -51,7 +51,6 @@ export const U2_SILVER_MOVE: LessonData = {
         from: { row: 4, col: 4 },
         to: { row: 5, col: 5 },
       },
-      result_sfen: "9/9/9/9/9/5S3/9/9/9 b - 1",
       success_text: "銀は斜め後ろにも動ける！\nこれが金との大きな違いじゃ。",
       fail_text: "矢印の方向に銀を動かしてみよう。",
     },
@@ -79,24 +78,22 @@ export const U2_SILVER_MOVE: LessonData = {
         from: { row: 5, col: 4 },
         to: { row: 4, col: 4 },
       },
-      result_sfen: "9/9/9/9/4S4/9/9/9/9 b P 1",
       success_text: "よくできた！\n銀で相手の駒を取れたな。",
       fail_text: "相手の歩がいるマスに銀を進めよう。",
     },
-    // step6: 自力で銀を使う
+    // step6: 自力で銀を使って王手
     {
       id: "silver_self_solve",
       type: "move",
-      board_sfen: "9/4k4/9/3S5/9/9/9/9/9 b - 1",
+      board_sfen: "9/9/4k4/9/3SG4/9/9/9/9 b - 1",
       instruction: "銀で王手をかけてみよう！",
       coach_text: "仕上げじゃ！\n銀をどこに動かせば\n王手がかかるかな？",
       correct_move: {
-        from: { row: 3, col: 3 },
-        to: { row: 2, col: 4 },
+        from: { row: 4, col: 3 },
+        to: { row: 3, col: 3 },
       },
-      result_sfen: "9/4k4/4S4/9/9/9/9/9/9 b - 1",
       correct_moves_alt: [
-        { from: { row: 3, col: 3 }, to: { row: 2, col: 3 } },
+        { from: { row: 4, col: 3 }, to: { row: 3, col: 4 } },
       ],
       success_text: "すばらしい！\n銀の動きをマスターしたな！",
       fail_text: "銀を動かして、王様を取れる場所を探そう。",

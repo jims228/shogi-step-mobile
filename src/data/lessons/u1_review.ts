@@ -23,23 +23,20 @@ export const U1_REVIEW: LessonData = {
       success_text: "歩は前に1マスじゃな！",
       fail_text: "歩は前に1マス進めるぞ。",
     },
-    // step2: 金で王手（復習）
+    // step2: 金で詰ます（復習）
     {
       id: "review_gold_check",
       type: "move",
-      board_sfen: "3k5/9/4G4/9/9/9/9/9/9 b - 1",
-      instruction: "金で王手をかけよう！",
-      coach_text: "金で王手をかけてみよう。\nヒントなしでいけるかな？",
+      board_sfen: "4k4/9/4PG3/9/9/9/9/9/9 b - 1",
+      instruction: "どうやったらゲームを終わらせられる？",
+      coach_text: "金を動かして詰ましてみよう。\nヒントなしでいけるかな？",
       correct_move: {
-        from: { row: 2, col: 4 },
-        to: { row: 1, col: 3 },
+        from: { row: 2, col: 5 },
+        to: { row: 1, col: 4 },
       },
-      correct_moves_alt: [
-        { from: { row: 2, col: 4 }, to: { row: 1, col: 4 } },
-      ],
-      result_sfen: "3k5/3G5/9/9/9/9/9/9/9 b - 1",
-      success_text: "金で王手じゃ！ばっちりじゃな。",
-      fail_text: "王様を取れる場所に金を動かそう。",
+      result_sfen: "4k4/4G4/4P4/9/9/9/9/9/9 b - 1",
+      success_text: "頭金で詰みじゃ！ばっちりじゃな。",
+      fail_text: "金を王様の真上に動かしてみよう。",
     },
     // step3: クイズ - 王は何方向？
     {
@@ -57,19 +54,15 @@ export const U1_REVIEW: LessonData = {
     {
       id: "review_king_escape",
       type: "move",
-      board_sfen: "4K4/3g5/9/9/9/9/9/9/9 b - 1",
+      board_sfen: "9/9/9/9/9/9/6g2/7s1/7K1 b - 1",
       instruction: "王手じゃ！王を逃がそう！",
-      coach_text: "相手の金に王手をかけられたぞ！\n王を安全な場所に逃がそう。",
+      coach_text: "相手の駒に囲まれておるぞ！\n王を安全な場所に逃がそう。",
       correct_move: {
-        from: { row: 0, col: 4 },
-        to: { row: 0, col: 5 },
+        from: { row: 8, col: 7 },
+        to: { row: 7, col: 8 },
       },
-      correct_moves_alt: [
-        { from: { row: 0, col: 4 }, to: { row: 1, col: 5 } },
-      ],
-      result_sfen: "5K3/3g5/9/9/9/9/9/9/9 b - 1",
       success_text: "王が逃げられたぞ！\n王手されたら必ず対応じゃ。",
-      fail_text: "王を安全なマスに動かそう。\n相手の金が届かない場所じゃ。",
+      fail_text: "王を安全なマスに動かそう。\n相手の駒が届かない場所じゃ。",
     },
     // step5: クイズ - 王手されたら？
     {
@@ -97,7 +90,6 @@ export const U1_REVIEW: LessonData = {
       correct_moves_alt: [
         { from: { row: 3, col: 5 }, to: { row: 2, col: 5 } },
       ],
-      result_sfen: "9/6k2/6G2/9/9/9/9/9/9 b - 1",
       success_text: "すばらしい！\nUnit 1をクリアしたぞ！\n歩・金・王・王手の基本は\nもうバッチリじゃ！",
       fail_text: "王様を取れる場所に金を動かそう。",
     },

@@ -16,6 +16,7 @@ import { U2_BISHOP_MOVE } from "./u2_bishop_move";
 import { U2_BIG_PIECES } from "./u2_big_pieces";
 import { U2_KNIGHT_MOVE } from "./u2_knight_move";
 import { U2_LANCE_MOVE } from "./u2_lance_move";
+import { U2_RANGE_REVIEW } from "./u2_range_review";
 import { U2_COMPARE_TAKE } from "./u2_compare_take";
 import { U2_REVIEW } from "./u2_review";
 import { U3_CAPTURE_HAND } from "./u3_capture_hand";
@@ -179,6 +180,7 @@ const NATIVE_LESSONS: Record<string, LessonData> = {
   [U2_BIG_PIECES.id]: U2_BIG_PIECES,
   [U2_KNIGHT_MOVE.id]: U2_KNIGHT_MOVE,
   [U2_LANCE_MOVE.id]: U2_LANCE_MOVE,
+  [U2_RANGE_REVIEW.id]: U2_RANGE_REVIEW,
   [U2_COMPARE_TAKE.id]: U2_COMPARE_TAKE,
   [U2_REVIEW.id]: U2_REVIEW,
   [U3_CAPTURE_HAND.id]: U3_CAPTURE_HAND,

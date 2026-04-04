@@ -34,7 +34,6 @@ export const U5_THREE_DEFENSES: LessonData = {
       correct_moves_alt: [
         { from: { row: 0, col: 4 }, to: { row: 0, col: 5 } },
       ],
-      result_sfen: "3K5/9/4r4/9/9/9/9/9/9 b - 1",
       success_text: "逃げて助かったぞ！\nこれが「逃げる」受けじゃ。",
       fail_text: "王を横に動かして逃げよう。",
     },
@@ -100,7 +99,6 @@ export const U5_THREE_DEFENSES: LessonData = {
         { from: { row: 0, col: 3 }, to: { row: 1, col: 2 } },
         { from: { row: 0, col: 3 }, to: { row: 1, col: 4 } },
       ],
-      result_sfen: "9/3K5/9/9/9/9/9/9/9 b G 1",
       success_text: "すばらしい！\n王手の3つの受け方を\nマスターしたな。\n逃げる・合駒・取る、\n覚えておくんじゃよ！",
       fail_text: "王を動かして王手に対応しよう。",
     },

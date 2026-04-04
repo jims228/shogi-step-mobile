@@ -21,7 +21,6 @@ export const U8_FIND_OPENING: LessonData = {
       correct_moves_alt: [
         { from: { row: 6, col: 2 }, to: { row: 5, col: 2 } },
       ],
-      result_sfen: "lnsgkgsnl/1r5b1/ppppppppp/9/9/7P1/PPPPPPP1P/1B5R1/LNSGKGSNL b - 1",
       success_text: "いい手じゃ！\n飛車先を突くか角道を開ける、\nどちらも序盤の好手じゃよ。",
       fail_text: "序盤の原則を思い出そう。\n飛車先か角道じゃ。",
     },
@@ -56,7 +55,6 @@ export const U8_FIND_OPENING: LessonData = {
         { from: { row: 8, col: 6 }, to: { row: 7, col: 5 } },
         { from: { row: 8, col: 4 }, to: { row: 7, col: 3 } },
       ],
-      result_sfen: "lnsgkgsnl/1r5b1/pp1pppppp/2p6/7P1/2P6/PP1PPPP1P/1B3K1R1/LNSG1GSNL b - 1",
       success_text: "囲いの準備じゃ！\n攻めの準備ができたら\n王を安全にするのが大事じゃよ。",
       fail_text: "3つ目の原則は「囲い」じゃ。\n王や銀を動かして守りの準備をしよう。",
     },
@@ -107,7 +105,6 @@ export const U8_FIND_OPENING: LessonData = {
         { from: { row: 8, col: 3 }, to: { row: 7, col: 4 } },
         { from: { row: 7, col: 5 }, to: { row: 6, col: 4 } },
       ],
-      result_sfen: "lnsgkgsnl/1r5b1/pp1ppppp1/2p4p1/7P1/2P6/PP1PPPP1P/1BK2S1R1/LNSG1G1NL b - 1",
       success_text: "すばらしい！\n序盤の判断力がついてきたな。\n原則を守れば\n序盤で大きく不利にならないぞ！",
       fail_text: "囲いを進めるか\n駒を活用する手を考えよう。",
     },

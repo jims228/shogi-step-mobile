@@ -67,7 +67,7 @@ export const U2_COMPARE_GOLD_SILVER: LessonData = {
     {
       id: "compare_defense",
       type: "compare",
-      board_sfen: "9/9/9/9/9/9/9/9/4K4 b - 1",
+      board_sfen: "9/9/9/9/9/9/9/9/1GKG1SKS1 b - 1",
       instruction: "王様の横を守るならどっち？",
       coach_text: "王様の近くに置いて守るなら、\n金と銀どっちがいいかな？",
       compare_options: [

@@ -45,6 +45,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
+    let subscription: { unsubscribe: () => void } | null = null;
+
     // Get initial session, auto-create anonymous session if none exists
     supabase.auth.getSession().then(async ({ data: { session: s } }) => {
       if (s) {
@@ -54,15 +56,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const { data } = await supabase.auth.signInAnonymously();
         setSession(data.session);
       }
+    }).catch(() => {
+      // Supabase unreachable (paused / no internet) — continue offline
+    }).finally(() => {
       setIsLoading(false);
     });
 
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, s) => {
-      setSession(s);
-    });
+    // Listen for auth changes — may fail if Supabase is unreachable
+    try {
+      const { data } = supabase.auth.onAuthStateChange((_event, s) => {
+        setSession(s);
+      });
+      subscription = data.subscription;
+    } catch {
+      // ignore
+    }
 
-    return () => subscription.unsubscribe();
+    return () => subscription?.unsubscribe();
   }, [isOffline]);
 
   const signInAnonymously = useCallback(async () => {

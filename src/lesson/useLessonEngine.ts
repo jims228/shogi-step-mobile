@@ -163,6 +163,7 @@ export function useLessonEngine(lessonData: LessonData) {
       if (state.feedback?.type === "correct") return;
       if (state.showPromotion) return;
       if (state.waitingAutoResponse) return;
+      if (currentStep.type === "quiz" || currentStep.type === "compare") return;
 
       const pos = { row, col };
 

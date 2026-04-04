@@ -66,7 +66,6 @@ export const U3_PROMOTE_POWER: LessonData = {
         from: { row: 4, col: 3 },
         to: { row: 0, col: 3 },
       },
-      result_sfen: "3+R5/9/9/9/9/9/9/9/9 b - 1",
       correct_moves_alt: [
         { from: { row: 4, col: 3 }, to: { row: 1, col: 3 } },
       ],
@@ -96,7 +95,6 @@ export const U3_PROMOTE_POWER: LessonData = {
         from: { row: 6, col: 2 },
         to: { row: 2, col: 6 },
       },
-      result_sfen: "9/4k4/6+B2/9/9/9/9/9/9 b - 1",
       correct_moves_alt: [
         { from: { row: 6, col: 2 }, to: { row: 1, col: 3 } },
         { from: { row: 6, col: 2 }, to: { row: 2, col: 4 } },

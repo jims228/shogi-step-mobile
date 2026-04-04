@@ -21,7 +21,6 @@ export const U9_TOTAL_REVIEW: LessonData = {
       correct_moves_alt: [
         { from: { row: 2, col: 3 }, to: { row: 1, col: 3 } },
       ],
-      result_sfen: "4k4/4G4/9/9/9/9/9/9/9 b - 1",
       success_text: "金で王手じゃ！\n駒の動かし方はバッチリじゃな。",
       fail_text: "金を王様の隣に動かして\n王手をかけよう。",
     },
@@ -57,7 +56,6 @@ export const U9_TOTAL_REVIEW: LessonData = {
         { from: { hand: "ki" }, to: { row: 2, col: 4 } },
         { from: { hand: "ki" }, to: { row: 3, col: 4 } },
       ],
-      result_sfen: "4K4/4G4/9/9/4r4/9/9/9/9 b - 1",
       success_text: "合駒で防いだぞ！\n逃げる・合駒・取る、\n3つの受け方を使い分けるんじゃ。",
       fail_text: "王と飛車の間に金を打って\n飛車の効きを遮断しよう。",
     },
@@ -92,7 +90,6 @@ export const U9_TOTAL_REVIEW: LessonData = {
       correct_moves_alt: [
         { from: { row: 1, col: 3 }, to: { row: 0, col: 4 } },
       ],
-      result_sfen: "3+Pk4/9/9/9/9/9/9/9/4K4 b - 1",
       success_text: "と金で王手じゃ！\n成りの力を活かしたな。",
       fail_text: "歩を前に進めて成ろう。\n王手になるぞ。",
     },
@@ -110,7 +107,6 @@ export const U9_TOTAL_REVIEW: LessonData = {
       correct_moves_alt: [
         { from: { hand: "hi" }, to: { row: 0, col: 4 } },
       ],
-      result_sfen: "3k5/3G5/9/9/9/9/9/9/4K4 b R 1",
       success_text: "すばらしい！\n全Unitの総合復習を\nクリアしたぞ！\n駒の動き・王手・詰み・打ち・\n成り・受け・序盤の原則、\n全部身についたな。\nこれからも将棋を楽しむんじゃよ！",
       fail_text: "持ち駒を使って\n王様を動けなくしよう。",
     },

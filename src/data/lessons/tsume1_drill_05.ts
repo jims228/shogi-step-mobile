@@ -75,7 +75,6 @@ export const TSUME1_DRILL_05: LessonData = {
         { from: { hand: "hi" }, to: { row: 0, col: 6 } },
         { from: { hand: "hi" }, to: { row: 0, col: 7 } },
       ],
-      result_sfen: "R7k/7pp/9/9/9/9/9/9/9 b - 1",
       success_text: "飛車の横効きで詰みじゃ！\n自歩が逃げ道を完全に\n塞いでくれているな。",
       fail_text: "飛車を1段目に打って\n横から王手をかけよう。",
     },

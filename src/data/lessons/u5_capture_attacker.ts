@@ -92,7 +92,6 @@ export const U5_CAPTURE_ATTACKER: LessonData = {
       correct_moves_alt: [
         { from: { row: 0, col: 3 }, to: { row: 1, col: 3 } },
       ],
-      result_sfen: "3K5/3R5/9/9/9/9/9/9/9 b G 1",
       success_text: "すばらしい！\n「取る」受けをマスターしたな！\n取れるときは積極的に取ろう。",
       fail_text: "相手の金を取れる駒で取ろう。",
     },

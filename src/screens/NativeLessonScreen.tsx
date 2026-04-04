@@ -448,7 +448,7 @@ const styles = StyleSheet.create({
   quizOption: {
     flex: 1,
     paddingVertical: 20,
-    paddingHorizontal: 24,
+    paddingHorizontal: 10,
     borderRadius: 20,
     borderTopWidth: 3,
     borderLeftWidth: 3,

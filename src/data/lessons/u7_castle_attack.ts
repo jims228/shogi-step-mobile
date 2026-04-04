@@ -39,7 +39,6 @@ export const U7_CASTLE_ATTACK: LessonData = {
         { from: { hand: "hi" }, to: { row: 8, col: 4 } },
         { from: { hand: "hi" }, to: { row: 8, col: 3 } },
       ],
-      result_sfen: "9/9/9/9/9/9/9/1GS6/1KG5R b - 1",
       success_text: "横から飛車で攻めると\n矢倉は苦しいぞ！\n矢倉の弱点は横じゃ。",
       fail_text: "1段目に飛車を打って\n横から攻めよう。",
     },

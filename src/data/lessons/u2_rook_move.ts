@@ -73,7 +73,7 @@ export const U2_ROOK_MOVE: LessonData = {
     {
       id: "rook_blocked_quiz",
       type: "quiz",
-      board_sfen: "9/9/9/9/9/4P4/9/4R4/9 b - 1",
+      board_sfen: "9/9/9/4P4/4R4/9/9/9/9 b - 1",
       instruction: "飛車は味方の歩を飛び越えられる？",
       coach_text: "飛車の前に味方の歩があるぞ。\n飛び越えられるかな？",
       quiz_options: ["飛び越えられない", "飛び越えられる"],

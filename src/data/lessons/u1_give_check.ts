@@ -20,7 +20,7 @@ export const U1_GIVE_CHECK: LessonData = {
         to: { row: 2, col: 4 },
       },
       result_sfen: "9/4k4/4G4/9/9/9/9/9/9 b - 1",
-      success_text: "王手じゃ！\n金が王様の真下に来たから、\n次の手で取れるぞ。",
+      success_text: "王手じゃ！\n金が王様の目の前に来たから、次の手で取れるぞ。",
       fail_text: "矢印の方向に金を動かしてみよう。",
     },
     // step2: 横から王手（ガイド付き）
@@ -50,7 +50,9 @@ export const U1_GIVE_CHECK: LessonData = {
         from: { row: 2, col: 5 },
         to: { row: 1, col: 6 },
       },
-      result_sfen: "6k2/6G2/9/9/9/9/9/9/9 b - 1",
+      correct_moves_alt: [
+        { from: { row: 2, col: 5 }, to: { row: 1, col: 5 } },
+      ],
       success_text: "斜め前から王手じゃ！\nいろんな角度から\n王手がかけられるんじゃな。",
       fail_text: "金を動かして、王様を取れる位置に行こう。",
     },
@@ -68,7 +70,6 @@ export const U1_GIVE_CHECK: LessonData = {
       correct_moves_alt: [
         { from: { row: 2, col: 4 }, to: { row: 1, col: 4 } },
       ],
-      result_sfen: "3k5/3G5/9/9/9/9/9/9/9 b - 1",
       success_text: "正解！\n金は前からも斜めからも\n王手がかけられるんじゃ。",
       fail_text: "金を動かして、王様を取れる場所を探そう。",
     },
@@ -77,7 +78,7 @@ export const U1_GIVE_CHECK: LessonData = {
       id: "quiz_check_response",
       type: "quiz",
       board_sfen: "4k4/4G4/9/9/9/9/9/9/9 b - 1",
-      instruction: "王手をかけられたらどうする？",
+      instruction: "王手をかけられたらどうすればいい？",
       coach_text: "王手をかけられた側には\n3つの対応方法があるぞ。\nどれじゃろう？",
       quiz_options: ["逃げる・防ぐ・取る", "何もしなくていい"],
       quiz_answer: 0,
@@ -98,7 +99,6 @@ export const U1_GIVE_CHECK: LessonData = {
       correct_moves_alt: [
         { from: { row: 3, col: 5 }, to: { row: 2, col: 5 } },
       ],
-      result_sfen: "9/6k2/6G2/9/9/9/9/9/9 b - 1",
       success_text: "すばらしい！\n王手をかける力がついてきたな！",
       fail_text: "王様を取れる場所に金を動かそう。",
     },

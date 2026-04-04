@@ -65,7 +65,6 @@ export const U8_REVIEW: LessonData = {
         { from: { row: 8, col: 6 }, to: { row: 7, col: 5 } },
         { from: { row: 8, col: 4 }, to: { row: 7, col: 3 } },
       ],
-      result_sfen: "lnsgkgsnl/1r5b1/pp1ppppp1/2p4p1/7P1/2P6/PP1PPPP1P/1B3K1R1/LNSG1GSNL b - 1",
       success_text: "囲いの準備じゃ！\n攻めと守りのバランスが大事じゃな。",
       fail_text: "攻めの準備ができたら\n次は王を守る準備じゃよ。",
     },

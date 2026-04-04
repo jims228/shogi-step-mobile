@@ -71,7 +71,6 @@ export const U5_IS_KING_SAFE: LessonData = {
         { from: { hand: "ki" }, to: { row: 2, col: 3 } },
         { from: { hand: "ki" }, to: { row: 3, col: 3 } },
       ],
-      result_sfen: "3K5/3G5/9/9/9/9/3r5/9/9 b - 1",
       success_text: "合駒で安全になったぞ！\n王の安全を常に確認じゃ。",
       fail_text: "王と飛車の間に金を打とう。",
     },

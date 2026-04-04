@@ -43,7 +43,7 @@ export const U2_KNIGHT_MOVE: LessonData = {
     {
       id: "knight_jump_quiz",
       type: "quiz",
-      board_sfen: "9/9/9/9/9/4P4/4N4/9/9 b - 1",
+      board_sfen: "9/9/9/4P4/4N4/9/9/9/9 b - 1",
       instruction: "桂馬は前の歩を飛び越えられる？",
       coach_text: "桂馬の前に味方の歩があるぞ。\n桂馬は飛び越えられるかな？",
       quiz_options: ["飛び越えられる！", "飛び越えられない"],

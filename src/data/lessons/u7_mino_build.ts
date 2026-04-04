@@ -34,7 +34,6 @@ export const U7_MINO_BUILD: LessonData = {
       correct_moves_alt: [
         { from: { row: 8, col: 4 }, to: { row: 7, col: 3 } },
       ],
-      result_sfen: "9/9/9/9/9/9/9/9/3K5 b - 1",
       success_text: "よし！美濃囲いの位置へ\n向かうぞ。",
       fail_text: "王を左方向に動かそう。",
     },

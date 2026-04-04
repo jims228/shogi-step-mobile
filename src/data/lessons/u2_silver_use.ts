@@ -2,103 +2,104 @@ import type { LessonData } from "../../lesson/types";
 
 export const U2_SILVER_USE: LessonData = {
   id: "u2_silver_use",
-  title: "銀を使ってみよう",
+  title: "ここまでの復習",
   unit: "u2",
-  type: "learn",
+  type: "review",
   reward_xp: 10,
   steps: [
-    // step1: 銀で歩を前から取る（ガイド）
+    // step1: 歩を前に進める（復習）
     {
-      id: "silver_take_forward",
+      id: "review_pawn",
       type: "move",
-      board_sfen: "9/9/9/4p4/4S4/9/9/9/9 b - 1",
-      instruction: "銀で歩を取ろう！",
-      coach_text: "前に相手の歩がおるぞ。\n銀で取ってみよう！",
+      board_sfen: "9/9/9/9/9/9/4P4/9/9 b - 1",
+      instruction: "歩を前に進めよう！",
+      coach_text: "歩・金・王・銀の復習じゃ！\nまずは歩を前に1マス進めよう。",
+      arrows: [{ from: [6, 4], to: [5, 4] }],
+      correct_move: {
+        from: { row: 6, col: 4 },
+        to: { row: 5, col: 4 },
+      },
+      success_text: "歩は前に1マスじゃな！",
+      fail_text: "歩は前に1マス進めるぞ。",
+    },
+    // step2: 金で相手の歩を取る（復習）
+    {
+      id: "review_gold",
+      type: "move",
+      board_sfen: "9/9/9/4p4/4G4/9/9/9/9 b - 1",
+      instruction: "金で歩を取ろう！",
+      coach_text: "金は6方向に動けるぞ。\n前の歩を取ってみよう！",
       arrows: [{ from: [4, 4], to: [3, 4] }],
       correct_move: {
         from: { row: 4, col: 4 },
         to: { row: 3, col: 4 },
       },
-      result_sfen: "9/9/9/4S4/9/9/9/9/9 b P 1",
-      success_text: "前から取れたな！",
-      fail_text: "歩のいるマスに銀を進めよう。",
+      success_text: "金は前にも横にも動ける強い駒じゃ！",
+      fail_text: "歩のいるマスに金を進めよう。",
     },
-    // step2: 銀で斜め前から取る（ガイド）
+    // step3: 王を逃がす（復習）
     {
-      id: "silver_take_diag",
+      id: "review_king",
+      type: "move",
+      board_sfen: "4r4/9/9/9/4K4/9/9/9/9 b - 1",
+      instruction: "王様を安全な場所に逃がそう！",
+      coach_text: "飛車に狙われておるぞ！\n同じ列から逃げよう。",
+      correct_move: {
+        from: { row: 4, col: 4 },
+        to: { row: 4, col: 5 },
+      },
+      correct_moves_alt: [
+        { from: { row: 4, col: 4 }, to: { row: 3, col: 3 } },
+        { from: { row: 4, col: 4 }, to: { row: 3, col: 5 } },
+        { from: { row: 4, col: 4 }, to: { row: 4, col: 3 } },
+        { from: { row: 4, col: 4 }, to: { row: 5, col: 3 } },
+        { from: { row: 4, col: 4 }, to: { row: 5, col: 5 } },
+      ],
+      success_text: "王様を守れたな！\n王は全方向に動けるぞ。",
+      fail_text: "飛車と同じ列にいると危ないぞ。",
+    },
+    // step4: 銀を斜め前に動かす（復習）
+    {
+      id: "review_silver",
       type: "move",
       board_sfen: "9/9/9/5p3/4S4/9/9/9/9 b - 1",
-      instruction: "銀で斜め前の歩を取ろう！",
-      coach_text: "斜め前にも取れるぞ！",
-      arrows: [{ from: [4, 4], to: [3, 5] }],
+      instruction: "銀で歩を取ろう！",
+      coach_text: "銀は斜め前にも動けるぞ。\n歩を取ってみよう！",
       correct_move: {
         from: { row: 4, col: 4 },
         to: { row: 3, col: 5 },
       },
-      result_sfen: "9/9/9/5S3/9/9/9/9/9 b P 1",
-      success_text: "斜め前からも取れたな！",
-      fail_text: "斜め前の歩に向かって銀を動かそう。",
+      success_text: "銀の斜め前の動きが活きたな！",
+      fail_text: "斜め前の歩に銀を動かそう。",
     },
-    // step3: 自力で取れる駒を選ぶ（横は取れない！）
+    // step5: クイズ - 横に動けないのは？
     {
-      id: "silver_pick_target",
+      id: "review_quiz",
+      type: "quiz",
+      board_sfen: "9/9/9/9/3G1S3/9/9/9/9 b - 1",
+      instruction: "横に動けないのはどっち？",
+      coach_text: "金と銀、横に動けないのはどっちじゃ？",
+      quiz_options: ["銀", "金"],
+      quiz_answer: 0,
+      success_text: "正解！銀は横には動けないんじゃ。その代わり斜め後ろに動けるぞ。",
+      fail_text: "金は横に動けるぞ。銀は動けないんじゃ。",
+    },
+    // step6: 自力で銀で王手
+    {
+      id: "review_silver_check",
       type: "move",
-      board_sfen: "9/9/9/3p5/4Sp3/9/9/9/9 b - 1",
-      instruction: "銀で取れる駒を取ろう！",
-      coach_text: "2つの歩があるぞ。\n銀は横には動けない！\nどっちが取れるかな？",
+      board_sfen: "9/9/4k4/9/3SG4/9/9/9/9 b - 1",
+      instruction: "銀で王手をかけよう！",
+      coach_text: "仕上げじゃ！銀をどこに動かせば王手がかかるかな？",
       correct_move: {
-        from: { row: 4, col: 4 },
+        from: { row: 4, col: 3 },
         to: { row: 3, col: 3 },
       },
-      result_sfen: "9/9/9/3S5/5p3/9/9/9/9 b P 1",
-      success_text: "正解！銀は横には動けないから、\n斜め前の歩だけ取れるんじゃ。",
-      fail_text: "銀が動ける方向を考えてみよう。\n横には動けないぞ。",
-    },
-    // step4: 銀で王手（ガイド）
-    {
-      id: "silver_check",
-      type: "move",
-      board_sfen: "4k4/9/5S3/9/9/9/9/9/9 b - 1",
-      instruction: "銀で王手をかけよう！",
-      coach_text: "銀を動かして\n王手をかけてみよう！",
-      arrows: [{ from: [2, 5], to: [1, 4] }],
-      correct_move: {
-        from: { row: 2, col: 5 },
-        to: { row: 1, col: 4 },
-      },
-      result_sfen: "4k4/4S4/9/9/9/9/9/9/9 b - 1",
-      success_text: "銀で王手じゃ！\n斜め前から王手がかけられたな。",
-      fail_text: "矢印の方向に銀を進めてみよう。",
-    },
-    // step5: クイズ - 銀の強みは？
-    {
-      id: "silver_strength_quiz",
-      type: "quiz",
-      board_sfen: "9/9/9/9/4S4/9/9/9/9 b - 1",
-      instruction: "銀の強みは？",
-      coach_text: "銀ならではの強みは何じゃろう？",
-      quiz_options: ["斜めに強い", "横に強い", "後ろに強い"],
-      quiz_answer: 0,
-      success_text: "正解！銀は斜め前にも\n斜め後ろにも動ける。\n斜めの動きが銀の強みじゃ！",
-      fail_text: "銀の動ける方向を思い出そう。\n斜めの方向が多いぞ。",
-    },
-    // step6: 自力で銀を使って王手
-    {
-      id: "silver_self_check",
-      type: "move",
-      board_sfen: "9/6k2/9/5S3/9/9/9/9/9 b - 1",
-      instruction: "銀で王手をかけよう！",
-      coach_text: "仕上げじゃ！\nヒントなしでやってみよう。",
-      correct_move: {
-        from: { row: 3, col: 5 },
-        to: { row: 2, col: 6 },
-      },
-      result_sfen: "9/6k2/6S2/9/9/9/9/9/9 b - 1",
       correct_moves_alt: [
-        { from: { row: 3, col: 5 }, to: { row: 2, col: 5 } },
+        { from: { row: 4, col: 3 }, to: { row: 3, col: 4 } },
       ],
-      success_text: "すばらしい！\n銀の使い方がわかってきたな！",
-      fail_text: "銀を動かして、王様を取れる場所を探そう。",
+      success_text: "すばらしい！歩・金・王・銀の動きはバッチリじゃ！",
+      fail_text: "銀を動かして王様を取れる場所を探そう。",
     },
   ],
 };

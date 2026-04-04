@@ -88,7 +88,7 @@ export const U1_GOLD_MOVE: LessonData = {
       type: "move",
       board_sfen: "4k4/9/4PG3/9/9/9/9/9/9 b - 1",
       instruction: "金で王手をかけてみよう！",
-      coach_text: "金を使って相手の王様に王手をかけよう！\nどこに動かせばいいかな？",
+      coach_text: "金を使って相手の王様を詰まそう！\nどこに動かせばいいかな？",
       arrows: [{ from: [2, 5], to: [1, 4] }],
       correct_move: {
         from: { row: 2, col: 5 },
