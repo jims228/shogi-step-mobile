@@ -185,7 +185,9 @@ export function submitPromotion(
 
   if (promote === step.correct_promotion) {
     const result = applyCorrect(state, data);
-    if (state.pendingMove && "row" in state.pendingMove.from) {
+    if (step.result_sfen) {
+      result.nextState.boardOverride = step.result_sfen;
+    } else if (state.pendingMove && "row" in state.pendingMove.from) {
       const newSfen = applySfenMove(step.board_sfen, state.pendingMove.from as Position, state.pendingMove.to);
       result.nextState.boardOverride = newSfen;
     }

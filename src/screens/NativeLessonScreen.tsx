@@ -22,6 +22,7 @@ import { ShogiBoard, SenteHandBar, GoteHandBar, PromotionOverlay } from "../ui/b
 import { ArrowOverlay } from "../ui/board/ArrowOverlay";
 import { parseSFENFull } from "../ui/board/sfen";
 import { theme } from "../ui/theme";
+import { PieceMoveGuide } from "./PieceMoveGuide";
 
 type Props = NativeStackScreenProps<RootStackParamList, "LessonLaunch"> & {
   lessonData: LessonData;
@@ -53,6 +54,7 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
   const [compareSelected, setCompareSelected] = useState<number | undefined>(undefined);
   // Track wrong quiz answers (disabled options)
   const [wrongQuizIndices, setWrongQuizIndices] = useState<Set<number>>(new Set());
+  const [guideVisible, setGuideVisible] = useState(false);
 
   const [boardSlotSize, setBoardSlotSize] = useState({ w: 0, h: 0 });
 
@@ -321,8 +323,12 @@ export function NativeLessonScreen({ navigation, lessonData }: Props) {
             </View>
           </BoardArea>
 
-          {/* Wrong feedback — disabled for now */}
+          {/* Piece move guide button */}
+          <Pressable style={styles.guideBtn} onPressIn={() => setGuideVisible(true)}>
+            <Text style={styles.guideBtnText}>？</Text>
+          </Pressable>
         </Pressable>
+        <PieceMoveGuide visible={guideVisible} onClose={() => setGuideVisible(false)} />
         <LessonFooter
           nextLabel={nextLabel}
           onNext={onNext}
@@ -430,6 +436,25 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: LESSON_COLORS.dialogueBorder,
     transform: [{ rotate: "45deg" }],
+  },
+
+  // ── Piece move guide button ──
+  guideBtn: {
+    position: "absolute",
+    bottom: LESSON_FOOTER_HEIGHT - 40,
+    right: 12,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: "rgba(93,64,55,0.8)",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 20,
+  },
+  guideBtnText: {
+    fontSize: 18,
+    fontWeight: "900",
+    color: "#fff",
   },
 
   // ── Quiz / Compare options (overlaid on boardFrame) ──

@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     maxHeight: "85%",
-    paddingBottom: 20,
+    paddingBottom: 60,
   },
   header: {
     flexDirection: "row",
