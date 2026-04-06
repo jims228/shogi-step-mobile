@@ -93,7 +93,6 @@ export const ROADMAP_NODES: RoadmapNode[] = [
 
   // ── S3: はじめての詰将棋（14レッスン）──
   { id: "u4_what_is_mate", title: "詰みってなに？", unitId: "s3", nodeType: "lesson", description: "詰みの概念", implemented: true },
-  { id: "u4_head_gold", title: "頭金で詰ます", unitId: "s3", nodeType: "lesson", description: "基本の1手詰め", implemented: true },
   { id: "u4_belly_gold", title: "腹金で詰ます", unitId: "s3", nodeType: "lesson", description: "横からの金で詰ます", implemented: true },
   { id: "tsume1_gin_01", title: "銀の1手詰め①", unitId: "s3", nodeType: "lesson", description: "銀を使った1手詰め 1-11〜1-14", implemented: true },
   { id: "tsume1_gin_02", title: "銀の1手詰め②", unitId: "s3", nodeType: "lesson", description: "銀を使った1手詰め 1-15〜1-18", implemented: true },
