@@ -141,12 +141,14 @@ export function submitMove(
   let isCorrect = isFromCorrect && posEqual(to, step.correct_move.to);
 
   // Check alternative correct moves
+  let isAlt = false;
   if (!isCorrect && step.correct_moves_alt) {
     for (const alt of step.correct_moves_alt) {
       const altFrom = alt.from;
       const altFromOk = "row" in altFrom && posEqual(from, altFrom);
       if (altFromOk && posEqual(to, alt.to)) {
         isCorrect = true;
+        isAlt = true;
         break;
       }
     }
@@ -167,7 +169,8 @@ export function submitMove(
       };
     }
     const result = applyCorrect(state, data);
-    result.nextState.boardOverride = step.result_sfen ?? applySfenMove(step.board_sfen, from, to);
+    // For alt moves, always use applySfenMove to show the actual piece position
+    result.nextState.boardOverride = (!isAlt && step.result_sfen) ? step.result_sfen : applySfenMove(step.board_sfen, from, to);
     return result;
   }
   return applyWrong(state, data);
