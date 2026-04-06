@@ -56,15 +56,15 @@ export const U4_BELLY_GOLD: LessonData = {
     {
       id: "belly_gold_self",
       type: "move",
-      board_sfen: "k8/p8/9/9/9/9/9/9/9 b G 1",
+      board_sfen: "9/7k1/6Pp1/8L/9/9/9/9/9 b G 1",
       instruction: "腹金で詰まそう！",
       coach_text: "ヒントなしじゃ！\n腹金で詰ませよう。",
       hand_pieces: { ki: 1 },
       correct_move: {
         from: { hand: "ki" },
-        to: { row: 0, col: 1 },
+        to: { row: 1, col: 6 },
       },
-      result_sfen: "kG7/p8/9/9/9/9/9/9/9 b - 1",
+      result_sfen: "9/6Gk1/6Pp1/8L/9/9/9/9/9 b - 1",
       success_text: "腹金で詰み！ばっちりじゃ。",
       fail_text: "王様の横に金を打とう。",
     },
