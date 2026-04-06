@@ -224,56 +224,12 @@ export function submitDrop(
 
   if (isCorrect) {
     const result = applyCorrect(state, data);
-    const isPrimary = isFromCorrect && posEqual(to, step.correct_move.to);
-    if (isPrimary && step.result_sfen) {
+    if (step.result_sfen) {
       result.nextState.boardOverride = step.result_sfen;
-    } else {
-      result.nextState.boardOverride = applyDropToSfen(step.board_sfen, pieceType, to);
     }
     return result;
   }
   return applyWrong(state, data);
-}
-
-/** Place a piece from hand onto the board SFEN. */
-function applyDropToSfen(sfen: string, pieceType: PieceType, to: Position): string {
-  const pieceMap: Record<string, string> = { fu: "P", ky: "L", ke: "N", gi: "S", ki: "G", ka: "B", hi: "R", ou: "K" };
-  const piece = pieceMap[pieceType] ?? "P";
-  const boardPart = sfen.split(" ")[0] ?? sfen;
-  const rows = boardPart.split("/");
-  const grid: string[][] = [];
-  for (let r = 0; r < 9; r++) {
-    const row: string[] = [];
-    const rowStr = rows[r] ?? "";
-    for (let i = 0; i < rowStr.length; i++) {
-      if (rowStr[i] === "+") {
-        row.push("+" + rowStr[++i]);
-      } else {
-        const d = parseInt(rowStr[i]!, 10);
-        if (!isNaN(d)) {
-          for (let e = 0; e < d; e++) row.push("");
-        } else {
-          row.push(rowStr[i]!);
-        }
-      }
-    }
-    while (row.length < 9) row.push("");
-    grid.push(row);
-  }
-  grid[to.row]![to.col] = piece;
-  const newRows = grid.map((row) => {
-    let s = "";
-    let empty = 0;
-    for (const cell of row) {
-      if (!cell) { empty++; } else {
-        if (empty) { s += empty; empty = 0; }
-        s += cell;
-      }
-    }
-    if (empty) s += empty;
-    return s;
-  });
-  return newRows.join("/") + " b - 1";
 }
 
 export function submitTap(

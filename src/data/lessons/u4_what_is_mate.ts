@@ -11,7 +11,7 @@ export const U4_WHAT_IS_MATE: LessonData = {
     {
       id: "quiz_mate_concept",
       type: "quiz",
-      board_sfen: "9/9/9/9/9/9/9/9/9 b - 1",
+      board_sfen: "4k4/9/3GG4/9/9/9/9/9/9 b - 1",
       instruction: "「詰み」ってどういう状態？",
       coach_text: "「詰み」は将棋の勝ち方じゃ。\nどういう状態のことかな？",
       quiz_options: ["王手から逃げられない状態", "王手がかかっている状態"],
