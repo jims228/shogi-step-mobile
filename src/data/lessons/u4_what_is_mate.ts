@@ -51,7 +51,7 @@ export const U4_WHAT_IS_MATE: LessonData = {
     {
       id: "real_mate",
       type: "move",
-      board_sfen: "8k/9/8G/9/9/9/9/9/9 b - 1",
+      board_sfen: "8k/9/7GG/9/9/9/9/9/9 b - 1",
       instruction: "金で詰ましてみよう！",
       coach_text: "王様が端にいるぞ。\n金を前に進めると…\n逃げ場がなくなるぞ！",
       arrows: [{ from: [2, 8], to: [1, 8] }],
@@ -59,7 +59,7 @@ export const U4_WHAT_IS_MATE: LessonData = {
         from: { row: 2, col: 8 },
         to: { row: 1, col: 8 },
       },
-      result_sfen: "8k/8G/9/9/9/9/9/9/9 b - 1",
+      result_sfen: "8k/8G/7G1/9/9/9/9/9/9 b - 1",
       success_text: "詰み！王様は端で逃げ場がない。\n横は壁、前は金。完璧じゃ！\nこれが「頭金」の基本形じゃよ。",
       fail_text: "金を王様の前に進めよう。",
     },
