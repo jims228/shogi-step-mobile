@@ -23,7 +23,7 @@ export const U4_WHAT_IS_MATE: LessonData = {
     {
       id: "mate_example",
       type: "move",
-      board_sfen: "4k4/9/4G4/9/9/9/9/9/9 b - 1",
+      board_sfen: "4k4/9/3GG4/9/9/9/9/9/9 b - 1",
       instruction: "金を進めて王手をかけよう！",
       coach_text: "金を王様の前に進めると\n王手がかかるぞ。\nしかも…逃げ場がない！\nこれが詰みじゃ。",
       arrows: [{ from: [2, 4], to: [1, 4] }],
