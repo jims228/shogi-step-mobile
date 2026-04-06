@@ -67,7 +67,7 @@ export const U4_WHAT_IS_MATE: LessonData = {
     {
       id: "quiz_mate_conditions",
       type: "quiz",
-      board_sfen: "9/9/9/9/9/9/9/9/9 b - 1",
+      board_sfen: "4k4/4G4/3G5/9/9/9/9/9/9 b - 1",
       instruction: "詰みの条件は？",
       coach_text: "詰みになるためには\n2つの条件が必要じゃ。\nどれかな？",
       quiz_options: ["王手＋逃げ道なし", "王手だけでいい"],
