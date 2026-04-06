@@ -209,7 +209,18 @@ export function submitDrop(
 
   const correctFrom = step.correct_move.from;
   const isFromCorrect = "hand" in correctFrom && correctFrom.hand === pieceType;
-  const isCorrect = isFromCorrect && posEqual(to, step.correct_move.to);
+  let isCorrect = isFromCorrect && posEqual(to, step.correct_move.to);
+
+  // Check correct_moves_alt for drops
+  if (!isCorrect && step.correct_moves_alt) {
+    for (const alt of step.correct_moves_alt) {
+      const altFrom = alt.from;
+      if ("hand" in altFrom && altFrom.hand === pieceType && posEqual(to, alt.to)) {
+        isCorrect = true;
+        break;
+      }
+    }
+  }
 
   if (isCorrect) {
     const result = applyCorrect(state, data);
