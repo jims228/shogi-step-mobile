@@ -95,6 +95,7 @@ export const U2_SILVER_MOVE: LessonData = {
       correct_moves_alt: [
         { from: { row: 4, col: 3 }, to: { row: 3, col: 4 } },
       ],
+      result_sfen: "9/9/4k4/3S5/4G4/9/9/9/9 b - 1",
       success_text: "すばらしい！\n銀の動きをマスターしたな！",
       fail_text: "銀を動かして、王様を取れる場所を探そう。",
     },

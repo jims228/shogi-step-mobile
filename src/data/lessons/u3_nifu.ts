@@ -11,7 +11,7 @@ export const U3_NIFU: LessonData = {
     {
       id: "quiz_nifu_what",
       type: "quiz",
-      board_sfen: "9/9/9/9/4P4/9/9/4P4/9 b - 1",
+      board_sfen: "9/9/9/4P4/4P4/9/9/9/9 b - 1",
       instruction: "「二歩」ってどういうルール？",
       coach_text: "将棋には「二歩」という\n大事なルールがあるぞ。\nどんなルールじゃろう？",
       quiz_options: ["同じ列に歩を2枚置けない", "歩を2マス進めてはいけない"],
@@ -64,21 +64,15 @@ export const U3_NIFU: LessonData = {
     {
       id: "drop_avoid_nifu",
       type: "move",
-      board_sfen: "9/9/9/9/2P1P4/9/9/9/9 b P 1",
+      board_sfen: "9/9/9/9/PPP1PPPPP/9/9/9/9 b P 1",
       instruction: "二歩にならない列に歩を打とう！",
-      coach_text: "3筋と5筋に歩があるぞ。\nどの列なら打てるかな？\n空いている列に打とう！",
+      coach_text: "ほとんどの列に歩があるぞ。歩がない列を見つけて打とう！",
       hand_pieces: { fu: 1 },
       correct_move: {
         from: { hand: "fu" },
         to: { row: 4, col: 3 },
       },
-      correct_moves_alt: [
-        { from: { hand: "fu" }, to: { row: 3, col: 3 } },
-        { from: { hand: "fu" }, to: { row: 5, col: 3 } },
-        { from: { hand: "fu" }, to: { row: 4, col: 5 } },
-        { from: { hand: "fu" }, to: { row: 3, col: 5 } },
-        { from: { hand: "fu" }, to: { row: 5, col: 5 } },
-      ],
+      result_sfen: "9/9/9/9/PPPPPPPPP/9/9/9/9 b - 1",
       success_text: "二歩にならない列に\nちゃんと打てたな！",
       fail_text: "歩がない列を選んで打とう。",
     },

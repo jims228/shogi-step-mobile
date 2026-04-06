@@ -61,6 +61,7 @@ export const U1_REVIEW: LessonData = {
         from: { row: 8, col: 7 },
         to: { row: 7, col: 8 },
       },
+      result_sfen: "9/9/9/9/9/9/6g2/7sK/9 b - 1",
       success_text: "王が逃げられたぞ！\n王手されたら必ず対応じゃ。",
       fail_text: "王を安全なマスに動かそう。\n相手の駒が届かない場所じゃ。",
     },

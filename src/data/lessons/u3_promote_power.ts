@@ -59,15 +59,16 @@ export const U3_PROMOTE_POWER: LessonData = {
     {
       id: "dragon_check",
       type: "move",
-      board_sfen: "3k5/9/9/9/3+R5/9/9/9/9 b - 1",
+      board_sfen: "3k5/9/4p4/9/4+R4/9/9/9/9 b - 1",
       instruction: "龍で王手をかけよう！",
-      coach_text: "龍の力で王手をかけよう！\n縦横どこまでもと\n斜め1マス、どう使う？",
+      coach_text: "龍の力で王手をかけよう！縦横どこまでもと斜め1マス、どう使う？",
       correct_move: {
-        from: { row: 4, col: 3 },
-        to: { row: 0, col: 3 },
+        from: { row: 4, col: 4 },
+        to: { row: 3, col: 3 },
       },
       correct_moves_alt: [
-        { from: { row: 4, col: 3 }, to: { row: 1, col: 3 } },
+        { from: { row: 4, col: 4 }, to: { row: 4, col: 3 } },
+        { from: { row: 4, col: 4 }, to: { row: 5, col: 3 } },
       ],
       success_text: "龍で王手じゃ！\n龍は遠くからも近くからも\n攻められる最強の駒じゃ。",
       fail_text: "龍を動かして王様を\n取れる位置に行こう。",
@@ -88,16 +89,15 @@ export const U3_PROMOTE_POWER: LessonData = {
     {
       id: "horse_check",
       type: "move",
-      board_sfen: "9/4k4/9/9/9/9/2+B6/9/9 b - 1",
+      board_sfen: "4k4/9/9/9/9/9/2+B6/9/9 b - 1",
       instruction: "馬で王手をかけて仕上げ！",
-      coach_text: "仕上げじゃ！\n馬は斜めにどこまでも\n動けるぞ。王手をかけよう！",
+      coach_text: "仕上げじゃ！馬は斜めにどこまでも動けるぞ。王手をかけよう！",
       correct_move: {
         from: { row: 6, col: 2 },
-        to: { row: 2, col: 6 },
+        to: { row: 1, col: 3 },
       },
       correct_moves_alt: [
-        { from: { row: 6, col: 2 }, to: { row: 1, col: 3 } },
-        { from: { row: 6, col: 2 }, to: { row: 2, col: 4 } },
+        { from: { row: 6, col: 2 }, to: { row: 1, col: 5 } },
       ],
       success_text: "すばらしい！\n成り駒の力をマスターしたな！\n成りを活かして攻めよう！",
       fail_text: "馬を動かして王様を\n取れる場所を探そう。",
