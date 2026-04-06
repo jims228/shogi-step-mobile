@@ -63,19 +63,7 @@ export const U4_WHAT_IS_MATE: LessonData = {
       success_text: "詰み！王様は端で逃げ場がない。\n横は壁、前は金。完璧じゃ！\nこれが「頭金」の基本形じゃよ。",
       fail_text: "金を王様の前に進めよう。",
     },
-    // step5: クイズ - 詰みの条件
-    {
-      id: "quiz_mate_conditions",
-      type: "quiz",
-      board_sfen: "4k4/4G4/3G5/9/9/9/9/9/9 b - 1",
-      instruction: "詰みの条件は？",
-      coach_text: "詰みになるためには\n2つの条件が必要じゃ。\nどれかな？",
-      quiz_options: ["王手＋逃げ道なし", "王手だけでいい"],
-      quiz_answer: 0,
-      success_text: "正解！「王手がかかっている」\nかつ「逃げる・合駒・取る、\n全てできない」状態が詰みじゃ！",
-      fail_text: "王手だけでは詰みにならないぞ。\n逃げ道も全部塞がないと！",
-    },
-    // step6: 自力で詰ます
+    // step5: 自力で詰ます
     {
       id: "mate_self_solve",
       type: "move",
