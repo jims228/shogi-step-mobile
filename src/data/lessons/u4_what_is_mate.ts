@@ -83,13 +83,11 @@ export const U4_WHAT_IS_MATE: LessonData = {
       instruction: "金を打って詰ましてみよう！",
       coach_text: "仕上げじゃ！\n持ち駒の金を打って\n王様を詰ましてみよう。",
       hand_pieces: { ki: 1 },
+      arrows: [{ from: "hand_ki", to: [1, 0] }],
       correct_move: {
         from: { hand: "ki" },
         to: { row: 1, col: 0 },
       },
-      correct_moves_alt: [
-        { from: { hand: "ki" }, to: { row: 1, col: 1 } },
-      ],
       result_sfen: "k8/G8/1G7/9/9/9/9/9/9 b - 1",
       success_text: "詰み！すばらしい！\n詰みの概念を理解したな。\nこれから1手詰めの\nパターンを覚えていくぞ！",
       fail_text: "金を王様の頭に進めよう。\n端だから逃げ場がないぞ。",
