@@ -31,7 +31,7 @@ export const U4_WHAT_IS_MATE: LessonData = {
         from: { row: 2, col: 4 },
         to: { row: 1, col: 4 },
       },
-      result_sfen: "4k4/4G4/9/9/9/9/9/9/9 b - 1",
+      result_sfen: "4k4/4G4/3G5/9/9/9/9/9/9 b - 1",
       success_text: "詰み！王手で、しかも\n王様の逃げ場もない！\nこれで勝ちじゃ。",
       fail_text: "金を前に進めてみよう。",
     },
