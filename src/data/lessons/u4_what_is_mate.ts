@@ -39,7 +39,7 @@ export const U4_WHAT_IS_MATE: LessonData = {
     {
       id: "quiz_not_mate",
       type: "quiz",
-      board_sfen: "4k4/4G4/9/9/9/9/9/9/9 b - 1",
+      board_sfen: "4k4/4G4/3G5/9/9/9/9/9/9 b - 1",
       instruction: "王様は逃げられる？",
       coach_text: "金で王手がかかっておるが…\n王様は横に逃げられるかな？\nもし逃げられたら\n詰みではないぞ。",
       quiz_options: ["横に逃げられる（詰みじゃない）", "逃げられない（詰み）"],
